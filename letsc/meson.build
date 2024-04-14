@@ -6,7 +6,10 @@ project('letsc', 'c',
 # not the executables that use the library.
 lib_args = ['-DBUILDING_MESON_LIBRARY']
 
-shared_library('letsc', 'main.c',
-               install : true,
-               c_args : lib_args
+letsc_shared = shared_library('letsc', 'main.c',
+                              install : true,
+                              c_args : lib_args
 )
+
+letsc_test_exe = executable('letsc_test', ['letsc_test.c', 'cute.h'], link_with : [letsc_shared])
+test('letsc_test', letsc_test_exe)
