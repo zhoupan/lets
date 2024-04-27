@@ -15,4 +15,5 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 
 [plugins]
 #jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.22" }
+#native = { id = "org.graalvm.buildtools.native", version = "0.10.1" }
 
