@@ -6,16 +6,24 @@
  */
 
 plugins {
-    id 'java-application-conventions'
+  id 'java-application-conventions'
+  id 'org.graalvm.buildtools.native' version '0.10.1'
 }
-
+// https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html
+graalvmNative {
+  //Enabling toolchain detection
+  //toolchainDetection = true
+  binaries.all {
+    resources.autodetect()
+  }
+}
 dependencies {
-    // This dependency is used by the application.
-    // implementation libs.guava
+  // This dependency is used by the application.
+  // implementation libs.guava
 }
 
 application {
-    // Define the main class for the application.
-    mainClass = 'org.example.App'
+  // Define the main class for the application.
+  mainClass = 'org.example.App'
 }
 
