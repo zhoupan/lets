@@ -13,6 +13,7 @@ plugins {
 graalvmNative {
   //Enabling toolchain detection
   //toolchainDetection = true
+  testSupport = false
   binaries.all {
     resources.autodetect()
   }
