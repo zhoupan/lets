@@ -4,9 +4,13 @@
 plugins {
   // Apply the java Plugin to add support for Java.
   id 'java'
+  id 'maven-publish'
+  id 'com.diffplug.spotless'
 }
-// sourceCompatibility = 1.8
-// targetCompatibility = 1.8
+
+group = 'io.github.zhoupan'
+version = '1.0.0'
+
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
@@ -25,6 +29,7 @@ dependencies {
   // Use JUnit Jupiter for testing.
   testImplementation libs.junit.jupiter
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation libs.slf4j.simple
 
   // Use JUnit 4 for testing.
   // testCompileOnly "junit:junit:4.13.2"
@@ -37,11 +42,57 @@ dependencies {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(8)
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+}
+spotless {
+  java {
+    // target 'src/*/java/**/*.java'
+    importOrder()
+    removeUnusedImports()
+    googleJavaFormat()
+    formatAnnotations()
+    licenseHeaderFile( new File(project.rootDir,'license.header.txt'))
   }
 }
-
 tasks.named('test') {
   // Use JUnit Platform for unit tests.
   useJUnitPlatform()
+}
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+  archiveClassifier = "sources"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      from components.java
+      artifact sourceJar
+      pom {
+        name = project.name
+        url = "https://github.com/zhoupan/lets"
+        licenses {
+          license {
+            name = "The Apache License, Version 2.0"
+            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+          }
+        }
+        developers {
+          developer {
+            id = "zhoupan"
+            name = "zhou pan"
+            email = "fitzhoupan@dingtalk.com"
+          }
+        }
+        scm {
+          connection = "scm:git:https://github.com/zhoupan/lets.git"
+          developerConnection = "scm:git:https://github.com/zhoupan/lets.git"
+          url = "https://github.com/zhoupan/lets"
+        }
+      }
+    }
+  }
 }
