@@ -1,0 +1,8 @@
+# https://prettier.io/docs/en/ignore
+# Prettier will also follow rules specified in the ".gitignore" file
+# if it exists in the same directory from which it is run.
+# So by default it will be
+#**/.git
+#**/.svn
+#**/.hg
+#**/node_modules
