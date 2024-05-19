@@ -1,0 +1,24 @@
+{
+  "name": "letsts",
+  "version": "1.0.0",
+  "description": "Let's TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "hello": "ts-node ./src/helloworld.ts",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@prettier/plugin-xml": "3.4.1",
+    "prettier": "3.2.5",
+    "prettier-eslint": "16.3.0",
+    "prettier-plugin-organize-imports": "3.2.4"
+  }
+}
