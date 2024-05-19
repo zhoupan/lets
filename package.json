@@ -1,0 +1,20 @@
+{
+  "name": "lets",
+  "version": "1.0.0",
+  "description": "lets",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "gradle:format": "gradlew spotlessApply",
+    "commit:before": "pnpm format && pnpm gradle:format"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@prettier/plugin-xml": "3.4.1",
+    "prettier": "3.2.5",
+    "prettier-eslint": "16.3.0",
+    "prettier-plugin-organize-imports": "3.2.4"
+  }
+}
