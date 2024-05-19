@@ -71,3 +71,9 @@ build/
 
 # Ignore Gradle build output directory
 build
+
+# clang
+buildDir
+
+# nodejs
+node_modules
