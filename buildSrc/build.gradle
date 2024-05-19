@@ -10,6 +10,7 @@ plugins {
 repositories {
   // Use the plugin portal to apply community plugins in convention plugins.
   gradlePluginPortal()
+  // Use aliyun
   maven { url 'https://maven.aliyun.com/repository/public/' }
   // Use Maven Central for resolving dependencies.
   mavenCentral()
@@ -18,4 +19,6 @@ repositories {
 dependencies {
   // Support kotlin
   implementation libs.kotlin.gradle.plugin
+  // https://github.com/diffplug/spotless/tree/main/plugin-gradle#quickstart
+  implementation libs.spotless.plugin.gradle
 }
