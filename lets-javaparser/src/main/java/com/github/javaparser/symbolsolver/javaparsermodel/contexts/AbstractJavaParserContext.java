@@ -41,12 +41,12 @@ import java.util.*;
 public abstract class AbstractJavaParserContext<N extends Node> implements Context {
 
   protected N wrappedNode;
+
   protected TypeSolver typeSolver;
 
   ///
   /// Static methods
   ///
-
   protected static boolean isQualifiedName(String name) {
     return name.contains(".");
   }
@@ -64,7 +64,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
   ///
   /// Constructors
   ///
-
   public AbstractJavaParserContext(N wrappedNode, TypeSolver typeSolver) {
     if (wrappedNode == null) {
       throw new NullPointerException();
@@ -76,14 +75,11 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
   ///
   /// Public methods
   ///
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     AbstractJavaParserContext<?> that = (AbstractJavaParserContext<?>) o;
-
     return wrappedNode != null ? wrappedNode.equals(that.wrappedNode) : that.wrappedNode == null;
   }
 
@@ -95,7 +91,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
   @Override
   public final Optional<Context> getParent() {
     Node parentNode = wrappedNode.getParentNode().orElse(null);
-
     // Resolution of the scope of the method call expression is delegated to parent
     // context.
     if (parentNode instanceof MethodCallExpr) {
@@ -138,13 +133,11 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
     if (!optionalParentContext.isPresent()) {
       return SymbolReference.unsolved();
     }
-
     // First check if there are any pattern expressions available to this node.
     Context parentContext = optionalParentContext.get();
     if (parentContext instanceof BinaryExprContext || parentContext instanceof IfStatementContext) {
       List<PatternExpr> typePatternExprs =
           parentContext.patternExprsExposedToChild(this.getWrappedNode());
-
       Optional<PatternExpr> localResolutionResults =
           typePatternExprs.stream()
               .filter(
@@ -152,7 +145,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
                       vd.isTypePatternExpr()
                           && vd.asTypePatternExpr().getNameAsString().equals(name))
               .findFirst();
-
       if (localResolutionResults.isPresent() && localResolutionResults.get().isTypePatternExpr()) {
         if (typePatternExprs.size() == 1) {
           TypePatternExpr typePatternExpr = localResolutionResults.get().asTypePatternExpr();
@@ -165,7 +157,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
         }
       }
     }
-
     // Delegate solving to the parent context.
     return parentContext.solveSymbol(name);
   }
@@ -173,7 +164,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
   ///
   /// Protected methods
   ///
-
   protected Optional<Value> solveWithAsValue(SymbolDeclarator symbolDeclarator, String name) {
     return symbolDeclarator.getSymbolDeclarations().stream()
         .filter(d -> d.getName().equals(name))
@@ -185,7 +175,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
       Optional<Expression> optScope) {
     if (optScope.isPresent()) {
       Expression scope = optScope.get();
-
       ResolvedType typeOfScope;
       try {
         typeOfScope = JavaParserFacade.get(typeSolver).getType(scope);
@@ -253,7 +242,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
                     new UnsolvedSymbolException(
                         "No common ancestor available for UnionType" + typeOfScope.describe()));
       }
-
       // TODO: Figure out if it is appropriate to remove the orElseThrow() -- if so, how...
       return singletonList(
           typeOfScope
@@ -261,9 +249,7 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
               .getTypeDeclaration()
               .orElseThrow(() -> new RuntimeException("TypeDeclaration unexpectedly empty.")));
     }
-
     ResolvedType typeOfScope = JavaParserFacade.get(typeSolver).getTypeOfThisIn(wrappedNode);
-
     // TODO: Figure out if it is appropriate to remove the orElseThrow() -- if so, how...
     return singletonList(
         typeOfScope
@@ -288,7 +274,6 @@ public abstract class AbstractJavaParserContext<N extends Node> implements Conte
                 "Resolved method declarations must implement %s.",
                 TypeVariableResolutionCapability.class.getName()));
       }
-
       MethodUsage methodUsage =
           ((TypeVariableResolutionCapability) methodDeclaration)
               .resolveTypeVariables(this, argumentsTypes);

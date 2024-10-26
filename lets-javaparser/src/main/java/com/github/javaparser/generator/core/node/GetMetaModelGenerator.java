@@ -28,6 +28,7 @@ import com.github.javaparser.metamodel.JavaParserMetaModel;
 import com.github.javaparser.utils.SourceRoot;
 
 public class GetMetaModelGenerator extends NodeGenerator {
+
   public GetMetaModelGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }
@@ -45,7 +46,6 @@ public class GetMetaModelGenerator extends NodeGenerator {
                     nodeMetaModel.isRootNode() ? "" : "@Override",
                     nodeMetaModel.getClass().getSimpleName(),
                     nodeMetaModel.getMetaModelFieldName()));
-
     addOrReplaceWhenSameSignature(nodeCoid, getMetaModelMethod);
     nodeCu.addImport(nodeMetaModel.getClass().getName());
     nodeCu.addImport(JavaParserMetaModel.class);

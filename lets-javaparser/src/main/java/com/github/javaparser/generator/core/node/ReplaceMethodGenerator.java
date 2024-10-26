@@ -30,6 +30,7 @@ import com.github.javaparser.metamodel.PropertyMetaModel;
 import com.github.javaparser.utils.SourceRoot;
 
 public class ReplaceMethodGenerator extends NodeGenerator {
+
   public ReplaceMethodGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }
@@ -44,11 +45,8 @@ public class ReplaceMethodGenerator extends NodeGenerator {
             parseBodyDeclaration("public boolean replace(Node node, Node replacementNode) {}");
     nodeCu.addImport(Node.class);
     annotateWhenOverridden(nodeMetaModel, replaceNodeMethod);
-
     final BlockStmt body = replaceNodeMethod.getBody().get();
-
     body.addStatement("if (node == null) { return false; }");
-
     int numberPropertiesDeclared = 0;
     for (PropertyMetaModel property : nodeMetaModel.getDeclaredPropertyMetaModels()) {
       if (!property.isNode()) {
@@ -71,7 +69,6 @@ public class ReplaceMethodGenerator extends NodeGenerator {
     } else {
       body.addStatement("return false;");
     }
-
     if (!nodeMetaModel.isRootNode() && numberPropertiesDeclared == 0) {
       removeMethodWithSameSignature(nodeCoid, replaceNodeMethod);
     } else {

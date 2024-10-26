@@ -18,6 +18,7 @@ package com.github.javaparser;
 
 /** Describes the input token stream. */
 public class Token extends TokenBase implements java.io.Serializable {
+
   /**
    * The version identifier for this Serializable class. Increment only if the <i>serialized</i>
    * form of the class changes.

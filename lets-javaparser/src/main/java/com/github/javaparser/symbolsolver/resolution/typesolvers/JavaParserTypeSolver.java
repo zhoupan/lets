@@ -52,13 +52,17 @@ import java.util.Optional;
 public class JavaParserTypeSolver implements TypeSolver {
 
   private final Path srcDir;
+
   private final JavaParser javaParser;
 
   private TypeSolver parent;
 
   private final Cache<Path, Optional<CompilationUnit>> parsedFiles;
+
   private final Cache<Path, List<CompilationUnit>> parsedDirectories;
+
   private final Cache<String, SymbolReference<ResolvedReferenceTypeDeclaration>> foundTypes;
+
   private static final int CACHE_SIZE_UNSET = -1;
 
   public JavaParserTypeSolver(File srcDir) {
@@ -137,11 +141,9 @@ public class JavaParserTypeSolver implements TypeSolver {
     Objects.requireNonNull(parsedFilesCache, "The parsedFilesCache can't be null.");
     Objects.requireNonNull(parsedDirectoriesCache, "The parsedDirectoriesCache can't be null.");
     Objects.requireNonNull(foundTypesCache, "The foundTypesCache can't be null.");
-
     if (!Files.exists(srcDir) || !Files.isDirectory(srcDir)) {
       throw new IllegalStateException("SrcDir does not exist or is not a directory: " + srcDir);
     }
-
     this.srcDir = srcDir;
     this.javaParser = javaParser;
     this.parsedFiles = parsedFilesCache;
@@ -179,13 +181,11 @@ public class JavaParserTypeSolver implements TypeSolver {
       if (cachedParsedFile.isPresent()) {
         return cachedParsedFile.get();
       }
-
       // Otherwise load it
       if (!Files.exists(srcFile) || !Files.isRegularFile(srcFile)) {
         parsedFiles.put(srcFile.toAbsolutePath(), Optional.empty());
         return Optional.empty();
       }
-
       // JavaParser only allow one parse at time.
       synchronized (javaParser) {
         Optional<CompilationUnit> compilationUnit =
@@ -223,7 +223,6 @@ public class JavaParserTypeSolver implements TypeSolver {
       if (cachedValue.isPresent()) {
         return cachedValue.get();
       }
-
       // If not cached, we need to load it
       List<CompilationUnit> units = new ArrayList<>();
       if (Files.exists(srcDirectory)) {
@@ -254,7 +253,6 @@ public class JavaParserTypeSolver implements TypeSolver {
     if (cachedValue.isPresent()) {
       return cachedValue.get();
     }
-
     // Otherwise load it
     SymbolReference<ResolvedReferenceTypeDeclaration> result = tryToSolveTypeUncached(name);
     foundTypes.put(name, result);
@@ -263,14 +261,12 @@ public class JavaParserTypeSolver implements TypeSolver {
 
   private SymbolReference<ResolvedReferenceTypeDeclaration> tryToSolveTypeUncached(String name) {
     String[] nameElements = name.split("\\.");
-
     for (int i = nameElements.length; i > 0; i--) {
       StringBuilder filePath = new StringBuilder(srcDir.toAbsolutePath().toString());
       for (int j = 0; j < i; j++) {
         filePath.append(File.separator).append(nameElements[j]);
       }
       filePath.append(".java");
-
       StringBuilder typeName = new StringBuilder();
       for (int j = i - 1; j < nameElements.length; j++) {
         if (j != i - 1) {
@@ -278,7 +274,6 @@ public class JavaParserTypeSolver implements TypeSolver {
         }
         typeName.append(nameElements[j]);
       }
-
       String dirToParse = null;
       // As an optimization we first try to look in the canonical position where we expect to find
       // the file
@@ -297,7 +292,6 @@ public class JavaParserTypeSolver implements TypeSolver {
       } else {
         dirToParse = FileUtils.getParentPath(filePath.toString());
       }
-
       // If this is not possible we parse all files
       // We try just in the same package, for classes defined in a file not named as the class
       // itself
@@ -313,7 +307,6 @@ public class JavaParserTypeSolver implements TypeSolver {
         }
       }
     }
-
     return SymbolReference.unsolved();
   }
 }

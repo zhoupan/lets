@@ -117,37 +117,28 @@ public class TypeHelper {
     // invocation contexts allow the use of one of the following:
     //
     // - an identity conversion (§5.1.1)
-
     if (s.equals(t)) {
       return true;
     }
-
     // - a widening primitive conversion (§5.1.2)
-
     if (s.isPrimitive()
         && t.isPrimitive()
         && areCompatibleThroughWideningPrimitiveConversion(s, t)) {
       return true;
     }
-
     // - a widening reference conversion (§5.1.5)
-
     if (s.isReferenceType()
         && t.isReferenceType()
         && areCompatibleThroughWideningReferenceConversion(s, t)) {
       return true;
     }
-
     // - a boxing conversion (§5.1.7) optionally followed by widening reference conversion
-
     if (s.isPrimitive()
         && t.isReferenceType()
         && areCompatibleThroughWideningReferenceConversion(toBoxedType(s.asPrimitive()), t)) {
       return true;
     }
-
     // - an unboxing conversion (§5.1.8) optionally followed by a widening primitive conversion
-
     if (s.isReferenceType()
         && s.asReferenceType().isUnboxable()
         && t.isPrimitive()
@@ -155,7 +146,6 @@ public class TypeHelper {
             s.asReferenceType().toUnboxedType().get(), t)) {
       return true;
     }
-
     // If, after the conversions listed for an invocation context have been applied, the resulting
     // type is a raw
     // type (§4.8), an unchecked conversion (§5.1.9) may then be applied.
@@ -165,7 +155,6 @@ public class TypeHelper {
     if (s.isNull() && t.isReferenceType()) {
       return true;
     }
-
     // throw new UnsupportedOperationException("isCompatibleInALooseInvocationContext unable to
     // decide on s=" + s + ", t=" + t);
     // TODO FIXME
@@ -239,21 +228,18 @@ public class TypeHelper {
     // The ground target type is derived from T as follows:
     //
     boolean used18_5_3 = false;
-
     boolean wildcardParameterized =
         T.asReferenceType().typeParametersValues().stream().anyMatch(tp -> tp.isWildcard());
     if (wildcardParameterized) {
       // - If T is a wildcard-parameterized functional interface type and the lambda expression is
       // explicitly typed,
       //   then the ground target type is inferred as described in §18.5.3.
-
       if (lambdaExpr.isExplicitlyTyped()) {
         used18_5_3 = true;
         throw new UnsupportedOperationException();
       }
       return new Pair<>(nonWildcardParameterizationOf(T.asReferenceType(), typeSolver), used18_5_3);
     }
-
     // - Otherwise, the ground target type is T.
     return new Pair<>(T, used18_5_3);
   }
@@ -265,68 +251,48 @@ public class TypeHelper {
         originalType
             .getTypeDeclaration()
             .orElseThrow(() -> new RuntimeException("TypeDeclaration unexpectedly empty."));
-
     List<ResolvedType> TIs = new LinkedList<>();
     List<ResolvedType> AIs = originalType.typeParametersValues();
     List<ResolvedTypeParameterDeclaration> TPs = originalTypeDeclaration.getTypeParameters();
-
     // Let P1...Pn be the type parameters of I with corresponding bounds B1...Bn. For all i (1 ≤ i ≤
     // n),
     // Ti is derived according to the form of Ai:
-
     ResolvedReferenceType object = new ReferenceTypeImpl(typeSolver.getSolvedJavaLangObject());
-
     for (int i = 0; i < AIs.size(); i++) {
       ResolvedType Ai = AIs.get(i);
       ResolvedType Ti = null;
-
       // - If Ai is a type, then Ti = Ai.
-
       if (!Ai.isWildcard()) {
         Ti = Ai;
       }
-
       // - If Ai is a wildcard, and the corresponding type parameter's bound, Bi, mentions one of
       // P1...Pn, then
       //   Ti is undefined and there is no function type.
-
       if (Ti == null
           && Ai.isWildcard()
           && Ai.asWildcard().mention(originalTypeDeclaration.getTypeParameters())) {
         throw new IllegalArgumentException();
       }
-
       // - Otherwise:
-
       if (Ti == null) {
-
         ResolvedType Bi = TPs.get(i).hasLowerBound() ? TPs.get(i).getLowerBound() : object;
-
         //   - If Ai is an unbound wildcard ?, then Ti = Bi.
-
         if (Ai.isWildcard() && !Ai.asWildcard().isBounded()) {
           Ti = Bi;
-        }
-
-        //   - If Ai is a upper-bounded wildcard ? extends Ui, then Ti = glb(Ui, Bi) (§5.1.10).
-
-        else if (Ai.isWildcard() && Ai.asWildcard().isUpperBounded()) {
+        } else //   - If Ai is a upper-bounded wildcard ? extends Ui, then Ti = glb(Ui, Bi)
+        // (§5.1.10).
+        if (Ai.isWildcard() && Ai.asWildcard().isUpperBounded()) {
           ResolvedType Ui = Ai.asWildcard().getBoundedType();
           Ti = glb(new HashSet<>(Arrays.asList(Ui, Bi)));
-        }
-
-        //   - If Ai is a lower-bounded wildcard ? super Li, then Ti = Li.
-
-        else if (Ai.isWildcard() && Ai.asWildcard().isLowerBounded()) {
+        } else //   - If Ai is a lower-bounded wildcard ? super Li, then Ti = Li.
+        if (Ai.isWildcard() && Ai.asWildcard().isLowerBounded()) {
           Ti = Ai.asWildcard().getBoundedType();
         } else {
           throw new RuntimeException("This should not happen");
         }
       }
-
       TIs.add(Ti);
     }
-
     return new ReferenceTypeImpl(originalTypeDeclaration, TIs);
   }
 

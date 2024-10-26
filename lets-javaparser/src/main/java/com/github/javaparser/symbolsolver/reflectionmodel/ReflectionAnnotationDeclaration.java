@@ -44,20 +44,19 @@ public class ReflectionAnnotationDeclaration extends AbstractTypeDeclaration
   ///
   /// Fields
   ///
-
   private Class<?> clazz;
+
   private TypeSolver typeSolver;
+
   private ReflectionClassAdapter reflectionClassAdapter;
 
   ///
   /// Constructor
   ///
-
   public ReflectionAnnotationDeclaration(Class<?> clazz, TypeSolver typeSolver) {
     if (!clazz.isAnnotation()) {
       throw new IllegalArgumentException("The given type is not an annotation.");
     }
-
     this.clazz = clazz;
     this.typeSolver = typeSolver;
     this.reflectionClassAdapter = new ReflectionClassAdapter(clazz, typeSolver, this);
@@ -66,7 +65,6 @@ public class ReflectionAnnotationDeclaration extends AbstractTypeDeclaration
   ///
   /// Public methods
   ///
-
   @Override
   public String getPackageName() {
     if (clazz.getPackage() != null) {
@@ -98,9 +96,7 @@ public class ReflectionAnnotationDeclaration extends AbstractTypeDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof ReflectionAnnotationDeclaration)) return false;
-
     ReflectionAnnotationDeclaration that = (ReflectionAnnotationDeclaration) o;
-
     return clazz.getCanonicalName().equals(that.clazz.getCanonicalName());
   }
 
@@ -206,7 +202,6 @@ public class ReflectionAnnotationDeclaration extends AbstractTypeDeclaration
       for (ResolvedType actualType : parameterTypes) {
         ResolvedType formalType = methodUsage.getParamType(i);
         // We need to replace the class type typeParametersValues (while we derive the method ones)
-
         parameters.add(inferenceContext.addPair(formalType, actualType));
         i++;
       }

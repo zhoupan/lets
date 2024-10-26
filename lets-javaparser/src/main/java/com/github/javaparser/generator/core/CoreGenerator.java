@@ -35,12 +35,9 @@ import java.nio.file.Paths;
  * run_core_generators.sh script. You may want to run_metamodel_generator.sh before that.
  */
 public class CoreGenerator {
+
   private static final ParserConfiguration parserConfiguration =
-      new ParserConfiguration().setLanguageLevel(RAW)
-      //                                .setStoreTokens(false)
-      //                                .setAttributeComments(false)
-      //                                .setLexicalPreservationEnabled(true)
-      ;
+      new ParserConfiguration().setLanguageLevel(RAW);
 
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
@@ -49,24 +46,17 @@ public class CoreGenerator {
     }
     Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
     final Path root = Paths.get(args[0], "..", "javaparser-core", "src", "main", "java");
-    final SourceRoot sourceRoot = new SourceRoot(root, parserConfiguration)
-        //                .setPrinter(LexicalPreservingPrinter::print)
-        ;
+    final SourceRoot sourceRoot = new SourceRoot(root, parserConfiguration);
     StaticJavaParser.setConfiguration(parserConfiguration);
-
     final Path generatedJavaCcRoot =
         Paths.get(args[0], "..", "javaparser-core", "target", "generated-sources", "javacc");
     final SourceRoot generatedJavaCcSourceRoot =
-        new SourceRoot(generatedJavaCcRoot, parserConfiguration)
-        //                .setPrinter(LexicalPreservingPrinter::print)
-        ;
-
+        new SourceRoot(generatedJavaCcRoot, parserConfiguration);
     new CoreGenerator().run(sourceRoot, generatedJavaCcSourceRoot);
-
     sourceRoot.saveAll();
   }
 
-  private void run(SourceRoot sourceRoot, SourceRoot generatedJavaCcSourceRoot) throws Exception {
+  public void run(SourceRoot sourceRoot, SourceRoot generatedJavaCcSourceRoot) throws Exception {
     new TypeCastingGenerator(sourceRoot).generate();
     new GenericListVisitorAdapterGenerator(sourceRoot).generate();
     new GenericVisitorAdapterGenerator(sourceRoot).generate();
@@ -83,7 +73,6 @@ public class CoreGenerator {
     new NoCommentHashCodeVisitorGenerator(sourceRoot).generate();
     new CloneVisitorGenerator(sourceRoot).generate();
     new ModifierVisitorGenerator(sourceRoot).generate();
-
     new PropertyGenerator(sourceRoot).generate();
     new RemoveMethodGenerator(sourceRoot).generate();
     new ReplaceMethodGenerator(sourceRoot).generate();
@@ -94,7 +83,6 @@ public class CoreGenerator {
     new AcceptGenerator(sourceRoot).generate();
     new TokenKindGenerator(sourceRoot, generatedJavaCcSourceRoot).generate();
     new BndGenerator(sourceRoot).generate();
-
     new NotNullGenerator(sourceRoot).generate();
   }
 }

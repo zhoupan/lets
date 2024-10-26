@@ -30,6 +30,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates JavaParser's CloneVisitor. */
 public class CloneVisitorGenerator extends VisitorGenerator {
+
   public CloneVisitorGenerator(SourceRoot sourceRoot) {
     super(
         sourceRoot,
@@ -44,10 +45,8 @@ public class CloneVisitorGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
-
     for (PropertyMetaModel field : node.getAllPropertyMetaModels()) {
       final String getter = field.getGetterMethodName() + "()";
       if (field.getNodeReference().isPresent()) {
@@ -69,7 +68,6 @@ public class CloneVisitorGenerator extends VisitorGenerator {
         }
       }
     }
-
     SeparatedItemStringBuilder builder =
         new SeparatedItemStringBuilder(
             f("%s r = new %s(", node.getTypeNameGenerified(), node.getTypeNameGenerified()),
@@ -86,7 +84,6 @@ public class CloneVisitorGenerator extends VisitorGenerator {
         builder.append(f("n.%s()", field.getGetterMethodName()));
       }
     }
-
     body.addStatement(builder.toString());
     if (node instanceof CompilationUnitMetaModel) {
       body.addStatement(

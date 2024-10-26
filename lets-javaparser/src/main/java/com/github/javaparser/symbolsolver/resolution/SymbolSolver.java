@@ -52,7 +52,6 @@ public class SymbolSolver implements Solver {
       throw new IllegalArgumentException(
           "Missing Parameter - Cannot initialise a SymbolSolver, without a way to solve types.");
     }
-
     this.typeSolver = typeSolver;
   }
 
@@ -108,9 +107,7 @@ public class SymbolSolver implements Solver {
   @Override
   public ResolvedTypeDeclaration solveType(Type type) {
     if (type instanceof ClassOrInterfaceType) {
-
       // FIXME should call typesolver here!
-
       String name = ((ClassOrInterfaceType) type).getNameWithScope();
       SymbolReference<ResolvedTypeDeclaration> ref =
           JavaParserFactory.getContext(type, typeSolver).solveType(name);
@@ -178,7 +175,6 @@ public class SymbolSolver implements Solver {
     if (clazz.isPrimitive()) {
       return ResolvedPrimitiveType.byName(clazz.getName());
     }
-
     ResolvedReferenceTypeDeclaration declaration;
     if (clazz.isAnnotation()) {
       declaration = new ReflectionAnnotationDeclaration(clazz, typeSolver);

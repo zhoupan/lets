@@ -113,13 +113,11 @@ public class LambdaExpr extends Expression implements NodeWithParameters<LambdaE
     customInitialization();
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public NodeList<Parameter> getParameters() {
     return parameters;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public LambdaExpr setParameters(final NodeList<Parameter> parameters) {
     assertNotNull(parameters);

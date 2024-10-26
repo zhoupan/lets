@@ -47,15 +47,15 @@ public class ReflectionEnumDeclaration extends AbstractTypeDeclaration
   ///
   /// Fields
   ///
-
   private Class<?> clazz;
+
   private TypeSolver typeSolver;
+
   private ReflectionClassAdapter reflectionClassAdapter;
 
   ///
   /// Constructors
   ///
-
   public ReflectionEnumDeclaration(Class<?> clazz, TypeSolver typeSolver) {
     if (clazz == null) {
       throw new IllegalArgumentException("Class should not be null");
@@ -80,7 +80,6 @@ public class ReflectionEnumDeclaration extends AbstractTypeDeclaration
   ///
   /// Public methods
   ///
-
   @Override
   public AccessSpecifier accessSpecifier() {
     return ReflectionFactory.modifiersToAccessLevel(this.clazz.getModifiers());
@@ -211,7 +210,6 @@ public class ReflectionEnumDeclaration extends AbstractTypeDeclaration
       for (ResolvedType actualType : parameterTypes) {
         ResolvedType formalType = methodUsage.getParamType(i);
         // We need to replace the class type typeParametersValues (while we derive the method ones)
-
         parameters.add(inferenceContext.addPair(formalType, actualType));
         i++;
       }

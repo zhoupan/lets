@@ -32,8 +32,11 @@ import com.github.javaparser.symbolsolver.resolution.typeinference.bounds.Subtyp
  * @author Federico Tomassetti
  */
 public class TypeSubtypeOfType extends ConstraintFormula {
+
   private ResolvedType S;
+
   private ResolvedType T;
+
   private TypeSolver typeSolver;
 
   public TypeSubtypeOfType(TypeSolver typeSolver, ResolvedType S, ResolvedType T) {
@@ -48,44 +51,33 @@ public class TypeSubtypeOfType extends ConstraintFormula {
     //
     // - If S and T are proper types, the constraint reduces to true if S is a subtype of T (§4.10),
     // and false otherwise.
-
     if (isProperType(S) && isProperType(T)) {
       if (T.isAssignableBy(S)) {
         return ReductionResult.trueResult();
       }
       return ReductionResult.falseResult();
     }
-
     // - Otherwise, if S is the null type, the constraint reduces to true.
-
     if (S instanceof NullType) {
       return ReductionResult.trueResult();
     }
-
     // - Otherwise, if T is the null type, the constraint reduces to false.
-
     if (T instanceof NullType) {
       return ReductionResult.falseResult();
     }
-
     // - Otherwise, if S is an inference variable, α, the constraint reduces to the bound α <: T.
-
     if (S.isInferenceVariable()) {
       return ReductionResult.oneBound(new SubtypeOfBound(S, T));
     }
-
     // - Otherwise, if T is an inference variable, α, the constraint reduces to the bound S <: α.
-
     if (T.isInferenceVariable()) {
       return ReductionResult.oneBound(new SubtypeOfBound(S, T));
     }
-
     // FEDERICO - Added start
     // if (T.isTypeVariable()) {
     //    return ReductionResult.oneBound(new SubtypeOfBound(S, T));
     // }
     // FEDERICO - Added end
-
     // - Otherwise, the constraint is reduced according to the form of T:
     //
     //   - If T is a parameterized class or interface type, or an inner class type of a
@@ -108,34 +100,25 @@ public class TypeSubtypeOfType extends ConstraintFormula {
     // false otherwise.
     //
     //   - If T is a type variable, there are three cases:
-
     if (T.isTypeVariable()) {
-
       //     - If S is an intersection type of which T is an element, the constraint reduces to
       // true.
-
       if (S instanceof ResolvedIntersectionType) {
         throw new UnsupportedOperationException();
       }
-
       //     - Otherwise, if T has a lower bound, B, the constraint reduces to ‹S <: B›.
-
       if (T.asTypeVariable().asTypeParameter().hasLowerBound()) {
         return ReductionResult.oneConstraint(
             new TypeSubtypeOfType(
                 typeSolver, S, T.asTypeVariable().asTypeParameter().getLowerBound()));
       }
-
       //     - Otherwise, the constraint reduces to false.
-
       return ReductionResult.falseResult();
     }
-
     //
     //   - If T is an intersection type, I1 & ... & In, the constraint reduces to the following new
     // constraints: for all i (1 ≤ i ≤ n), ‹S <: Ii›.
     //
-
     throw new UnsupportedOperationException("S = " + S + ", T = " + T);
   }
 
@@ -143,9 +126,7 @@ public class TypeSubtypeOfType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     TypeSubtypeOfType that = (TypeSubtypeOfType) o;
-
     if (!S.equals(that.S)) return false;
     return T.equals(that.T);
   }

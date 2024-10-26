@@ -37,7 +37,9 @@ public class JavassistAnnotationDeclaration extends AbstractTypeDeclaration
     implements ResolvedAnnotationDeclaration {
 
   private CtClass ctClass;
+
   private TypeSolver typeSolver;
+
   private JavassistTypeDeclarationAdapter javassistTypeDeclarationAdapter;
 
   @Override

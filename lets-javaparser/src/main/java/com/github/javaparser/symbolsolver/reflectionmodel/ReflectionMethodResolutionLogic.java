@@ -60,7 +60,6 @@ class ReflectionMethodResolutionLogic {
           new ReflectionMethodDeclaration(method, typeSolver);
       methods.add(methodDeclaration);
     }
-
     for (ResolvedReferenceType ancestor : scopeType.getAncestors()) {
       ancestor
           .getTypeDeclaration()
@@ -74,7 +73,6 @@ class ReflectionMethodResolutionLogic {
                 }
               });
     }
-
     if (scopeType.getAncestors().isEmpty()) {
       ReferenceTypeImpl objectClass =
           new ReferenceTypeImpl(new ReflectionClassDeclaration(Object.class, typeSolver));
@@ -121,9 +119,7 @@ class ReflectionMethodResolutionLogic {
         methods.add(methodUsage);
       }
     }
-
     List<ResolvedReferenceType> ancestors = scopeType.getAncestors();
-
     for (ResolvedReferenceType ancestor : ancestors) {
       if (ancestor.getTypeDeclaration().isPresent()) {
         ResolvedReferenceTypeDeclaration ancestorTypeDeclaration =
@@ -138,7 +134,6 @@ class ReflectionMethodResolutionLogic {
         }
       }
     }
-
     if (ancestors.isEmpty()) {
       Optional<ResolvedReferenceTypeDeclaration> optionalObjectClass =
           new ReferenceTypeImpl(new ReflectionClassDeclaration(Object.class, typeSolver))
@@ -157,7 +152,6 @@ class ReflectionMethodResolutionLogic {
         }
       }
     }
-
     final List<ResolvedType> finalTypeParameterValues = typeParameterValues;
     argumentsTypes =
         argumentsTypes.stream()
@@ -180,7 +174,6 @@ class ReflectionMethodResolutionLogic {
       ResolvedMethodDeclaration methodDeclaration) {
     MethodUsage methodUsage = new MethodUsage(methodDeclaration);
     int i = 0;
-
     // Only replace if we have enough values provided
     if (typeParameterValues.size() == typeParametrizable.getTypeParameters().size()) {
       for (ResolvedTypeParameterDeclaration tp : typeParametrizable.getTypeParameters()) {
@@ -188,14 +181,12 @@ class ReflectionMethodResolutionLogic {
         i++;
       }
     }
-
     for (ResolvedTypeParameterDeclaration methodTypeParameter :
         methodDeclaration.getTypeParameters()) {
       methodUsage =
           methodUsage.replaceTypeParameter(
               methodTypeParameter, new ResolvedTypeVariable(methodTypeParameter));
     }
-
     return methodUsage;
   }
 }

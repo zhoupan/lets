@@ -28,6 +28,7 @@ public class TypeInferenceCache {
 
   private static Map<TypeSolver, IdentityHashMap<LambdaExpr, Map<String, ResolvedType>>>
       typeForLambdaParameters = new HashMap<>();
+
   private static Map<TypeSolver, IdentityHashMap<LambdaExpr, List<InferenceVariable>>>
       inferenceVariables = new HashMap<>();
 

@@ -26,6 +26,7 @@ import com.github.javaparser.resolution.TypeSolver;
 public abstract class AbstractSymbolDeclarator<N extends Node> implements SymbolDeclarator {
 
   protected N wrappedNode;
+
   protected TypeSolver typeSolver;
 
   public AbstractSymbolDeclarator(N wrappedNode, TypeSolver typeSolver) {

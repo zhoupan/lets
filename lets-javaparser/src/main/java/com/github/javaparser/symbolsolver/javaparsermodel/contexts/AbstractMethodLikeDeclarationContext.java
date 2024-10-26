@@ -58,7 +58,6 @@ public abstract class AbstractMethodLikeDeclarationContext<
         return symbolReference;
       }
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolInParentContext(name);
   }
@@ -72,7 +71,6 @@ public abstract class AbstractMethodLikeDeclarationContext<
         return Optional.of(new ResolvedTypeVariable(new JavaParserTypeParameter(tp, typeSolver)));
       }
     }
-
     // If no generic types on the method declaration, continue to solve elsewhere as usual.
     return solveGenericTypeInParentContext(name);
   }
@@ -87,7 +85,6 @@ public abstract class AbstractMethodLikeDeclarationContext<
         return symbolReference;
       }
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolAsValueInParentContext(name);
   }
@@ -103,7 +100,6 @@ public abstract class AbstractMethodLikeDeclarationContext<
         }
       }
     }
-
     // Local types
     List<TypeDeclaration> localTypes = wrappedNode.findAll(TypeDeclaration.class);
     for (TypeDeclaration<?> localType : localTypes) {
@@ -116,7 +112,6 @@ public abstract class AbstractMethodLikeDeclarationContext<
             .solveType(name.substring(localType.getName().getId().length() + 1));
       }
     }
-
     return solveTypeInParentContext(name, typeArguments);
   }
 

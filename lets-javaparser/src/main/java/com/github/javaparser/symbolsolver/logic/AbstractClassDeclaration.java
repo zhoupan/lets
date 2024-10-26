@@ -33,7 +33,6 @@ public abstract class AbstractClassDeclaration extends AbstractTypeDeclaration
   ///
   /// Public
   ///
-
   @Override
   public boolean hasName() {
     return getQualifiedName() != null;
@@ -42,14 +41,12 @@ public abstract class AbstractClassDeclaration extends AbstractTypeDeclaration
   @Override
   public final List<ResolvedReferenceType> getAllSuperClasses() {
     List<ResolvedReferenceType> superclasses = new ArrayList<>();
-
     getSuperClass()
         .ifPresent(
             superClass -> {
               superclasses.add(superClass);
               superclasses.addAll(superClass.getAllClassesAncestors());
             });
-
     if (superclasses.removeIf(ResolvedReferenceType::isJavaLangObject)) {
       superclasses.add(object());
     }
@@ -79,7 +76,6 @@ public abstract class AbstractClassDeclaration extends AbstractTypeDeclaration
   ///
   /// Protected
   ///
-
   /** An implementation of the Object class. */
   protected abstract ResolvedReferenceType object();
 }

@@ -37,6 +37,7 @@ import java.util.*;
 public class JavaParserTypeVariableDeclaration extends AbstractTypeDeclaration {
 
   private TypeParameter wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserTypeVariableDeclaration(TypeParameter wrappedNode, TypeSolver typeSolver) {

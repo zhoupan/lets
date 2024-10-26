@@ -32,7 +32,6 @@ public class ConstructorContext
   ///
   /// Constructors
   ///
-
   public ConstructorContext(ConstructorDeclaration wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
   }

@@ -36,7 +36,9 @@ public class JavaParserAnnotationDeclaration extends AbstractTypeDeclaration
     implements ResolvedAnnotationDeclaration {
 
   private com.github.javaparser.ast.body.AnnotationDeclaration wrappedNode;
+
   private TypeSolver typeSolver;
+
   private JavaParserTypeAdapter<AnnotationDeclaration> javaParserTypeAdapter;
 
   public JavaParserAnnotationDeclaration(AnnotationDeclaration wrappedNode, TypeSolver typeSolver) {

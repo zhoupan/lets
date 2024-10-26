@@ -50,7 +50,6 @@ public class CatchClauseContext extends AbstractJavaParserContext<CatchClause> {
     if (symbolReference.isSolved()) {
       return symbolReference;
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolInParentContext(name);
   }
@@ -64,7 +63,6 @@ public class CatchClauseContext extends AbstractJavaParserContext<CatchClause> {
       // Perform parameter type substitution as needed
       return symbolReference;
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolAsValueInParentContext(name);
   }

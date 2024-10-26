@@ -25,6 +25,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates JavaParser's ObjectIdentityHashCodeVisitor. */
 public class ObjectIdentityHashCodeVisitorGenerator extends VisitorGenerator {
+
   public ObjectIdentityHashCodeVisitorGenerator(SourceRoot sourceRoot) {
     super(
         sourceRoot,
@@ -39,7 +40,6 @@ public class ObjectIdentityHashCodeVisitorGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     final BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
     body.addStatement("return n.hashCode();");

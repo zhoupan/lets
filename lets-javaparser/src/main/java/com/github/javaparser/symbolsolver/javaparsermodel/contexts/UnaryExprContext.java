@@ -33,11 +33,9 @@ public class UnaryExprContext extends AbstractJavaParserContext<UnaryExpr> {
   @Override
   public List<PatternExpr> patternExprsExposedFromChildren() {
     List<PatternExpr> results = new ArrayList<>();
-
     // Propagate any pattern expressions "up"
     if (wrappedNode.getOperator() == UnaryExpr.Operator.LOGICAL_COMPLEMENT) {
       Context innerContext = JavaParserFactory.getContext(wrappedNode.getExpression(), typeSolver);
-
       // Avoid infinite loop
       if (!this.equals(innerContext)) {
         // Note that `UnaryExpr.Operator.LOGICAL_COMPLEMENT` is `!`
@@ -46,18 +44,15 @@ public class UnaryExprContext extends AbstractJavaParserContext<UnaryExpr> {
         results.addAll(innerContext.negatedPatternExprsExposedFromChildren());
       }
     }
-
     return results;
   }
 
   @Override
   public List<PatternExpr> negatedPatternExprsExposedFromChildren() {
     List<PatternExpr> results = new ArrayList<>();
-
     // Propagate any pattern expressions "up"
     if (wrappedNode.getOperator() == UnaryExpr.Operator.LOGICAL_COMPLEMENT) {
       Context innerContext = JavaParserFactory.getContext(wrappedNode.getExpression(), typeSolver);
-
       if (!this.equals(innerContext)) {
         // Note that `UnaryExpr.Operator.LOGICAL_COMPLEMENT` is `!`
         // Previously available pattern expressions are now negated (double negatives) -- e.g.
@@ -65,7 +60,6 @@ public class UnaryExprContext extends AbstractJavaParserContext<UnaryExpr> {
         results.addAll(innerContext.patternExprsExposedFromChildren());
       }
     }
-
     return results;
   }
 }

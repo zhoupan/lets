@@ -30,7 +30,9 @@ import java.util.List;
  * @author Federico Tomassetti
  */
 public class TypeSameAsType extends ConstraintFormula {
+
   private ResolvedType S;
+
   private ResolvedType T;
 
   public TypeSameAsType(ResolvedType s, ResolvedType t) {
@@ -41,47 +43,36 @@ public class TypeSameAsType extends ConstraintFormula {
   @Override
   public ReductionResult reduce(BoundSet currentBoundSet) {
     // A constraint formula of the form ‹S = T›, where S and T are types, is reduced as follows:
-
     if (!S.isWildcard() && !T.isWildcard()) {
-
       // - If S and T are proper types, the constraint reduces to true if S is the same as T
       // (§4.3.4), and false
       //   otherwise.
-
       if (isProperType(S) && isProperType(T)) {
         if (S.equals(T)) {
           return ReductionResult.trueResult();
         }
         return ReductionResult.falseResult();
       }
-
       // - Otherwise, if S or T is the null type, the constraint reduces to false.
-
       if (S.isNull() || T.isNull()) {
         return ReductionResult.falseResult();
       }
-
       // - Otherwise, if S is an inference variable, α, and T is not a primitive type, the
       // constraint reduces to the
       //   bound α = T.
-
       if (S.isInferenceVariable() && !T.isPrimitive()) {
         return ReductionResult.oneBound(new SameAsBound(S, T));
       }
-
       // - Otherwise, if T is an inference variable, α, and S is not a primitive type, the
       // constraint reduces to the
       //   bound S = α.
-
       if (T.isInferenceVariable() && !S.isPrimitive()) {
         return ReductionResult.oneBound(new SameAsBound(S, T));
       }
-
       // - Otherwise, if S and T are class or interface types with the same erasure, where S has
       //   type arguments B1, ..., Bn and T has type arguments A1, ..., An, the constraint reduces
       // to the following
       //   new constraints: for all i (1 ≤ i ≤ n), ‹Bi = Ai›.
-
       if (S.isReferenceType()
           && T.isReferenceType()
           && S.asReferenceType().toRawType().equals(T.asReferenceType().toRawType())) {
@@ -93,25 +84,19 @@ public class TypeSameAsType extends ConstraintFormula {
         }
         return res;
       }
-
       // - Otherwise, if S and T are array types, S'[] and T'[], the constraint reduces to ‹S' =
       // T'›.
-
       if (S.isArray() && T.isArray()) {
         return ReductionResult.oneConstraint(
             new TypeSameAsType(
                 S.asArrayType().getComponentType(), T.asArrayType().getComponentType()));
       }
-
       // - Otherwise, the constraint reduces to false.
-
       return ReductionResult.falseResult();
     }
-
     // Note that we do not address intersection types above, because it is impossible for reduction
     // to encounter an
     // intersection type that is not a proper type.
-
     // A constraint formula of the form ‹S = T›, where S and T are type arguments (§4.5.1), is
     // reduced as follows:
     //
@@ -132,7 +117,6 @@ public class TypeSameAsType extends ConstraintFormula {
     // T'›.
     //
     // - Otherwise, the constraint reduces to false.
-
     throw new UnsupportedOperationException();
   }
 
@@ -140,9 +124,7 @@ public class TypeSameAsType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     TypeSameAsType that = (TypeSameAsType) o;
-
     if (!S.equals(that.S)) return false;
     return T.equals(that.T);
   }

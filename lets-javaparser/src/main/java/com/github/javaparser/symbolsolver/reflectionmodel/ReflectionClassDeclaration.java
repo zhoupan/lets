@@ -49,15 +49,15 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
   ///
   /// Fields
   ///
-
   private Class<?> clazz;
+
   private TypeSolver typeSolver;
+
   private ReflectionClassAdapter reflectionClassAdapter;
 
   ///
   /// Constructors
   ///
-
   public ReflectionClassDeclaration(Class<?> clazz, TypeSolver typeSolver) {
     if (clazz == null) {
       throw new IllegalArgumentException("Class should not be null");
@@ -82,7 +82,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
   ///
   /// Public methods
   ///
-
   @Override
   public Set<ResolvedMethodDeclaration> getDeclaredMethods() {
     return reflectionClassAdapter.getDeclaredMethods();
@@ -100,9 +99,7 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ReflectionClassDeclaration that = (ReflectionClassDeclaration) o;
-
     return clazz.getCanonicalName().equals(that.clazz.getCanonicalName());
   }
 
@@ -139,9 +136,7 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
       String name, List<ResolvedType> argumentsTypes, boolean staticOnly) {
     Predicate<Method> staticFilter =
         m -> !staticOnly || (staticOnly && Modifier.isStatic(m.getModifiers()));
-
     List<ResolvedMethodDeclaration> candidateSolvedMethods = new ArrayList<>();
-
     // First consider the directly-declared methods.
     List<Method> methods =
         Arrays.stream(clazz.getDeclaredMethods())
@@ -151,20 +146,17 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
             .filter(method -> !method.isSynthetic())
             .sorted(new MethodComparator())
             .collect(Collectors.toList());
-
     // Transform into resolved method declarations
     for (Method method : methods) {
       ResolvedMethodDeclaration methodDeclaration =
           new ReflectionMethodDeclaration(method, typeSolver);
       candidateSolvedMethods.add(methodDeclaration);
-
       // no need to search for overloaded/inherited candidateSolvedMethods if the method has no
       // parameters
       if (argumentsTypes.isEmpty() && methodDeclaration.getNumberOfParams() == 0) {
         return SymbolReference.solved(methodDeclaration);
       }
     }
-
     // Next consider methods declared within extended superclasses.
     getSuperClass()
         .flatMap(ResolvedReferenceType::getTypeDeclaration)
@@ -177,7 +169,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
                 candidateSolvedMethods.add(ref.getCorrespondingDeclaration());
               }
             });
-
     // Next consider methods declared within implemented interfaces.
     for (ResolvedReferenceType interfaceDeclaration : getInterfaces()) {
       interfaceDeclaration
@@ -192,7 +183,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
                 }
               });
     }
-
     // When empty there is no sense in trying to find the most applicable.
     // This is useful for debugging. Performance is not affected as
     // MethodResolutionLogic.findMostApplicable method returns very early
@@ -210,7 +200,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
   }
 
   public ResolvedType getUsage(Node node) {
-
     return new ReferenceTypeImpl(this);
   }
 
@@ -221,13 +210,11 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
       Context invokationContext,
       List<ResolvedType> typeParameterValues) {
     List<MethodUsage> methodUsages = new ArrayList<>();
-
     List<Method> allMethods =
         Arrays.stream(clazz.getDeclaredMethods())
             .filter((m) -> m.getName().equals(name))
             .sorted(new MethodComparator())
             .collect(Collectors.toList());
-
     for (Method method : allMethods) {
       if (method.isBridge() || method.isSynthetic()) {
         continue;
@@ -241,13 +228,11 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
         methodUsage = methodUsage.replaceTypeParameter(tpToReplace, newValue);
       }
       methodUsages.add(methodUsage);
-
       // no need to search for overloaded/inherited methodUsages if the method has no parameters
       if (argumentsTypes.isEmpty() && methodUsage.getNoParams() == 0) {
         return Optional.of(methodUsage);
       }
     }
-
     getSuperClass()
         .ifPresent(
             superClass -> {
@@ -264,7 +249,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
                             .ifPresent(methodUsages::add);
                       });
             });
-
     for (ResolvedReferenceType interfaceDeclaration : getInterfaces()) {
       interfaceDeclaration
           .getTypeDeclaration()
@@ -303,7 +287,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
         return true;
       }
     }
-
     return false;
   }
 
@@ -426,7 +409,6 @@ public class ReflectionClassDeclaration extends AbstractClassDeclaration
   ///
   /// Protected methods
   ///
-
   @Override
   protected ResolvedReferenceType object() {
     return new ReferenceTypeImpl(typeSolver.getSolvedJavaLangObject());

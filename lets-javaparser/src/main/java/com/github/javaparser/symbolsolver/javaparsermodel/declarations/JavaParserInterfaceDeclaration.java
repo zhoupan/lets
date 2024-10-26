@@ -51,7 +51,9 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
         SymbolResolutionCapability {
 
   private TypeSolver typeSolver;
+
   private ClassOrInterfaceDeclaration wrappedNode;
+
   private JavaParserTypeAdapter<ClassOrInterfaceDeclaration> javaParserTypeAdapter;
 
   public JavaParserInterfaceDeclaration(
@@ -89,9 +91,7 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     JavaParserInterfaceDeclaration that = (JavaParserInterfaceDeclaration) o;
-
     return wrappedNode.equals(that.wrappedNode);
   }
 
@@ -179,7 +179,6 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
         }
       }
     }
-
     // TODO FIXME: Remove null check -- should be an empty list...
     if (this.wrappedNode.getImplementedTypes() != null) {
       for (ClassOrInterfaceType type : wrappedNode.getImplementedTypes()) {
@@ -190,7 +189,6 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
         }
       }
     }
-
     return false;
   }
 
@@ -202,7 +200,6 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
   @Override
   public List<ResolvedFieldDeclaration> getAllFields() {
     List<ResolvedFieldDeclaration> fields = javaParserTypeAdapter.getFieldsForDeclaredVariables();
-
     getAncestors().stream()
         .filter(ancestor -> ancestor.getTypeDeclaration().isPresent())
         .forEach(
@@ -252,7 +249,6 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
                                 }
                               });
                         }));
-
     return fields;
   }
 
@@ -278,13 +274,11 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
     if (ref.isSolved()) {
       return ref;
     }
-
     String prefix = wrappedNode.getName().asString() + ".";
     if (name.startsWith(prefix) && name.length() > prefix.length()) {
       return new JavaParserInterfaceDeclaration(this.wrappedNode, typeSolver)
           .solveType(name.substring(prefix.length()));
     }
-
     return getContext()
         .getParent()
         .orElseThrow(() -> new RuntimeException("Parent context unexpectedly empty."))
@@ -328,7 +322,6 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
         }
       }
     }
-
     // TODO FIXME: Remove null check -- should be an empty list...
     if (wrappedNode.getImplementedTypes() != null) {
       for (ClassOrInterfaceType implemented : wrappedNode.getImplementedTypes()) {
@@ -393,14 +386,12 @@ public class JavaParserInterfaceDeclaration extends AbstractTypeDeclaration
   ///
   /// Private methods
   ///
-
   private ResolvedReferenceType toReferenceType(ClassOrInterfaceType classOrInterfaceType) {
     SymbolReference<? extends ResolvedTypeDeclaration> ref = null;
     String typeName = classOrInterfaceType.getName().getId();
     if (classOrInterfaceType.getScope().isPresent()) {
       typeName = classOrInterfaceType.getScope().get().asString() + "." + typeName;
     }
-
     if (typeName.indexOf('.') > -1) {
       ref = typeSolver.tryToSolveType(typeName);
     }

@@ -59,11 +59,17 @@ public class SourceFileInfoExtractor {
   private final TypeSolver typeSolver;
 
   private int successes = 0;
+
   private int failures = 0;
+
   private int unsupported = 0;
+
   private boolean printFileName = true;
+
   private PrintStream out = System.out;
+
   private PrintStream err = System.err;
+
   private boolean verbose = false;
 
   public SourceFileInfoExtractor(TypeSolver typeSolver) {
@@ -185,6 +191,7 @@ public class SourceFileInfoExtractor {
     Files.walkFileTree(
         path,
         new SimpleFileVisitor<Path>() {
+
           @Override
           public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
               throws IOException {
@@ -205,6 +212,7 @@ public class SourceFileInfoExtractor {
     Files.walkFileTree(
         path,
         new SimpleFileVisitor<Path>() {
+
           @Override
           public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
               throws IOException {

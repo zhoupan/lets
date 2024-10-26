@@ -18,6 +18,5 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  */
-
 /** Implementation of model based on Javassist. */
 package com.github.javaparser.symbolsolver.javassistmodel;

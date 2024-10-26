@@ -102,16 +102,13 @@ public class NotNullGenerator extends CompilationUnitGenerator {
    */
   protected <N extends CallableDeclaration<?>> void generateQualityForParameter(
       N callableDeclaration, NodeList<Parameter> parameters, BlockStmt blockStmt) {
-
     List<Statement> assertions = new ArrayList<>();
-
     for (Parameter parameter : parameters) {
       Optional<AnnotationExpr> nonNullAnnotation = parameter.getAnnotationByClass(NotNull.class);
       if (nonNullAnnotation.isPresent()) {
         assertions.add(createAssertion(parameter));
       }
     }
-
     insertAssertionsInBlock(callableDeclaration, blockStmt, assertions);
   }
 
@@ -122,7 +119,6 @@ public class NotNullGenerator extends CompilationUnitGenerator {
    * @return The assertion to be added to the code.
    */
   private Statement createAssertion(Parameter parameter) {
-
     parameter.tryAddImportToParentCompilationUnit(Preconditions.class);
     return StaticJavaParser.parseStatement(
         f(
@@ -140,18 +136,14 @@ public class NotNullGenerator extends CompilationUnitGenerator {
    */
   private <N extends CallableDeclaration<?>> void insertAssertionsInBlock(
       N callableDeclaration, BlockStmt blockStmt, List<Statement> assertions) {
-
     // If there's nothing to add, just ignore
     if (assertions.isEmpty()) return;
-
     int position = 0;
     NodeList<Statement> statements = blockStmt.getStatements();
-
     // When the callable is a constructor we must check if is a ExplicitConstructorInvocationStmt.
     if (callableDeclaration.isConstructorDeclaration()) {
       Optional<Statement> optionalFirstStatement = statements.getFirst();
       if (optionalFirstStatement.isPresent()) {
-
         // Check if the first item is a "super" expr. If it's then we add the assertions after it.
         Statement firstStatement = optionalFirstStatement.get();
         if (firstStatement instanceof ExplicitConstructorInvocationStmt) {
@@ -159,13 +151,10 @@ public class NotNullGenerator extends CompilationUnitGenerator {
         }
       }
     }
-
     // Register assertions
     for (int i = 0; i < assertions.size(); i++) {
       Statement assertion = assertions.get(i);
-
       Optional<? extends Statement> optOldStmt = getSimilarAssertionInBlock(assertion, blockStmt);
-
       if (optOldStmt.isPresent()) {
         optOldStmt.get().replace(assertion);
       } else {
@@ -176,12 +165,9 @@ public class NotNullGenerator extends CompilationUnitGenerator {
 
   private Optional<? extends Statement> getSimilarAssertionInBlock(
       Statement assertion, BlockStmt blockStmt) {
-
     MethodCallExpr assertionCall = assertion.asExpressionStmt().getExpression().asMethodCallExpr();
     List<MethodCallExpr> methodCallExpressions = blockStmt.findAll(MethodCallExpr.class);
-
     for (MethodCallExpr blockMethodCall : methodCallExpressions) {
-
       // Check if the method calls name match
       if (blockMethodCall.getNameAsExpression().equals(assertionCall.getNameAsExpression())
           && blockMethodCall.getScope().equals(assertionCall.getScope())

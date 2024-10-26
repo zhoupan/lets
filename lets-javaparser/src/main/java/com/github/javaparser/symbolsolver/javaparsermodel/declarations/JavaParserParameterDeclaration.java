@@ -34,6 +34,7 @@ import java.util.Optional;
 public class JavaParserParameterDeclaration implements ResolvedParameterDeclaration {
 
   private final Parameter wrappedNode;
+
   private final TypeSolver typeSolver;
 
   public JavaParserParameterDeclaration(Parameter wrappedNode, TypeSolver typeSolver) {

@@ -50,7 +50,6 @@ public class VariableDeclarationExprContext
         }
       }
     }
-
     // Default to solving in parent context if unable to solve directly here.
     return solveSymbolInParentContext(name);
   }

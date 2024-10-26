@@ -29,7 +29,9 @@ import javassist.bytecode.AccessFlag;
 public class JavassistEnumConstantDeclaration implements ResolvedEnumConstantDeclaration {
 
   private CtField ctField;
+
   private TypeSolver typeSolver;
+
   private ResolvedType type;
 
   public JavassistEnumConstantDeclaration(CtField ctField, TypeSolver typeSolver) {

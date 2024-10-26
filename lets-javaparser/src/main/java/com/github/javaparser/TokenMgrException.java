@@ -28,7 +28,6 @@ public class TokenMgrException extends RuntimeException {
   /*
    * Ordinals for various reasons why an Error of this type can be thrown.
    */
-
   /** Lexical error occurred. */
   public static final int LEXICAL_ERROR = 0;
 

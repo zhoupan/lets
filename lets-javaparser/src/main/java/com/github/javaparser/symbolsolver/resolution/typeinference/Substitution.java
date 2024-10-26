@@ -27,6 +27,7 @@ import java.util.List;
 public class Substitution {
 
   private List<ResolvedTypeParameterDeclaration> typeParameterDeclarations;
+
   private List<ResolvedType> types;
 
   private static final Substitution EMPTY = new Substitution();

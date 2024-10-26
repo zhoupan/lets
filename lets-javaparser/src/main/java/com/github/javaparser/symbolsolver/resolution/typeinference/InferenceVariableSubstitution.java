@@ -28,6 +28,7 @@ public class InferenceVariableSubstitution {
   private static final InferenceVariableSubstitution EMPTY = new InferenceVariableSubstitution();
 
   private List<InferenceVariable> inferenceVariables;
+
   private List<ResolvedType> types;
 
   public static InferenceVariableSubstitution empty() {

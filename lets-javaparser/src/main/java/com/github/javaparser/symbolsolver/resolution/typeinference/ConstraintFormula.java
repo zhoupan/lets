@@ -29,7 +29,9 @@ import java.util.List;
 public abstract class ConstraintFormula {
 
   public static class ReductionResult {
+
     private BoundSet boundSet;
+
     private List<ConstraintFormula> constraintFormulas;
 
     public BoundSet getBoundSet() {
@@ -77,9 +79,7 @@ public abstract class ConstraintFormula {
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-
       ReductionResult that = (ReductionResult) o;
-
       if (!boundSet.equals(that.boundSet)) return false;
       return constraintFormulas.equals(that.constraintFormulas);
     }

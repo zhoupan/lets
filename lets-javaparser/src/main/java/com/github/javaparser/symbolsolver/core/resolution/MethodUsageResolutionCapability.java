@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MethodUsageResolutionCapability {
+
   Optional<MethodUsage> solveMethodAsUsage(
       String name,
       List<ResolvedType> argumentTypes,

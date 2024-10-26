@@ -90,6 +90,7 @@ public class JarTypeSolver implements TypeSolver {
   }
 
   private final ClassPool classPool = new ClassPool();
+
   private final Map<String, String> knownClasses = new HashMap<>();
 
   private TypeSolver parent;
@@ -148,9 +149,7 @@ public class JarTypeSolver implements TypeSolver {
   private File dumpToTempFile(InputStream inputStream) throws IOException {
     File tempFile = File.createTempFile("jar_file_from_input_stream", ".jar");
     tempFile.deleteOnExit();
-
     byte[] buffer = new byte[8 * 1024];
-
     try (OutputStream output = new FileOutputStream(tempFile)) {
       int bytesRead;
       while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -191,16 +190,13 @@ public class JarTypeSolver implements TypeSolver {
    */
   private void registerKnownClassesFor(String pathToJar) throws IOException {
     try (JarFile jarFile = new JarFile(pathToJar)) {
-
       Enumeration<JarEntry> jarEntries = jarFile.entries();
       while (jarEntries.hasMoreElements()) {
-
         JarEntry entry = jarEntries.nextElement();
         // Check if the entry is a .class file
         if (!entry.isDirectory() && entry.getName().endsWith(CLASS_EXTENSION)) {
           String qualifiedName = convertEntryPathToClassName(entry.getName());
           String classPoolName = convertEntryPathToClassPoolName(entry.getName());
-
           // If the qualified name is the same as the class pool name we don't need to duplicate
           // store two
           // different String instances. Let's reuse the same.
@@ -242,13 +238,11 @@ public class JarTypeSolver implements TypeSolver {
 
   @Override
   public SymbolReference<ResolvedReferenceTypeDeclaration> tryToSolveType(String name) {
-
     String storedKey = knownClasses.get(name);
     // If the name is not registered in the list we can safely say is not solvable here
     if (storedKey == null) {
       return SymbolReference.unsolved();
     }
-
     try {
       return SymbolReference.solved(
           JavassistFactory.toTypeDeclaration(classPool.get(storedKey), getRoot()));

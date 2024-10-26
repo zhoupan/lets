@@ -46,7 +46,9 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
         SymbolResolutionCapability {
 
   private CtClass ctClass;
+
   private TypeSolver typeSolver;
+
   private JavassistTypeDeclarationAdapter javassistTypeDeclarationAdapter;
 
   @Override
@@ -132,7 +134,6 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
       // Everything can be assigned to {@code java.lang.Object}
       return true;
     }
-
     if (other instanceof LambdaArgumentTypePlaceholder) {
       return isFunctionalInterface();
     }
@@ -153,7 +154,6 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
         return true;
       }
     }
-
     return false;
   }
 
@@ -211,7 +211,6 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
         return SymbolReference.solved(new JavassistFieldDeclaration(field, typeSolver));
       }
     }
-
     String[] interfaceFQNs = getInterfaceFQNs();
     for (String interfaceFQN : interfaceFQNs) {
       SymbolReference<? extends ResolvedValueDeclaration> interfaceRef =
@@ -220,7 +219,6 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
         return interfaceRef;
       }
     }
-
     return SymbolReference.unsolved();
   }
 
@@ -229,7 +227,6 @@ public class JavassistInterfaceDeclaration extends AbstractTypeDeclaration
     if (fqn == null) {
       return SymbolReference.unsolved();
     }
-
     ResolvedReferenceTypeDeclaration fqnTypeDeclaration = typeSolver.solveType(fqn);
     return new SymbolSolver(typeSolver).solveSymbolInType(fqnTypeDeclaration, symbolName);
   }

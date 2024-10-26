@@ -33,6 +33,7 @@ import java.util.Optional;
 public class JavaParserPatternDeclaration implements ResolvedPatternDeclaration {
 
   private final TypePatternExpr wrappedNode;
+
   private final TypeSolver typeSolver;
 
   public JavaParserPatternDeclaration(TypePatternExpr wrappedNode, TypeSolver typeSolver) {

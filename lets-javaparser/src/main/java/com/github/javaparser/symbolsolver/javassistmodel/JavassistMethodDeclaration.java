@@ -37,8 +37,11 @@ import javassist.CtMethod;
  */
 public class JavassistMethodDeclaration
     implements ResolvedMethodDeclaration, TypeVariableResolutionCapability {
+
   private CtMethod ctMethod;
+
   private TypeSolver typeSolver;
+
   private final JavassistMethodLikeDeclarationAdapter methodLikeAdaper;
 
   public JavassistMethodDeclaration(CtMethod ctMethod, TypeSolver typeSolver) {

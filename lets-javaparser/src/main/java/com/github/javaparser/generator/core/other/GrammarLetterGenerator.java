@@ -20,6 +20,7 @@ import java.util.function.Function;
 
 /** Prints the LETTER and PART_LETTER tokens. They should be inserted into the grammar manually. */
 public class GrammarLetterGenerator {
+
   public static void main(String[] args) {
     generate(
         "LETTER",

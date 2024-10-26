@@ -31,6 +31,7 @@ import com.github.javaparser.metamodel.PropertyMetaModel;
 import com.github.javaparser.utils.SourceRoot;
 
 public class RemoveMethodGenerator extends NodeGenerator {
+
   public RemoveMethodGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }
@@ -44,9 +45,7 @@ public class RemoveMethodGenerator extends NodeGenerator {
         (MethodDeclaration) parseBodyDeclaration("public boolean remove(Node node) {}");
     nodeCu.addImport(Node.class);
     annotateWhenOverridden(nodeMetaModel, removeNodeMethod);
-
     final BlockStmt body = removeNodeMethod.getBody().get();
-
     body.addStatement("if (node == null) { return false; }");
     int numberPropertiesDeclared = 0;
     for (PropertyMetaModel property : nodeMetaModel.getDeclaredPropertyMetaModels()) {
@@ -75,7 +74,6 @@ public class RemoveMethodGenerator extends NodeGenerator {
     } else {
       body.addStatement("return false;");
     }
-
     if (!nodeMetaModel.isRootNode() && numberPropertiesDeclared == 0) {
       removeMethodWithSameSignature(nodeCoid, removeNodeMethod);
     } else {
@@ -108,13 +106,11 @@ public class RemoveMethodGenerator extends NodeGenerator {
     final MethodDeclaration removeMethod =
         (MethodDeclaration)
             parseBodyDeclaration(f("public %s %s() {}", nodeMetaModel.getTypeName(), methodName));
-
     final BlockStmt block = removeMethod.getBody().get();
     block.addStatement(
         f(
             "return %s((%s) null);",
             property.getSetterMethodName(), property.getTypeNameForSetter()));
-
     addOrReplaceWhenSameSignature(nodeCoid, removeMethod);
     return methodName;
   }

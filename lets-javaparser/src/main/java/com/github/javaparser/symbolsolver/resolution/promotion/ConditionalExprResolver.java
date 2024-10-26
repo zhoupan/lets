@@ -31,6 +31,7 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * 3/ Otherwise, the conditional expression is a reference conditional expression
  */
 public class ConditionalExprResolver {
+
   private static final ResolvedPrimitiveType TYPE_BOOLEAN = ResolvedPrimitiveType.BOOLEAN;
 
   public static ConditionalExprHandler getConditionExprHandler(

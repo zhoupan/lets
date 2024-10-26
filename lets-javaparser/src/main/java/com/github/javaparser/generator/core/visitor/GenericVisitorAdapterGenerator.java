@@ -28,6 +28,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates JavaParser's VoidVisitorAdapter. */
 public class GenericVisitorAdapterGenerator extends VisitorGenerator {
+
   public GenericVisitorAdapterGenerator(SourceRoot sourceRoot) {
     super(sourceRoot, "com.github.javaparser.ast.visitor", "GenericVisitorAdapter", "R", "A", true);
   }
@@ -36,14 +37,10 @@ public class GenericVisitorAdapterGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
-
     body.addStatement("R result;");
-
     final String resultCheck = "if (result != null) return result;";
-
     for (PropertyMetaModel field : node.getAllPropertyMetaModels()) {
       final String getter = field.getGetterMethodName() + "()";
       if (field.getNodeReference().isPresent()) {

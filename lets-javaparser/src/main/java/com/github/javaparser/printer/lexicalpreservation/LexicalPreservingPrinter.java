@@ -137,13 +137,12 @@ public class LexicalPreservingPrinter {
             parentNode
                 .map(parent -> getOrCreateNodeText(parentNode.get()))
                 .orElseGet(() -> getOrCreateNodeText(observedNode));
-        if (oldValue == null) { // this case corresponds to the addition of a comment
-          int index =
-              parentNode.isPresent()
-                  ? // Find the position of the comment node and put in front of it the [...]
-                  nodeText.findChild(observedNode)
-                  : //
-                  0;
+        if (oldValue == null) {
+          // this case corresponds to the addition of a comment
+          // Find the position of the comment node and put in front of it the [...]
+          int // Find the position of the comment node and put in front of it the [...]
+              //
+              index = parentNode.isPresent() ? nodeText.findChild(observedNode) : 0;
           /* Add the same indentation to the comment as the previous node
            * for example if we want to add a comment on the body of the method declaration :
            * Actual code
@@ -170,7 +169,8 @@ public class LexicalPreservingPrinter {
           nodeText.addElement(index++, makeCommentToken((Comment) newValue));
           nodeText.addToken(index, eolTokenKind(lineSeparator), lineSeparator.asRawString());
           // code indentation after inserting an eol token may be wrong
-        } else if (newValue == null) { // this case corresponds to a deletion of a comment
+        } else if (newValue == null) {
+          // this case corresponds to a deletion of a comment
           if (oldValue instanceof Comment) {
             if (((Comment) oldValue).isOrphan()) {
               nodeText = getOrCreateNodeText(observedNode);
@@ -228,7 +228,6 @@ public class LexicalPreservingPrinter {
         if (textElement.isSpaceOrTab()) continue;
         isCompleteLine = false;
       }
-
       return isCompleteLine;
     }
 

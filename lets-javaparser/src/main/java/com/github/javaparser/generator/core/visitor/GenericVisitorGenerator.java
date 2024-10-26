@@ -24,6 +24,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates JavaParser's GenericVisitor. */
 public class GenericVisitorGenerator extends VisitorGenerator {
+
   public GenericVisitorGenerator(SourceRoot sourceRoot) {
     super(sourceRoot, "com.github.javaparser.ast.visitor", "GenericVisitor", "R", "A", true);
   }
@@ -32,7 +33,6 @@ public class GenericVisitorGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(false));
-
     visitMethod.setBody(null);
   }
 }

@@ -27,6 +27,7 @@ import java.io.Reader;
  * StringProvider instead)
  */
 public class StreamProvider implements Provider {
+
   private Reader m_aReader;
 
   @Deprecated
@@ -44,7 +45,6 @@ public class StreamProvider implements Provider {
 
   public int read(final char[] aDest, final int nOfs, final int nLen) throws IOException {
     int result = m_aReader.read(aDest, nOfs, nLen);
-
     /* CBA -- Added 2014/03/29 --
        This logic allows the generated Java code to be easily translated to C# (via sharpen) -
        as in C# 0 represents end of file, and in Java, -1 represents end of file
@@ -52,7 +52,6 @@ public class StreamProvider implements Provider {
        ** Technically, this is not required for java but the overhead is extremely low compared to the code generation benefits.
     */
     if (result == 0) if (nOfs < aDest.length && nLen > 0) result = -1;
-
     return result;
   }
 

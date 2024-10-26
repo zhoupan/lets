@@ -31,9 +31,11 @@ import java.util.List;
  * @author Federico Tomassetti
  */
 public class InferenceVariable implements ResolvedType {
+
   private static int unnamedInstantiated = 0;
 
   private String name;
+
   private ResolvedTypeParameterDeclaration typeParameterDeclaration;
 
   public static List<InferenceVariable> instantiate(
@@ -69,9 +71,7 @@ public class InferenceVariable implements ResolvedType {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     InferenceVariable that = (InferenceVariable) o;
-
     if (!name.equals(that.name)) return false;
     return typeParameterDeclaration != null
         ? typeParameterDeclaration.equals(that.typeParameterDeclaration)

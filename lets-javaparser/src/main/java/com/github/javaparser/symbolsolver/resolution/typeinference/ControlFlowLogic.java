@@ -117,6 +117,7 @@ public class ControlFlowLogic {
     }
     GenericVisitor<Boolean, Void> visitor =
         new GenericVisitorAdapter<Boolean, Void>() {
+
           @Override
           public Boolean visit(BlockStmt n, Void arg) {
             // An empty block that is not a switch block can complete normally iff it is reachable
@@ -192,28 +193,23 @@ public class ControlFlowLogic {
   private boolean isReachableBecauseOfPosition(Statement statement) {
     // The first statement in a non-empty block that is not a switch block is reachable iff the
     // block is reachable.
-
     // Every other statement S in a non-empty block that is not a switch block is reachable iff the
     // statement
     // preceding S can complete normally.
-
     // The contained statement of a Labelled Statement is reachable iff the labeled statement is
     // reachable.
-
     // The then-statement of an if-then statement is reachable iff the if-then statement is
     // reachable.
-
     // The then-statement of an if-then-else  statement is reachable iff the if-then-else statement
     // is reachable.
     // The else-statement is reachable iff the if-then-else statement is reachable.
-
     throw new UnsupportedOperationException();
   }
 
   public boolean isReachable(Statement statement) {
-
     GenericVisitor<Boolean, Void> visitor =
         new GenericVisitorAdapter<Boolean, Void>() {
+
           @Override
           public Boolean visit(BlockStmt n, Void arg) {
             // The block that is the body of a constructor, method, instance initializer, or static
@@ -244,7 +240,6 @@ public class ControlFlowLogic {
           }
         };
     return statement.accept(visitor, null);
-
     //
     //
     //
@@ -335,7 +330,6 @@ public class ControlFlowLogic {
     //        This approach would be consistent with the treatment of other control structures.
     // However, in order to allow the if statement to be used conveniently for "conditional
     // compilation" purposes, the actual rules differ.
-
     // FIXME
     // throw new UnsupportedOperationException();
   }

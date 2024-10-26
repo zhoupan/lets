@@ -53,6 +53,7 @@ public class NumericConditionalExprHandler implements ConditionalExprHandler {
       };
 
   ResolvedType thenExpr;
+
   ResolvedType elseExpr;
 
   public NumericConditionalExprHandler(ResolvedType thenExpr, ResolvedType elseExpr) {
@@ -97,27 +98,23 @@ public class NumericConditionalExprHandler implements ConditionalExprHandler {
      * If one of the operands is of type byte or Byte and the other is of type short or Short, then the type of the
      * conditional expression is short.
      */
-
     if ((isResolvableTo(ResolvedPrimitiveType.SHORT, thenExpr)
             && relaxMatch(elseExpr, ResolvedPrimitiveType.BYTE))
         || (isResolvableTo(ResolvedPrimitiveType.SHORT, elseExpr)
             && relaxMatch(thenExpr, ResolvedPrimitiveType.BYTE))) {
       return ResolvedPrimitiveType.SHORT;
     }
-
     //        if ((in(thenExpr, ResolvedPrimitiveType.SHORT) && in(elseExpr,
     // ResolvedPrimitiveType.BYTE))
     //                || (in(elseExpr, ResolvedPrimitiveType.SHORT) && in(thenExpr,
     // ResolvedPrimitiveType.BYTE))) {
     //            return ResolvedPrimitiveType.SHORT;
     //        }
-
     // If one of the operands is of type T where T is byte, short, or char, and the
     // other operand is a constant expression (§15.28) of type int whose value is
     // representable in type T, then the type of the conditional expression is T
     // How can we know if the constant expression of type int is representable in
     // type T ?
-
     if (thenExpr.isPrimitive() && elseExpr.isPrimitive()) {
       if (((ResolvedPrimitiveType) thenExpr).in(resolvedPrimitiveTypeSubList)
           && ((ResolvedPrimitiveType) elseExpr).equals(ResolvedPrimitiveType.INT)) {
@@ -128,13 +125,11 @@ public class NumericConditionalExprHandler implements ConditionalExprHandler {
         return elseExpr;
       }
     }
-
     // If one of the operands is of type T, where T is Byte, Short, or Character,
     // and the other operand is a constant expression of type int whose value is
     // representable in the type U which is the result of applying unboxing
     // conversion to T, then the type of the conditional expression is U.
     // How can we know it?
-
     if (thenExpr.isReference()
         && elseExpr.isPrimitive()
         && thenExpr.asReferenceType().isUnboxable()
@@ -149,7 +144,6 @@ public class NumericConditionalExprHandler implements ConditionalExprHandler {
         && ((ResolvedPrimitiveType) thenExpr).equals(ResolvedPrimitiveType.INT)) {
       return elseExpr.asReferenceType().toUnboxedType().get();
     }
-
     // Otherwise, binary numeric promotion (§5.6.2) is applied to the operand types,
     // and the type of the conditional expression is the promoted type of the second
     // and third operands.

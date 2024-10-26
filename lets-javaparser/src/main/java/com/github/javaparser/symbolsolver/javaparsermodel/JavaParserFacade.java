@@ -56,9 +56,9 @@ import java.util.stream.Collectors;
 public class JavaParserFacade {
 
   // Start of static class
-
   private static final DataKey<ResolvedType> TYPE_WITH_LAMBDAS_RESOLVED =
       new DataKey<ResolvedType>() {};
+
   private static final DataKey<ResolvedType> TYPE_WITHOUT_LAMBDAS_RESOLVED =
       new DataKey<ResolvedType>() {};
 
@@ -90,10 +90,12 @@ public class JavaParserFacade {
   }
 
   // End of static class
-
   private final TypeSolver typeSolver;
+
   private final TypeExtractor typeExtractor;
+
   private final Solver symbolSolver;
+
   private final SymbolResolver symbolResolver;
 
   private FailureHandler failureHandler;
@@ -154,14 +156,12 @@ public class JavaParserFacade {
     if (!optAncestorClassOrInterfaceNode.isPresent()) {
       return unsolved();
     }
-
     ClassOrInterfaceDeclaration classOrInterfaceNode = optAncestorClassOrInterfaceNode.get();
     ResolvedReferenceTypeDeclaration resolvedClassNode = classOrInterfaceNode.resolve();
     if (!resolvedClassNode.isClass()) {
       throw new IllegalStateException(
           "Expected to be a class -- cannot call this() or super() within an interface.");
     }
-
     ResolvedTypeDeclaration typeDecl = null;
     if (explicitConstructorInvocationStmt.isThis()) {
       // this()
@@ -176,7 +176,6 @@ public class JavaParserFacade {
     if (typeDecl == null) {
       return unsolved();
     }
-
     // Solve each of the arguments being passed into this constructor invocation.
     List<ResolvedType> argumentTypes = new LinkedList<>();
     List<LambdaArgumentTypePlaceholder> placeholders = new LinkedList<>();
@@ -186,7 +185,6 @@ public class JavaParserFacade {
         solveLambdas,
         argumentTypes,
         placeholders);
-
     // Determine which constructor is referred to, and return it.
     SymbolReference<ResolvedConstructorDeclaration> res =
         ConstructorResolutionLogic.findMostApplicable(
@@ -194,7 +192,6 @@ public class JavaParserFacade {
     for (LambdaArgumentTypePlaceholder placeholder : placeholders) {
       placeholder.setMethod(res);
     }
-
     return res;
   }
 
@@ -226,14 +223,12 @@ public class JavaParserFacade {
       ObjectCreationExpr objectCreationExpr, boolean solveLambdas) {
     List<ResolvedType> argumentTypes = new LinkedList<>();
     List<LambdaArgumentTypePlaceholder> placeholders = new LinkedList<>();
-
     solveArguments(
         objectCreationExpr,
         objectCreationExpr.getArguments(),
         solveLambdas,
         argumentTypes,
         placeholders);
-
     ResolvedReferenceTypeDeclaration typeDecl = null;
     if (objectCreationExpr.getAnonymousClassBody().isPresent()) {
       typeDecl = new JavaParserAnonymousClassDeclaration(objectCreationExpr, typeSolver);
@@ -293,10 +288,8 @@ public class JavaParserFacade {
       MethodCallExpr methodCallExpr, boolean solveLambdas) {
     List<ResolvedType> argumentTypes = new LinkedList<>();
     List<LambdaArgumentTypePlaceholder> placeholders = new LinkedList<>();
-
     solveArguments(
         methodCallExpr, methodCallExpr.getArguments(), solveLambdas, argumentTypes, placeholders);
-
     SymbolReference<ResolvedMethodDeclaration> res =
         JavaParserFactory.getContext(methodCallExpr, typeSolver)
             .solveMethod(methodCallExpr.getName().getId(), argumentTypes, false);
@@ -390,7 +383,6 @@ public class JavaParserFacade {
   public ResolvedType getType(Node node, boolean solveLambdas) {
     if (solveLambdas) {
       if (!node.containsData(TYPE_WITH_LAMBDAS_RESOLVED)) {
-
         if (node instanceof MethodCallExpr) {
           MethodCallExpr methodCallExpr = (MethodCallExpr) node;
           for (Node arg : methodCallExpr.getArguments()) {
@@ -405,13 +397,11 @@ public class JavaParserFacade {
       }
       return node.getData(TYPE_WITH_LAMBDAS_RESOLVED);
     }
-
     // Try to return a value from the cache of resolved types using lambda expressions
     Optional<ResolvedType> res = node.findData(TYPE_WITH_LAMBDAS_RESOLVED);
     if (res.isPresent()) {
       return res.get();
     }
-
     // else try to return a value from the cache of resolved types without lambda expressions
     // Or resolves the node type without resolving the lambda expressions
     return node.findData(TYPE_WITHOUT_LAMBDAS_RESOLVED)
@@ -431,7 +421,6 @@ public class JavaParserFacade {
     if (!typeOfScope.isReferenceType()) {
       throw new UnsupportedOperationException(typeOfScope.getClass().getCanonicalName());
     }
-
     Optional<MethodUsage> result;
     ResolvedReferenceTypeDeclaration resolvedTypdeDecl =
         typeOfScope
@@ -439,28 +428,24 @@ public class JavaParserFacade {
             .getTypeDeclaration()
             .orElseThrow(() -> new RuntimeException("TypeDeclaration unexpectedly empty."));
     Set<MethodUsage> allMethods = resolvedTypdeDecl.getAllMethods();
-
     if (scope.isTypeExpr()) {
       // static methods should match all params
       List<MethodUsage> staticMethodUsages =
           allMethods.stream()
               .filter(it -> it.getDeclaration().isStatic())
               .collect(Collectors.toList());
-
       result =
           MethodResolutionLogic.findMostApplicableUsage(
               staticMethodUsages, methodReferenceExpr.getIdentifier(), paramTypes, typeSolver);
-
       if (!paramTypes.isEmpty()) {
         // instance methods are called on the first param and should match all other params
         List<MethodUsage> instanceMethodUsages =
             allMethods.stream()
                 .filter(it -> !it.getDeclaration().isStatic())
                 .collect(Collectors.toList());
-
         List<ResolvedType> instanceMethodParamTypes = new ArrayList<>(paramTypes);
-        instanceMethodParamTypes.remove(0); // remove the first one
-
+        // remove the first one
+        instanceMethodParamTypes.remove(0);
         Optional<MethodUsage> instanceResult =
             MethodResolutionLogic.findMostApplicableUsage(
                 instanceMethodUsages,
@@ -472,7 +457,6 @@ public class JavaParserFacade {
               "Ambiguous method call: cannot find a most applicable method for "
                   + methodReferenceExpr.getIdentifier());
         }
-
         if (instanceResult.isPresent()) {
           result = instanceResult;
         }
@@ -484,17 +468,14 @@ public class JavaParserFacade {
               methodReferenceExpr.getIdentifier(),
               paramTypes,
               typeSolver);
-
       if (result.isPresent() && result.get().getDeclaration().isStatic()) {
         throw new RuntimeException(
             "Invalid static method reference " + methodReferenceExpr.getIdentifier());
       }
     }
-
     if (!result.isPresent()) {
       throw new UnsupportedOperationException();
     }
-
     return result.get();
   }
 
@@ -502,7 +483,6 @@ public class JavaParserFacade {
       Node left, Node right, boolean solveLambdas, BinaryExpr.Operator operator) {
     ResolvedType leftType = getTypeConcrete(left, solveLambdas);
     ResolvedType rightType = getTypeConcrete(right, solveLambdas);
-
     // JLS 15.18.1. String Concatenation Operator +
     // If only one operand expression is of type String, then string conversion (§5.1.11) is
     // performed on the other
@@ -513,7 +493,6 @@ public class JavaParserFacade {
     // operand strings. The characters of the left-hand operand precede the characters of the
     // right-hand operand in
     // the newly created string.
-
     if (operator == BinaryExpr.Operator.PLUS) {
       boolean isLeftString =
           leftType.isReferenceType()
@@ -525,7 +504,6 @@ public class JavaParserFacade {
         return isLeftString ? leftType : rightType;
       }
     }
-
     // JLS 5.6.2. Binary Numeric Promotion
     //
     // Widening primitive conversion (§5.1.2) is applied to convert either or both operands as
@@ -536,14 +514,11 @@ public class JavaParserFacade {
     // * Otherwise, if either operand is of type float, the other is converted to float.
     // * Otherwise, if either operand is of type long, the other is converted to long.
     // * Otherwise, both operands are converted to type int.
-
     boolean isLeftNumeric = leftType.isPrimitive() && leftType.asPrimitive().isNumeric();
     boolean isRightNumeric = rightType.isPrimitive() && rightType.asPrimitive().isNumeric();
-
     if (isLeftNumeric && isRightNumeric) {
       return leftType.asPrimitive().bnp(rightType.asPrimitive());
     }
-
     if (rightType.isAssignableBy(leftType)) {
       return rightType;
     }

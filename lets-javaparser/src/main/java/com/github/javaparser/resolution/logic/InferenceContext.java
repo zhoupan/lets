@@ -31,8 +31,11 @@ import java.util.stream.Stream;
 public class InferenceContext {
 
   private int nextInferenceVariableId = 0;
+
   private TypeSolver typeSolver;
+
   private List<InferenceVariableType> inferenceVariableTypes = new ArrayList<>();
+
   private Map<String, InferenceVariableType> inferenceVariableTypeMap = new HashMap<>();
 
   public InferenceContext(TypeSolver typeSolver) {
@@ -68,7 +71,6 @@ public class InferenceContext {
     if (formalType.isReferenceType() && actualType.isReferenceType()) {
       ResolvedReferenceType formalTypeAsReference = formalType.asReferenceType();
       ResolvedReferenceType actualTypeAsReference = actualType.asReferenceType();
-
       if (!formalTypeAsReference
           .getQualifiedName()
           .equals(actualTypeAsReference.getQualifiedName())) {
@@ -103,7 +105,6 @@ public class InferenceContext {
         }
         actualTypeAsReference = correspondingFormalType.get(0).asReferenceType();
       }
-
       if (formalTypeAsReference
           .getQualifiedName()
           .equals(actualTypeAsReference.getQualifiedName())) {
@@ -156,7 +157,6 @@ public class InferenceContext {
           }
         }
       }
-
       if (actualType.isReferenceType()) {
         if (formalType.asWildcard().isBounded()) {
           registerCorrespondance(formalType.asWildcard().getBoundedType(), actualType);

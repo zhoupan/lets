@@ -41,6 +41,7 @@ public class ReflectionMethodDeclaration
     implements ResolvedMethodDeclaration, TypeVariableResolutionCapability {
 
   private Method method;
+
   private TypeSolver typeSolver;
 
   public ReflectionMethodDeclaration(Method method, TypeSolver typeSolver) {

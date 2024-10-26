@@ -30,8 +30,11 @@ import javassist.CtConstructor;
  * @author Fred Lefévère-Laoide
  */
 public class JavassistConstructorDeclaration implements ResolvedConstructorDeclaration {
+
   private final CtConstructor ctConstructor;
+
   private final TypeSolver typeSolver;
+
   private final JavassistMethodLikeDeclarationAdapter methodLikeAdaper;
 
   public JavassistConstructorDeclaration(CtConstructor ctConstructor, TypeSolver typeSolver) {

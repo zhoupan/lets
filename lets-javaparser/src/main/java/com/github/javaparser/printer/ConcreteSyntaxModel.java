@@ -361,12 +361,15 @@ public class ConcreteSyntaxModel {
             child(ObservableProperty.TYPE),
             space(),
             child(ObservableProperty.NAME)));
+    // FIXME: we should introduce a derived property
+    // FIXME: we should introduce a derived property
+    // FIXME: we should introduce a derived property
+    // list(ObservableProperty.EXTRA_ARRAY_LEVELS),
     concreteSyntaxModelByClass.put(
         VariableDeclarator.class,
         sequence(
             comment(),
-            child(ObservableProperty.NAME), // FIXME: we should introduce a derived property
-            // list(ObservableProperty.EXTRA_ARRAY_LEVELS),
+            child(ObservableProperty.NAME),
             conditional(
                 ObservableProperty.INITIALIZER,
                 IS_PRESENT,

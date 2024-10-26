@@ -32,6 +32,7 @@ import java.util.List;
 
 /** A general pattern that the generators in this module will follow. */
 public abstract class Generator {
+
   protected final SourceRoot sourceRoot;
 
   protected Generator(SourceRoot sourceRoot) {
@@ -58,7 +59,6 @@ public abstract class Generator {
         node.getAnnotations().stream()
             .filter(a -> !a.getNameAsString().equals(annotation.getSimpleName()))
             .collect(toNodeList()));
-
     if (content != null) {
       node.addSingleMemberAnnotation(annotation.getSimpleName(), content);
     } else {

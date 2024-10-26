@@ -39,6 +39,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 public class SymbolSolverCollectionStrategy implements CollectionStrategy {
 
   private final ParserConfiguration parserConfiguration;
+
   private final CombinedTypeSolver typeSolver =
       new CombinedTypeSolver(new ReflectionTypeSolver(false));
 
@@ -66,10 +67,15 @@ public class SymbolSolverCollectionStrategy implements CollectionStrategy {
       Files.walkFileTree(
           path,
           new SimpleFileVisitor<Path>() {
+
             private Path current_root;
+
             private Path currentProjectDir;
+
             private String previousSourceDirectory;
+
             private final PathMatcher javaMatcher = getPathMatcher("glob:**.java");
+
             private final PathMatcher jarMatcher = getPathMatcher("glob:**.jar");
 
             @Override

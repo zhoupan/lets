@@ -110,7 +110,6 @@ public final class PositionUtils {
   }
 
   private static Node firstNonAnnotationNode(Node node) {
-
     if (node instanceof ClassOrInterfaceDeclaration) {
       // Modifiers appear before the class name --
       ClassOrInterfaceDeclaration casted = (ClassOrInterfaceDeclaration) node;
@@ -197,7 +196,7 @@ public final class PositionUtils {
     Node nodeWithoutAnnotations = firstNonAnnotationNode(container);
     Range rangeWithoutAnnotations =
         container.getRange().get().withBegin(nodeWithoutAnnotations.getBegin().get());
-    return rangeWithoutAnnotations. // .contains(other.getRange().get());
-        strictlyContains(other.getRange().get());
+    return // .contains(other.getRange().get());
+    rangeWithoutAnnotations.strictlyContains(other.getRange().get());
   }
 }

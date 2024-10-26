@@ -33,7 +33,9 @@ import java.util.Optional;
 public class JavaParserVariableDeclaration implements ResolvedValueDeclaration {
 
   private VariableDeclarator variableDeclarator;
+
   private VariableDeclarationExpr wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserVariableDeclaration(

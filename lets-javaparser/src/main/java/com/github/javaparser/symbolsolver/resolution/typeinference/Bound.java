@@ -30,7 +30,6 @@ public abstract class Bound {
   ///
   /// Creation of bounds
   ///
-
   static Bound falseBound() {
     return FalseBound.getInstance();
   }
@@ -38,7 +37,6 @@ public abstract class Bound {
   ///
   /// Satisfiability
   ///
-
   /**
    * A bound is satisfied by an inference variable substitution if, after applying the substitution,
    * the assertion is true.
@@ -48,7 +46,6 @@ public abstract class Bound {
   ///
   /// Classification of bounds
   ///
-
   /**
    * Given a bound of the form α = T or T = α, we say T is an instantiation of α.
    *
@@ -115,6 +112,5 @@ public abstract class Bound {
   ///
   /// Other methods
   ///
-
   public abstract Set<InferenceVariable> usedInferenceVariables();
 }

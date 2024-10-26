@@ -20,6 +20,7 @@ import java.io.IOException;
 
 /** Abstract interface for reading from a stream. The buffering should be done internally. */
 public interface Provider extends java.io.Closeable {
+
   /**
    * Reads characters into an array
    *
@@ -31,5 +32,4 @@ public interface Provider extends java.io.Closeable {
    */
   int read(char[] aDest, int nOfs, int nLen) throws IOException;
 }
-
 /* ParserGeneratorCC - OriginalChecksum=8ad574022f17e4116136afaffdd938fc (do not edit this line) */

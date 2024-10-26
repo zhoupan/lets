@@ -55,7 +55,9 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
         SymbolResolutionCapability {
 
   private TypeSolver typeSolver;
+
   private EnumDeclaration wrappedNode;
+
   private JavaParserTypeAdapter<com.github.javaparser.ast.body.EnumDeclaration>
       javaParserTypeAdapter;
 
@@ -177,9 +179,7 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     JavaParserEnumDeclaration that = (JavaParserEnumDeclaration) o;
-
     return wrappedNode.equals(that.wrappedNode);
   }
 
@@ -223,9 +223,7 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
   @Override
   public List<ResolvedFieldDeclaration> getAllFields() {
     List<ResolvedFieldDeclaration> fields = javaParserTypeAdapter.getFieldsForDeclaredVariables();
-
     this.getAncestors().forEach(a -> fields.addAll(a.getAllFieldsVisibleToInheritors()));
-
     this.wrappedNode.getMembers().stream()
         .filter(m -> m instanceof FieldDeclaration)
         .forEach(
@@ -234,14 +232,12 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
               fd.getVariables()
                   .forEach(v -> fields.add(new JavaParserFieldDeclaration(v, typeSolver)));
             });
-
     return fields;
   }
 
   @Override
   public List<ResolvedReferenceType> getAncestors(boolean acceptIncompleteList) {
     List<ResolvedReferenceType> ancestors = new ArrayList<>();
-
     ResolvedReferenceType enumClass =
         ReflectionFactory.typeUsageFor(Enum.class, typeSolver).asReferenceType();
     if (enumClass.getTypeDeclaration().isPresent()) {
@@ -256,7 +252,6 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
     } else {
       // Consider IllegalStateException or similar?
     }
-
     // TODO FIXME: Remove null check -- should be an empty list...
     if (wrappedNode.getImplementedTypes() != null) {
       for (ClassOrInterfaceType implementedType : wrappedNode.getImplementedTypes()) {
@@ -269,7 +264,6 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
         }
       }
     }
-
     return ancestors;
   }
 
@@ -311,7 +305,6 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
     if (ref.isSolved()) {
       return ref;
     }
-
     return getContext()
         .getParent()
         .orElseThrow(() -> new RuntimeException("Parent context unexpectedly empty."))
@@ -357,6 +350,7 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
       implements ResolvedMethodDeclaration, TypeVariableResolutionCapability {
 
     private JavaParserEnumDeclaration enumDeclaration;
+
     private TypeSolver typeSolver;
 
     public ValuesMethod(JavaParserEnumDeclaration enumDeclaration, TypeSolver typeSolver) {
@@ -460,6 +454,7 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
       implements ResolvedMethodDeclaration, TypeVariableResolutionCapability {
 
     private JavaParserEnumDeclaration enumDeclaration;
+
     private TypeSolver typeSolver;
 
     public ValueOfMethod(JavaParserEnumDeclaration enumDeclaration, TypeSolver typeSolver) {
@@ -508,7 +503,6 @@ public class JavaParserEnumDeclaration extends AbstractTypeDeclaration
           }
         };
       }
-
       throw new IllegalArgumentException("Invalid parameter index!");
     }
 

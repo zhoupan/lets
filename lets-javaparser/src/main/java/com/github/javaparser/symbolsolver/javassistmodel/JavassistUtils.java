@@ -52,7 +52,6 @@ class JavassistUtils {
       ResolvedReferenceTypeDeclaration scopeType,
       CtClass ctClass) {
     List<ResolvedTypeParameterDeclaration> typeParameters = scopeType.getTypeParameters();
-
     List<MethodUsage> methods = new ArrayList<>();
     for (CtMethod method : ctClass.getDeclaredMethods()) {
       if (method.getName().equals(name)
@@ -66,14 +65,12 @@ class JavassistUtils {
           methodUsage = methodUsage.replaceTypeParameter(tpToReplace, newValue);
         }
         methods.add(methodUsage);
-
         // no need to search for overloaded/inherited methods if the method has no parameters
         if (argumentsTypes.isEmpty() && methodUsage.getNoParams() == 0) {
           return Optional.of(methodUsage);
         }
       }
     }
-
     for (ResolvedReferenceType ancestor : scopeType.getAncestors()) {
       ancestor
           .getTypeDeclaration()
@@ -88,7 +85,6 @@ class JavassistUtils {
                       typeParameterValues))
           .ifPresent(methods::add);
     }
-
     return MethodResolutionLogic.findMostApplicableUsage(methods, name, argumentsTypes, typeSolver);
   }
 
@@ -111,14 +107,12 @@ class JavassistUtils {
           && staticOnlyCheck.test(method)) {
         ResolvedMethodDeclaration candidate = new JavassistMethodDeclaration(method, typeSolver);
         candidates.add(candidate);
-
         // no need to search for overloaded/inherited methods if the method has no parameters
         if (argumentsTypes.isEmpty() && candidate.getNumberOfParams() == 0) {
           return SymbolReference.solved(candidate);
         }
       }
     }
-
     // add the method declaration of the interfaces to the candidates, if present
     for (ResolvedReferenceType ancestorRefType : scopeType.getAncestors()) {
       Optional<ResolvedReferenceTypeDeclaration> ancestorTypeDeclOpt =
@@ -134,7 +128,6 @@ class JavassistUtils {
         // Consider IllegalStateException or similar?
       }
     }
-
     return MethodResolutionLogic.findMostApplicable(candidates, name, argumentsTypes, typeSolver);
   }
 

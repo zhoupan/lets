@@ -44,6 +44,7 @@ public class JavassistTypeDeclarationAdapter {
 
   // this a workaround to get the annotation type (taken from Javassist AnnotationImpl class)
   private static final String JDK_ANNOTATION_CLASS_NAME = "java.lang.annotation.Annotation";
+
   private static Method JDK_ANNOTATION_TYPE_METHOD = null;
 
   static {
@@ -57,7 +58,9 @@ public class JavassistTypeDeclarationAdapter {
   }
 
   private CtClass ctClass;
+
   private TypeSolver typeSolver;
+
   private ResolvedReferenceTypeDeclaration typeDeclaration;
 
   public JavassistTypeDeclarationAdapter(
@@ -133,13 +136,11 @@ public class JavassistTypeDeclarationAdapter {
     } catch (BadBytecode e) {
       throw new RuntimeException(e);
     }
-
     return interfaces;
   }
 
   public List<ResolvedReferenceType> getAncestors(boolean acceptIncompleteList) {
     List<ResolvedReferenceType> ancestors = new ArrayList<>();
-
     try {
       getSuperClass().ifPresent(superClass -> ancestors.add(superClass));
     } catch (UnsolvedSymbolException e) {
@@ -170,12 +171,10 @@ public class JavassistTypeDeclarationAdapter {
 
   public List<ResolvedFieldDeclaration> getDeclaredFields() {
     List<ResolvedFieldDeclaration> fields = new ArrayList<>();
-
     // First consider fields declared on this class
     for (CtField field : ctClass.getDeclaredFields()) {
       fields.add(new JavassistFieldDeclaration(field, typeSolver));
     }
-
     // Then consider fields inherited from ancestors
     for (ResolvedReferenceType ancestor : typeDeclaration.getAllAncestors()) {
       ancestor
@@ -185,7 +184,6 @@ public class JavassistTypeDeclarationAdapter {
                 fields.addAll(ancestorTypeDeclaration.getAllFields());
               });
     }
-
     return fields;
   }
 
@@ -250,7 +248,6 @@ public class JavassistTypeDeclarationAdapter {
   }
 
   public boolean isAssignableBy(ResolvedType type) {
-
     if (type instanceof NullType) {
       return true;
     }
@@ -272,7 +269,6 @@ public class JavassistTypeDeclarationAdapter {
         return otherTypeDeclaration.getTypeDeclaration().get().canBeAssignedTo(typeDeclaration);
       }
     }
-
     return false;
   }
 

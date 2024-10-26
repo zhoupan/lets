@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 public class ReflectionTypeParameter implements ResolvedTypeParameterDeclaration {
 
   private TypeVariable typeVariable;
+
   private TypeSolver typeSolver;
+
   private ResolvedTypeParametrizable container;
 
   public ReflectionTypeParameter(
@@ -60,9 +62,7 @@ public class ReflectionTypeParameter implements ResolvedTypeParameterDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof ResolvedTypeParameterDeclaration)) return false;
-
     ResolvedTypeParameterDeclaration that = (ResolvedTypeParameterDeclaration) o;
-
     if (!getQualifiedName().equals(that.getQualifiedName())) {
       return false;
     }

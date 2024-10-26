@@ -56,7 +56,6 @@ public class TryWithResourceContext extends AbstractJavaParserContext<TryStmt> {
         }
       }
     }
-
     if (demandParentNode(wrappedNode) instanceof BlockStmt) {
       return StatementContext.solveInBlockAsValue(name, typeSolver, wrappedNode);
     }
@@ -74,7 +73,6 @@ public class TryWithResourceContext extends AbstractJavaParserContext<TryStmt> {
         }
       }
     }
-
     if (demandParentNode(wrappedNode) instanceof BlockStmt) {
       return StatementContext.solveInBlock(name, typeSolver, wrappedNode);
     }

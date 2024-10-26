@@ -205,7 +205,6 @@ public class MethodDeclaration extends CallableDeclaration<MethodDeclaration>
     v.visit(this, arg);
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public Optional<BlockStmt> getBody() {
     return Optional.ofNullable(body);
@@ -217,7 +216,6 @@ public class MethodDeclaration extends CallableDeclaration<MethodDeclaration>
    * @param body the body, can be null
    * @return this, the MethodDeclaration
    */
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public MethodDeclaration setBody(final BlockStmt body) {
     if (body == this.body) {
@@ -230,13 +228,11 @@ public class MethodDeclaration extends CallableDeclaration<MethodDeclaration>
     return this;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public Type getType() {
     return type;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public MethodDeclaration setType(final Type type) {
     assertNotNull(type);
@@ -421,7 +417,6 @@ public class MethodDeclaration extends CallableDeclaration<MethodDeclaration>
     return super.remove(node);
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.RemoveMethodGenerator")
   public MethodDeclaration removeBody() {
     return setBody((BlockStmt) null);

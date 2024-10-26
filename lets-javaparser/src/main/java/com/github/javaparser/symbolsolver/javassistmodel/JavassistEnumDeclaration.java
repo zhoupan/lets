@@ -49,7 +49,9 @@ public class JavassistEnumDeclaration extends AbstractTypeDeclaration
         SymbolResolutionCapability {
 
   private CtClass ctClass;
+
   private TypeSolver typeSolver;
+
   private JavassistTypeDeclarationAdapter javassistTypeDeclarationAdapter;
 
   public JavassistEnumDeclaration(CtClass ctClass, TypeSolver typeSolver) {
@@ -102,7 +104,6 @@ public class JavassistEnumDeclaration extends AbstractTypeDeclaration
         javassistTypeDeclarationAdapter.getDeclaredFields().stream()
             .filter(f -> f.getName().equals(name))
             .findFirst();
-
     return field.orElseThrow(
         () ->
             new RuntimeException(
@@ -225,7 +226,6 @@ public class JavassistEnumDeclaration extends AbstractTypeDeclaration
         return SymbolReference.solved(new JavassistFieldDeclaration(field, typeSolver));
       }
     }
-
     String[] interfaceFQNs = getInterfaceFQNs();
     for (String interfaceFQN : interfaceFQNs) {
       SymbolReference<? extends ResolvedValueDeclaration> interfaceRef =
@@ -234,7 +234,6 @@ public class JavassistEnumDeclaration extends AbstractTypeDeclaration
         return interfaceRef;
       }
     }
-
     return SymbolReference.unsolved();
   }
 
@@ -243,7 +242,6 @@ public class JavassistEnumDeclaration extends AbstractTypeDeclaration
     if (fqn == null) {
       return SymbolReference.unsolved();
     }
-
     ResolvedReferenceTypeDeclaration fqnTypeDeclaration = typeSolver.solveType(fqn);
     return new SymbolSolver(typeSolver).solveSymbolInType(fqnTypeDeclaration, symbolName);
   }

@@ -50,20 +50,19 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
   ///
   /// Fields
   ///
-
   private Class<?> clazz;
+
   private TypeSolver typeSolver;
+
   private ReflectionClassAdapter reflectionClassAdapter;
 
   ///
   /// Constructor
   ///
-
   public ReflectionInterfaceDeclaration(Class<?> clazz, TypeSolver typeSolver) {
     if (!clazz.isInterface()) {
       throw new IllegalArgumentException();
     }
-
     this.clazz = clazz;
     this.typeSolver = typeSolver;
     this.reflectionClassAdapter = new ReflectionClassAdapter(clazz, typeSolver, this);
@@ -72,7 +71,6 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
   ///
   /// Public methods
   ///
-
   @Override
   public boolean isAssignableBy(ResolvedReferenceTypeDeclaration other) {
     return isAssignableBy(new ReferenceTypeImpl(other));
@@ -121,11 +119,8 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof ReflectionInterfaceDeclaration)) return false;
-
     ReflectionInterfaceDeclaration that = (ReflectionInterfaceDeclaration) o;
-
     if (!clazz.getCanonicalName().equals(that.clazz.getCanonicalName())) return false;
-
     return getTypeParameters().equals(that.getTypeParameters());
   }
 
@@ -152,7 +147,6 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
       for (ResolvedType actualType : parameterTypes) {
         ResolvedType formalType = methodUsage.getParamType(i);
         // We need to replace the class type typeParametersValues (while we derive the method ones)
-
         parameters.add(inferenceContext.addPair(formalType, actualType));
         i++;
       }
@@ -190,7 +184,6 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
         return true;
       }
     }
-
     // Everything can be assigned to {@code java.lang.Object}
     return other.isJavaLangObject();
   }
@@ -218,7 +211,6 @@ public class ReflectionInterfaceDeclaration extends AbstractTypeDeclaration
         return otherTypeDeclaration.getTypeDeclaration().get().canBeAssignedTo(this);
       }
     }
-
     return false;
   }
 

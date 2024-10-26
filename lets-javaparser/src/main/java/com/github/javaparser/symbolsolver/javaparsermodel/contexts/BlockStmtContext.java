@@ -71,7 +71,6 @@ public class BlockStmtContext extends AbstractJavaParserContext<BlockStmt> {
     if (!optionalParent.isPresent()) {
       return SymbolReference.unsolved();
     }
-
     if (wrappedNode.getStatements().size() > 0) {
       // tries to resolve a declaration from local variables defined in child statements
       // or from parent node context
@@ -80,7 +79,6 @@ public class BlockStmtContext extends AbstractJavaParserContext<BlockStmt> {
       // {
       //   a.method();
       // }
-
       List<VariableDeclarator> variableDeclarators = new LinkedList<>();
       // find all variable declarators exposed to child
       // given that we don't know the statement we are trying to resolve, we look for all variable
@@ -102,7 +100,6 @@ public class BlockStmtContext extends AbstractJavaParserContext<BlockStmt> {
         }
       }
     }
-
     // Otherwise continue as normal...
     return solveSymbolInParentContext(name);
   }

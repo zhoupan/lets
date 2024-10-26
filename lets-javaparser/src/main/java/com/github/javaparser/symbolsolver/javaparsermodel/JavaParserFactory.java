@@ -39,7 +39,6 @@ public class JavaParserFactory {
     if (node == null) {
       throw new NullPointerException("Node should not be null");
     }
-
     if (node instanceof ArrayAccessExpr) {
       return new ArrayAccessExprContext((ArrayAccessExpr) node, typeSolver);
     }

@@ -33,7 +33,9 @@ import javassist.bytecode.SignatureAttribute;
 public class JavassistMethodLikeDeclarationAdapter {
 
   private CtBehavior ctBehavior;
+
   private TypeSolver typeSolver;
+
   private ResolvedMethodLikeDeclaration declaration;
 
   private SignatureAttribute.MethodSignature methodSignature;
@@ -43,7 +45,6 @@ public class JavassistMethodLikeDeclarationAdapter {
     this.ctBehavior = ctBehavior;
     this.typeSolver = typeSolver;
     this.declaration = declaration;
-
     try {
       String signature = ctBehavior.getGenericSignature();
       if (signature == null) {
@@ -64,7 +65,6 @@ public class JavassistMethodLikeDeclarationAdapter {
     if ((ctBehavior.getModifiers() & javassist.Modifier.VARARGS) > 0) {
       variadic = i == (methodSignature.getParameterTypes().length - 1);
     }
-
     Optional<String> paramName = JavassistUtils.extractParameterName(ctBehavior, i);
     ResolvedType type =
         JavassistUtils.signatureTypeToType(
@@ -86,7 +86,6 @@ public class JavassistMethodLikeDeclarationAdapter {
     if (exceptionsAttribute == null) {
       return 0;
     }
-
     String[] exceptions = exceptionsAttribute.getExceptions();
     return exceptions == null ? 0 : exceptions.length;
   }
@@ -95,13 +94,11 @@ public class JavassistMethodLikeDeclarationAdapter {
     if (index < 0) {
       throw new IllegalArgumentException(String.format("index < 0: %d", index));
     }
-
     ExceptionsAttribute exceptionsAttribute = ctBehavior.getMethodInfo().getExceptionsAttribute();
     if (exceptionsAttribute == null) {
       throw new IllegalArgumentException(
           String.format("No exception with index %d. Number of exceptions: 0", index));
     }
-
     String[] exceptions = exceptionsAttribute.getExceptions();
     if (exceptions == null || index >= exceptions.length) {
       throw new IllegalArgumentException(
@@ -109,7 +106,6 @@ public class JavassistMethodLikeDeclarationAdapter {
               "No exception with index %d. Number of exceptions: %d",
               index, getNumberOfSpecifiedExceptions()));
     }
-
     ResolvedReferenceTypeDeclaration typeDeclaration = typeSolver.solveType(exceptions[index]);
     return new ReferenceTypeImpl(typeDeclaration, Collections.emptyList());
   }

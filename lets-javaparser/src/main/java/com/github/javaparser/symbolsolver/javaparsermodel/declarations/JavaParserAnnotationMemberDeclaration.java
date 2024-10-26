@@ -33,6 +33,7 @@ import java.util.Optional;
 public class JavaParserAnnotationMemberDeclaration implements ResolvedAnnotationMemberDeclaration {
 
   private com.github.javaparser.ast.body.AnnotationMemberDeclaration wrappedNode;
+
   private TypeSolver typeSolver;
 
   public AnnotationMemberDeclaration getWrappedNode() {

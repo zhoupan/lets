@@ -46,6 +46,7 @@ public class JavaParserMethodDeclaration
     implements ResolvedMethodDeclaration, TypeVariableResolutionCapability {
 
   private com.github.javaparser.ast.body.MethodDeclaration wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserMethodDeclaration(

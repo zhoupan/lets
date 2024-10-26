@@ -45,7 +45,6 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
   ///
   /// Constructors
   ///
-
   public MethodReferenceExprContext(MethodReferenceExpr wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
   }
@@ -53,19 +52,15 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
   ///
   /// Public methods
   ///
-
   @Override
   public SymbolReference<ResolvedMethodDeclaration> solveMethod(
       String name, List<ResolvedType> argumentsTypes, boolean staticOnly) {
     if ("new".equals(name)) {
       throw new UnsupportedOperationException("Constructor calls not yet resolvable");
     }
-
     argumentsTypes.addAll(inferArgumentTypes());
-
     Collection<ResolvedReferenceTypeDeclaration> rrtds =
         findTypeDeclarations(Optional.of(wrappedNode.getScope()));
-
     if (rrtds.isEmpty()) {
       // if the bounds of a type parameter are empty, then the bound is implicitly "extends Object"
       // we don't make this _ex_plicit in the data representation because that would affect codegen
@@ -73,7 +68,6 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
       // https://github.com/javaparser/javaparser/issues/2044
       rrtds = Collections.singleton(typeSolver.getSolvedJavaLangObject());
     }
-
     for (ResolvedReferenceTypeDeclaration rrtd : rrtds) {
       SymbolReference<ResolvedMethodDeclaration> firstResAttempt =
           MethodResolutionLogic.solveMethodInType(rrtd, name, argumentsTypes, false);
@@ -86,14 +80,12 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
         return secondResAttempt;
       }
     }
-
     return SymbolReference.unsolved();
   }
 
   ///
   /// Private methods
   ///
-
   private List<ResolvedType> inferArgumentTypes() {
     if (demandParentNode(wrappedNode) instanceof MethodCallExpr) {
       MethodCallExpr methodCallExpr = (MethodCallExpr) demandParentNode(wrappedNode);
@@ -107,10 +99,8 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
           (rmd.hasVariadicParameter() && pos >= rmd.getNumberOfParams() - 1)
               ? rmd.getLastParam().getType().asArrayType().getComponentType()
               : methodUsage.getParamType(pos);
-
       return resolveLambdaTypes(lambdaType);
     }
-
     if (demandParentNode(wrappedNode) instanceof ObjectCreationExpr) {
       ObjectCreationExpr objectCreationExpr = (ObjectCreationExpr) demandParentNode(wrappedNode);
       ResolvedConstructorDeclaration rcd =
@@ -123,10 +113,8 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
           (rcd.hasVariadicParameter() && pos >= rcd.getNumberOfParams() - 1)
               ? rcd.getLastParam().getType().asArrayType().getComponentType()
               : rcd.getParam(pos).getType();
-
       return resolveLambdaTypes(lambdaType);
     }
-
     if (demandParentNode(wrappedNode) instanceof VariableDeclarator) {
       VariableDeclarator variableDeclarator = (VariableDeclarator) demandParentNode(wrappedNode);
       ResolvedType t =
@@ -151,12 +139,10 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
           }
           resolvedTypes.add(lambdaType);
         }
-
         return resolvedTypes;
       }
       throw new UnsupportedOperationException();
     }
-
     if (demandParentNode(wrappedNode) instanceof ReturnStmt) {
       ReturnStmt returnStmt = (ReturnStmt) demandParentNode(wrappedNode);
       Optional<MethodDeclaration> optDeclaration = returnStmt.findAncestor(MethodDeclaration.class);
@@ -185,7 +171,6 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
             }
             resolvedTypes.add(lambdaType);
           }
-
           return resolvedTypes;
         }
         throw new UnsupportedOperationException();
@@ -201,30 +186,23 @@ public class MethodReferenceExprContext extends AbstractJavaParserContext<Method
         FunctionalInterfaceLogic.getFunctionalMethod(lambdaType);
     if (functionalMethodOpt.isPresent()) {
       MethodUsage functionalMethod = functionalMethodOpt.get();
-
       List<ResolvedType> resolvedTypes = new ArrayList<>();
-
       for (ResolvedType type : functionalMethod.getParamTypes()) {
         InferenceContext inferenceContext = new InferenceContext(typeSolver);
-
         // Resolve each type variable of the lambda, and use this later to infer the type of each
         // implicit parameter
         inferenceContext.addPair(
             new ReferenceTypeImpl(functionalMethod.declaringType()), lambdaType);
-
         // Now resolve the argument type using the inference context
         ResolvedType argType = inferenceContext.resolve(inferenceContext.addSingle(type));
-
         ResolvedLambdaConstraintType conType;
         if (argType.isWildcard()) {
           conType = ResolvedLambdaConstraintType.bound(argType.asWildcard().getBoundedType());
         } else {
           conType = ResolvedLambdaConstraintType.bound(argType);
         }
-
         resolvedTypes.add(conType);
       }
-
       return resolvedTypes;
     }
     throw new UnsupportedOperationException();

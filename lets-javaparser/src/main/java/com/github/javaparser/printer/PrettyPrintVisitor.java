@@ -1297,12 +1297,10 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
       if (n.getLabels().isNonEmpty() && n.isDefault()) {
         printer.print(", default");
       }
-
       if (n.getGuard().isPresent()) {
         printer.print(" when ");
         n.getGuard().get().accept(this, arg);
       }
-
       printer.print(separator);
     }
     printer.println();
@@ -1368,11 +1366,11 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
     printer.println(" {");
     printer.indent();
     if (n.getEntries().isNonEmpty()) {
-      final boolean
-          alignVertically = // Either we hit the constant amount limit in the configurations, or...
-          n.getEntries().size() > configuration.getMaxEnumConstantsToAlignHorizontally()
-                  || // any of the constants has a comment.
-                  n.getEntries().stream().anyMatch(e -> e.getComment().isPresent());
+      final boolean // Either we hit the constant amount limit in the configurations, or...
+          // any of the constants has a comment.
+          alignVertically =
+              n.getEntries().size() > configuration.getMaxEnumConstantsToAlignHorizontally()
+                  || n.getEntries().stream().anyMatch(e -> e.getComment().isPresent());
       printer.println();
       for (final Iterator<EnumConstantDeclaration> i = n.getEntries().iterator(); i.hasNext(); ) {
         final EnumConstantDeclaration e = i.next();

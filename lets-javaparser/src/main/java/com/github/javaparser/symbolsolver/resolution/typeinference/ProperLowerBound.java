@@ -22,7 +22,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * @author Federico Tomassetti
  */
 public class ProperLowerBound {
+
   private InferenceVariable inferenceVariable;
+
   private ResolvedType properType;
 
   public ProperLowerBound(InferenceVariable inferenceVariable, ResolvedType properType) {
@@ -34,9 +36,7 @@ public class ProperLowerBound {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ProperLowerBound that = (ProperLowerBound) o;
-
     if (!inferenceVariable.equals(that.inferenceVariable)) return false;
     return properType.equals(that.properType);
   }

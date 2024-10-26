@@ -71,7 +71,6 @@ public interface ResolvedMethodDeclaration extends ResolvedMethodLikeDeclaration
           && returnType.asPrimitive().equals(otherResolvedType.asPrimitive());
     }
     // If R1 is a reference type then one of the following is true:
-
     // R1, adapted to the type parameters of d2 (§8.4.4), is a subtype of R2.
     // Below we are trying to compare a reference type for example an Object to a type variable
     // let's say T
@@ -79,9 +78,7 @@ public interface ResolvedMethodDeclaration extends ResolvedMethodLikeDeclaration
     if (otherResolvedType.isTypeVariable()) {
       return true;
     }
-
     // R1 can be converted to a subtype of R2 by unchecked conversion (§5.1.9).
-
     // d1 does not have the same signature as d2 (§8.4.2), and R1 = |R2|.
     if (returnType.describe().equals(otherResolvedType.erasure().describe())) {
       return true;

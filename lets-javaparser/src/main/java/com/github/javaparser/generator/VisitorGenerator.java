@@ -34,10 +34,15 @@ import java.util.Optional;
  * will ask you to fill in the bodies of the visit methods.
  */
 public abstract class VisitorGenerator extends Generator {
+
   private final String pkg;
+
   private final String visitorClassName;
+
   private final String returnType;
+
   private final String argumentType;
+
   private final boolean createMissingVisitMethods;
 
   protected VisitorGenerator(
@@ -57,17 +62,14 @@ public abstract class VisitorGenerator extends Generator {
 
   public final void generate() throws Exception {
     Log.info("Running %s", () -> getClass().getSimpleName());
-
     final CompilationUnit compilationUnit =
         sourceRoot.tryToParse(pkg, visitorClassName + ".java").getResult().get();
-
     Optional<ClassOrInterfaceDeclaration> visitorClassOptional =
         compilationUnit.getClassByName(visitorClassName);
     if (!visitorClassOptional.isPresent()) {
       visitorClassOptional = compilationUnit.getInterfaceByName(visitorClassName);
     }
     final ClassOrInterfaceDeclaration visitorClass = visitorClassOptional.get();
-
     JavaParserMetaModel.getNodeMetaModels().stream()
         .filter((baseNodeMetaModel) -> !baseNodeMetaModel.isAbstract())
         .forEach(node -> generateVisitMethodForNode(node, visitorClass, compilationUnit));
@@ -85,7 +87,6 @@ public abstract class VisitorGenerator extends Generator {
             .filter(m -> "visit".equals(m.getNameAsString()))
             .filter(m -> m.getParameter(0).getType().toString().equals(node.getTypeName()))
             .findFirst();
-
     if (existingVisitMethod.isPresent()) {
       generateVisitMethodBody(node, existingVisitMethod.get(), compilationUnit);
     } else if (createMissingVisitMethods) {

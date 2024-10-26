@@ -26,7 +26,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * Otherwise, the conditional expression has type boolean.
  */
 public class BooleanConditionalExprHandler implements ConditionalExprHandler {
+
   ResolvedType thenExpr;
+
   ResolvedType elseExpr;
 
   public BooleanConditionalExprHandler(ResolvedType thenExpr, ResolvedType elseExpr) {

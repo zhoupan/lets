@@ -49,9 +49,7 @@ public class BoundSet {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     BoundSet boundSet = (BoundSet) o;
-
     return new HashSet<>(bounds).equals(new HashSet<>(boundSet.bounds));
   }
 
@@ -113,6 +111,7 @@ public class BoundSet {
   }
 
   interface Processor<B1 extends Bound, B2 extends Bound, R> {
+
     R process(B1 a, B2 b, R initialValue);
   }
 
@@ -250,9 +249,7 @@ public class BoundSet {
     // - Given a dependency α <: β, every lower bound of α is a lower bound of β, and every upper
     // bound of β is an
     //   upper bound of α.
-
     ConstraintFormulaSet newConstraintsSet = ConstraintFormulaSet.empty();
-
     // SECTION Complementary Pairs of Bounds
     // (In this section, S and T are inference variables or types, and U is a proper type. For
     // conciseness, a bound
@@ -263,7 +260,6 @@ public class BoundSet {
     // is implied:
     //
     // - α = S and α = T imply ‹S = T›
-
     newConstraintsSet =
         forEachPairSameAs(
             (a, b, currentConstraintSet) -> {
@@ -286,9 +282,7 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // - α = S and α <: T imply ‹S <: T›
-
     newConstraintsSet =
         forEachPairSameAndSubtype(
             (a, b, currentConstraintSet) -> {
@@ -305,9 +299,7 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // - α = S and T <: α imply ‹T <: S›
-
     newConstraintsSet =
         forEachPairSameAndSubtype(
             (a, b, currentConstraintSet) -> {
@@ -324,9 +316,7 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // - S <: α and α <: T imply ‹S <: T›
-
     newConstraintsSet =
         forEachPairSubtypeAndSubtype(
             (a, b, currentConstraintSet) -> {
@@ -338,9 +328,7 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // - α = U and S = T imply ‹S[α:=U] = T[α:=U]›
-
     newConstraintsSet =
         forEachPairSameAs(
             (a, b, currentConstraintSet) -> {
@@ -391,9 +379,7 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // - α = U and S <: T imply ‹S[α:=U] <: T[α:=U]›
-
     newConstraintsSet =
         forEachPairSameAndSubtype(
             (a, b, currentConstraintSet) -> {
@@ -422,7 +408,6 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // When a bound set contains a pair of bounds α <: S and α <: T, and there exists a supertype of
     // S of the
     // form G<S1, ..., Sn> and a supertype of T of the form G<T1, ..., Tn> (for some generic class
@@ -430,7 +415,6 @@ public class BoundSet {
     // then for all i (1 ≤ i ≤ n), if Si and Ti are types (not wildcards), the constraint formula
     // ‹Si = Ti› is
     // implied.
-
     newConstraintsSet =
         forEachPairSubtypeAndSubtype(
             (a, b, currentConstraintSet) -> {
@@ -460,19 +444,15 @@ public class BoundSet {
               return currentConstraintSet;
             },
             newConstraintsSet);
-
     // SECTION Bounds Involving Capture Conversion
     //
     // When a bound set contains a bound of the form G<α1, ..., αn> = capture(G<A1, ..., An>), new
     // bounds are
     // implied and new constraint formulas may be implied, as follows.
-
     for (Bound b :
         this.bounds.stream().filter(b -> b instanceof CapturesBound).collect(Collectors.toList())) {
       CapturesBound capturesBound = (CapturesBound) b;
-
       throw new UnsupportedOperationException();
-
       // Let P1, ..., Pn represent the type parameters of G and let B1, ..., Bn represent the bounds
       // of these type
       // parameters. Let θ represent the substitution [P1:=α1, ..., Pn:=αn]. Let R be a type that is
@@ -513,7 +493,6 @@ public class BoundSet {
       //
       //   - R <: αi implies the constraint formula ‹R <: T›
     }
-
     if (newConstraintsSet.isEmpty()) {
       return this;
     } else {
@@ -530,7 +509,9 @@ public class BoundSet {
   }
 
   private class VariableDependency {
+
     private InferenceVariable depending;
+
     private InferenceVariable dependedOn;
 
     public VariableDependency(InferenceVariable depending, InferenceVariable dependedOn) {
@@ -657,13 +638,10 @@ public class BoundSet {
    */
   public Optional<InstantiationSet> performResolution(
       List<InferenceVariable> variablesToResolve, TypeSolver typeSolver) {
-
     if (this.containsFalse()) {
       return Optional.empty();
     }
-
     List<VariableDependency> dependencies = new LinkedList<>();
-
     // Given a bound set that does not contain the bound false, a subset of the inference variables
     // mentioned by
     // the bound set may be resolved. This means that a satisfactory instantiation may be added to
@@ -689,28 +667,23 @@ public class BoundSet {
     //   If α appears on the left-hand side of another bound of the form G<..., α, ...> =
     // capture(G<...>), then β
     //   depends on the resolution of α. Otherwise, α depends on the resolution of β.
-
     for (Bound b : bounds) {
       if (b instanceof CapturesBound) {
         throw new UnsupportedOperationException();
       }
     }
-
     // - An inference variable α appearing on the left-hand side of a bound of the form
     //   G<..., α, ...> = capture(G<...>) depends on the resolution of every other inference
     // variable mentioned in
     //   this bound (on both sides of the = sign).
-
     for (Bound b : bounds) {
       if (b instanceof CapturesBound) {
         throw new UnsupportedOperationException();
       }
     }
-
     // - An inference variable α depends on the resolution of an inference variable β if there
     // exists an inference
     //   variable γ such that α depends on the resolution of γ and γ depends on the resolution of β.
-
     for (int i = 0; i < dependencies.size(); i++) {
       VariableDependency di = dependencies.get(i);
       for (int j = i + 1; j < dependencies.size(); j++) {
@@ -720,17 +693,13 @@ public class BoundSet {
         }
       }
     }
-
     // - An inference variable α depends on the resolution of itself.
-
     for (InferenceVariable v : allInferenceVariables()) {
       dependencies.add(new VariableDependency(v, v));
     }
-
     // Given a set of inference variables to resolve, let V be the union of this set and all
     // variables upon which
     // the resolution of at least one variable in this set depends.
-
     Set<InferenceVariable> V = new HashSet<>();
     V.addAll(variablesToResolve);
     for (VariableDependency dependency : dependencies) {
@@ -738,10 +707,8 @@ public class BoundSet {
         V.add(dependency.dependedOn);
       }
     }
-
     // If every variable in V has an instantiation, then resolution succeeds and this procedure
     // terminates.
-
     boolean ok = true;
     for (InferenceVariable v : V) {
       if (!hasInstantiationFor(v)) {
@@ -755,7 +722,6 @@ public class BoundSet {
       }
       return Optional.of(instantiationSet);
     }
-
     // Otherwise, let { α1, ..., αn } be a non-empty subset of uninstantiated variables in V such
     // that i)
     // for all i (1 ≤ i ≤ n), if αi depends on the resolution of a variable β, then either β has an
@@ -763,7 +729,6 @@ public class BoundSet {
     // or there is some j such that β = αj; and ii) there exists no non-empty proper subset of { α1,
     // ..., αn }
     // with this property.
-
     Set<InferenceVariable> uninstantiatedPortionOfV = new HashSet<>();
     for (InferenceVariable v : V) {
       if (!hasInstantiationFor(v)) {
@@ -772,16 +737,12 @@ public class BoundSet {
     }
     for (Set<InferenceVariable> alphas :
         allSetsWithProperty(uninstantiatedPortionOfV, dependencies)) {
-
       // Resolution proceeds by generating an instantiation for each of α1, ..., αn based on the
       // bounds in the bound set:
-
       boolean hasSomeCaptureForAlphas =
           alphas.stream().anyMatch(alphaI -> appearInLeftPartOfCapture(alphaI));
-
       // - If the bound set does not contain a bound of the form G<..., αi, ...> = capture(G<...>)
       //   for all i (1 ≤ i ≤ n), then a candidate instantiation Ti is defined for each αi:
-
       if (!hasSomeCaptureForAlphas) {
         BoundSet newBounds = BoundSet.empty();
         for (InferenceVariable alphaI : alphas) {
@@ -790,30 +751,23 @@ public class BoundSet {
                   .filter(b -> b.isProperLowerBoundFor(alphaI).isPresent())
                   .map(b -> b.isProperLowerBoundFor(alphaI).get().getProperType())
                   .collect(Collectors.toSet());
-
           ResolvedType Ti = null;
-
           //   - If αi has one or more proper lower bounds, L1, ..., Lk, then Ti = lub(L1, ..., Lk)
           // (§4.10.4).
-
           if (properLowerBounds.size() > 0) {
             Ti = leastUpperBound(properLowerBounds);
           }
-
           //   - Otherwise, if the bound set contains throws αi, and the proper upper bounds of αi
           // are, at most,
           //     Exception, Throwable, and Object, then Ti = RuntimeException.
-
           boolean throwsBound = bounds.stream().anyMatch(b -> b.isThrowsBoundOn(alphaI));
           if (Ti == null
               && throwsBound
               && properUpperBoundsAreAtMostExceptionThrowableAndObject(alphaI)) {
             Ti = new ReferenceTypeImpl(typeSolver.solveType(JAVA_LANG_RUNTIME_EXCEPTION));
           }
-
           //   - Otherwise, where αi has proper upper bounds U1, ..., Uk, Ti = glb(U1, ..., Uk)
           // (§5.1.10).
-
           if (Ti == null) {
             Set<ResolvedType> properUpperBounds =
                 bounds.stream()
@@ -825,35 +779,25 @@ public class BoundSet {
             }
             Ti = glb(properUpperBounds);
           }
-
           newBounds = newBounds.withBound(new SameAsBound(alphaI, Ti));
         }
-
         //   The bounds α1 = T1, ..., αn = Tn are incorporated with the current bound set.
-
         BoundSet incorporatedBoundSet = this.incorporate(newBounds, typeSolver);
-
         //   If the result does not contain the bound false, then the result becomes the new bound
         // set, and resolution
         //   proceeds by selecting a new set of variables to instantiate (if necessary), as
         // described above.
-
         if (!incorporatedBoundSet.containsFalse()) {
           return incorporatedBoundSet.performResolution(variablesToResolve, typeSolver);
         }
-
         //   Otherwise, the result contains the bound false, so a second attempt is made to
         // instantiate { α1, ..., αn }
         //   by performing the step below.
-
         throw new UnsupportedOperationException();
-      }
-
-      // - If the bound set contains a bound of the form G<..., αi, ...> = capture(G<...>) for some
+      } else // - If the bound set contains a bound of the form G<..., αi, ...> = capture(G<...>)
+      // for some
       // i (1 ≤ i ≤ n), or;
-
-      else {
-
+      {
         //   If the bound set produced in the step above contains the bound false;
         //
         //   then let Y1, ..., Yn be fresh type variables whose bounds are as follows:
@@ -880,7 +824,6 @@ public class BoundSet {
         // described above.
         //
         //   Otherwise, the result contains the bound false, and resolution fails.
-
         throw new UnsupportedOperationException();
       }
     }

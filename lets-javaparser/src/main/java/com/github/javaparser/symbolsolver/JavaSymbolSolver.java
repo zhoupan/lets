@@ -27,6 +27,7 @@ import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.quality.NotNull;
+import com.github.javaparser.quality.Preconditions;
 import com.github.javaparser.resolution.SymbolResolver;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
@@ -76,6 +77,7 @@ public class JavaSymbolSolver implements SymbolResolver {
   private TypeSolver typeSolver;
 
   public JavaSymbolSolver(@NotNull TypeSolver typeSolver) {
+    Preconditions.checkNotNull(typeSolver, "Parameter typeSolver can't be null.");
     this.typeSolver = typeSolver;
   }
 

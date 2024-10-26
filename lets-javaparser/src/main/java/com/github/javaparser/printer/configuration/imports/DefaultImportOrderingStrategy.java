@@ -32,14 +32,12 @@ public class DefaultImportOrderingStrategy implements ImportOrderingStrategy {
 
   @Override
   public List<NodeList<ImportDeclaration>> sortImports(NodeList<ImportDeclaration> nodes) {
-
     if (sortImportsAlphabetically) {
       Comparator<ImportDeclaration> sortLogic =
           comparingInt((ImportDeclaration i) -> i.isStatic() ? 0 : 1)
               .thenComparing(NodeWithName::getNameAsString);
       nodes.sort(sortLogic);
     }
-
     return Collections.singletonList(nodes);
   }
 

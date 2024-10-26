@@ -66,6 +66,7 @@ public class JavassistAnnotationMemberDeclaration implements ResolvedAnnotationM
   }
 
   private CtMethod annotationMember;
+
   private TypeSolver typeSolver;
 
   public JavassistAnnotationMemberDeclaration(CtMethod annotationMember, TypeSolver typeSolver) {

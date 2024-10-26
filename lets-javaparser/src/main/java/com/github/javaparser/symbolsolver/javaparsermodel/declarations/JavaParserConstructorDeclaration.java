@@ -36,7 +36,9 @@ public class JavaParserConstructorDeclaration<N extends ResolvedReferenceTypeDec
     implements ResolvedConstructorDeclaration {
 
   private N declaringType;
+
   private com.github.javaparser.ast.body.ConstructorDeclaration wrappedNode;
+
   private TypeSolver typeSolver;
 
   JavaParserConstructorDeclaration(

@@ -32,13 +32,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 class InitializePropertyMetaModelsStatementsGenerator {
+
   void generate(
       Field field,
       ClassOrInterfaceDeclaration nodeMetaModelClass,
       String nodeMetaModelFieldName,
       NodeList<Statement> initializePropertyMetaModelsStatements) {
     final AstTypeAnalysis fieldTypeAnalysis = new AstTypeAnalysis(field.getGenericType());
-
     final Class<?> fieldType = fieldTypeAnalysis.innerType;
     final String typeName = fieldType.getTypeName().replace('$', '.');
     final String propertyMetaModelFieldName = field.getName() + "PropertyMetaModel";
@@ -60,7 +60,6 @@ class InitializePropertyMetaModelsStatementsGenerator {
         f(
             "%s.getDeclaredPropertyMetaModels().add(%s.%s);",
             nodeMetaModelFieldName, nodeMetaModelFieldName, propertyMetaModelFieldName);
-
     initializePropertyMetaModelsStatements.add(parseStatement(fieldSetting));
     initializePropertyMetaModelsStatements.add(parseStatement(fieldAddition));
   }
@@ -71,7 +70,6 @@ class InitializePropertyMetaModelsStatementsGenerator {
       String nodeMetaModelFieldName,
       NodeList<Statement> initializePropertyMetaModelsStatements) {
     final AstTypeAnalysis returnTypeAnalysis = new AstTypeAnalysis(method.getGenericReturnType());
-
     final Class<?> innermostReturnType = returnTypeAnalysis.innerType;
     final String typeName = innermostReturnType.getTypeName().replace('$', '.');
     final String propertyMetaModelFieldName =
@@ -95,7 +93,6 @@ class InitializePropertyMetaModelsStatementsGenerator {
         f(
             "%s.getDerivedPropertyMetaModels().add(%s.%s);",
             nodeMetaModelFieldName, nodeMetaModelFieldName, propertyMetaModelFieldName);
-
     initializePropertyMetaModelsStatements.add(parseStatement(fieldSetting));
     initializePropertyMetaModelsStatements.add(parseStatement(fieldAddition));
   }

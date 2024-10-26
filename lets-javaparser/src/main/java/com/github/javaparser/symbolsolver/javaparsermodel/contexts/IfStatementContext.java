@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IfStatementContext extends StatementContext<IfStmt> {
-  // public class IfStatementContext extends AbstractJavaParserContext<IfStmt> {
 
+  // public class IfStatementContext extends AbstractJavaParserContext<IfStmt> {
   public IfStatementContext(IfStmt wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
   }
@@ -37,14 +37,11 @@ public class IfStatementContext extends StatementContext<IfStmt> {
   public List<PatternExpr> patternExprsExposedToChild(Node child) {
     Expression condition = wrappedNode.getCondition();
     Context conditionContext = JavaParserFactory.getContext(condition, typeSolver);
-
     List<PatternExpr> results = new ArrayList<>();
-
     boolean givenNodeIsWithinThenStatement = wrappedNode.getThenStmt().containsWithinRange(child);
     if (givenNodeIsWithinThenStatement) {
       results.addAll(conditionContext.patternExprsExposedFromChildren());
     }
-
     wrappedNode
         .getElseStmt()
         .ifPresent(
@@ -54,7 +51,6 @@ public class IfStatementContext extends StatementContext<IfStmt> {
                 results.addAll(conditionContext.negatedPatternExprsExposedFromChildren());
               }
             });
-
     return results;
   }
 
@@ -99,14 +95,11 @@ public class IfStatementContext extends StatementContext<IfStmt> {
     if (!(this instanceof AbstractJavaParserContext)) {
       return false;
     }
-
     AbstractJavaParserContext<?> abstractContext = (AbstractJavaParserContext<?>) this;
     AbstractJavaParserContext<?> abstractParentContext =
         (AbstractJavaParserContext<?>) parentContext;
-
     Node wrappedNode = abstractContext.getWrappedNode();
     Node wrappedParentNode = abstractParentContext.getWrappedNode();
-
     if (wrappedParentNode instanceof IfStmt) {
       IfStmt parentIfStmt = (IfStmt) wrappedParentNode;
       if (parentIfStmt.getElseStmt().isPresent()) {
@@ -116,7 +109,6 @@ public class IfStatementContext extends StatementContext<IfStmt> {
         }
       }
     }
-
     return false;
   }
 
@@ -140,14 +132,11 @@ public class IfStatementContext extends StatementContext<IfStmt> {
     if (!(this instanceof AbstractJavaParserContext)) {
       return false;
     }
-
     AbstractJavaParserContext<?> abstractContext = (AbstractJavaParserContext<?>) this;
     AbstractJavaParserContext<?> abstractParentContext =
         (AbstractJavaParserContext<?>) parentContext;
-
     Node wrappedNode = abstractContext.getWrappedNode();
     Node wrappedParentNode = abstractParentContext.getWrappedNode();
-
     if (wrappedParentNode instanceof IfStmt) {
       IfStmt parentIfStmt = (IfStmt) wrappedParentNode;
       boolean currentNodeIsAnElseBlock = parentIfStmt.getThenStmt() == wrappedNode;
@@ -155,7 +144,6 @@ public class IfStatementContext extends StatementContext<IfStmt> {
         return true;
       }
     }
-
     return false;
   }
 
@@ -166,14 +154,11 @@ public class IfStatementContext extends StatementContext<IfStmt> {
     if (!(this instanceof AbstractJavaParserContext)) {
       return false;
     }
-
     AbstractJavaParserContext<?> abstractContext = (AbstractJavaParserContext<?>) this;
     AbstractJavaParserContext<?> abstractParentContext =
         (AbstractJavaParserContext<?>) parentContext;
-
     Node wrappedNode = abstractContext.getWrappedNode();
     Node wrappedParentNode = abstractParentContext.getWrappedNode();
-
     if (wrappedParentNode instanceof IfStmt) {
       IfStmt parentIfStmt = (IfStmt) wrappedParentNode;
       boolean currentNodeIsCondition = parentIfStmt.getCondition() == wrappedNode;
@@ -181,7 +166,6 @@ public class IfStatementContext extends StatementContext<IfStmt> {
         return true;
       }
     }
-
     return false;
   }
 }

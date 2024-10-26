@@ -22,7 +22,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * @author Federico Tomassetti
  */
 public class Instantiation {
+
   private InferenceVariable inferenceVariable;
+
   private ResolvedType properType;
 
   public Instantiation(InferenceVariable inferenceVariable, ResolvedType properType) {
@@ -42,9 +44,7 @@ public class Instantiation {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     Instantiation that = (Instantiation) o;
-
     if (!inferenceVariable.equals(that.inferenceVariable)) return false;
     return properType.equals(that.properType);
   }

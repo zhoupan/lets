@@ -40,7 +40,6 @@ public final class CodeUtils {
    */
   public static String castValue(String value, Type requiredType, String valueType) {
     String requiredTypeName = requiredType.asString();
-
     if (requiredTypeName.equals(valueType)) return value;
     return String.format("(%s) %s", requiredTypeName, value);
   }

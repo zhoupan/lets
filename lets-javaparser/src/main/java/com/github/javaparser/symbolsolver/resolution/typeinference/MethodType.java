@@ -32,9 +32,13 @@ import java.util.List;
  * @author Federico Tomassetti
  */
 public class MethodType {
+
   private List<ResolvedTypeParameterDeclaration> typeParameters;
+
   private List<ResolvedType> formalArgumentTypes;
+
   private ResolvedType returnType;
+
   private List<ResolvedType> exceptionTypes;
 
   public static MethodType fromMethodUsage(MethodUsage methodUsage) {

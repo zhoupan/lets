@@ -21,6 +21,7 @@ package com.github.javaparser;
  * characters (without unicode processing).
  */
 public abstract class AbstractCharStream implements CharStream {
+
   /** Default buffer size if nothing is specified */
   public static final int DEFAULT_BUF_SIZE = 4096;
 
@@ -93,15 +94,18 @@ public abstract class AbstractCharStream implements CharStream {
   protected int maxNextCharInd;
 
   private int[] m_aBufLine;
+
   private int[] m_aBufColumn;
 
   // Current line number
   private int m_nLineNo;
+
   // Current column number
   private int m_nColumnNo;
 
   // Was the previous character a "\r" char?
   private boolean m_bPrevCharIsCR;
+
   // Was the previous character a "\n" char?
   private boolean m_bPrevCharIsLF;
 
@@ -158,54 +162,40 @@ public abstract class AbstractCharStream implements CharStream {
   protected void expandBuff(final boolean bWrapAround) {
     // Get the new buffer size
     final int nNewBufSize = getBufSizeAfterExpansion();
-
     final char[] newbuffer = new char[nNewBufSize];
     final int[] newbufline = new int[nNewBufSize];
     final int[] newbufcolumn = new int[nNewBufSize];
-
     // Number of chars to be preserved
     final int nPreservedChars = bufsize - tokenBegin;
-
     if (bWrapAround) {
       // Move from offset "tokenBegin" to offset 0
       // arraycopy(src, srcPos, dest, destPos, length)
-
       // copy the "tail end" to the "start" (index 0) of the new buffer array
       System.arraycopy(buffer, tokenBegin, newbuffer, 0, nPreservedChars);
-
       // copy the remaining "wrap around" content of the buffer from the start of the original
       // buffer (starting at srcPos index 0)
       System.arraycopy(buffer, 0, newbuffer, nPreservedChars, bufpos);
-
       // swap the new buffer in place of the old buffer
       buffer = newbuffer;
-
       System.arraycopy(m_aBufLine, tokenBegin, newbufline, 0, nPreservedChars);
       System.arraycopy(m_aBufLine, 0, newbufline, nPreservedChars, bufpos);
       m_aBufLine = newbufline;
-
       System.arraycopy(m_aBufColumn, tokenBegin, newbufcolumn, 0, nPreservedChars);
       System.arraycopy(m_aBufColumn, 0, newbufcolumn, nPreservedChars, bufpos);
       m_aBufColumn = newbufcolumn;
-
       bufpos += nPreservedChars;
       maxNextCharInd = bufpos;
     } else {
       // Move from offset "tokenBegin" to offset 0
-
       System.arraycopy(buffer, tokenBegin, newbuffer, 0, nPreservedChars);
       buffer = newbuffer;
-
       System.arraycopy(m_aBufLine, tokenBegin, newbufline, 0, nPreservedChars);
       m_aBufLine = newbufline;
-
       System.arraycopy(m_aBufColumn, tokenBegin, newbufcolumn, 0, nPreservedChars);
       m_aBufColumn = newbufcolumn;
-
       bufpos -= tokenBegin;
       maxNextCharInd = bufpos;
     }
-
     // Increase buffer size
     bufsize = nNewBufSize;
     available = nNewBufSize;
@@ -224,7 +214,6 @@ public abstract class AbstractCharStream implements CharStream {
         // The token started in the second half - fill the front part
         bufpos = 0;
         maxNextCharInd = 0;
-
         // Available bytes are > 50%
         available = tokenBegin;
       } else {
@@ -246,14 +235,12 @@ public abstract class AbstractCharStream implements CharStream {
 
   protected void fillBuff() throws java.io.IOException {
     if (maxNextCharInd == available) internalAdjustBuffSize();
-
     try {
       // Read from underlying stream
       final int nCharsRead = streamRead(buffer, maxNextCharInd, available - maxNextCharInd);
       if (nCharsRead == -1) {
         // We reached the end of the file
         streamClose();
-
         // Caught down below and re-thrown
         throw new java.io.IOException("PGCC end of stream");
       }
@@ -277,7 +264,6 @@ public abstract class AbstractCharStream implements CharStream {
 
   protected final void internalUpdateLineColumn(final char c) {
     m_nColumnNo++;
-
     if (m_bPrevCharIsLF) {
       // It's a "\r\n" or "\n"
       // Start of a new line
@@ -295,7 +281,6 @@ public abstract class AbstractCharStream implements CharStream {
         m_nLineNo++;
       }
     }
-
     switch (c) {
       case '\r':
         m_bPrevCharIsCR = true;
@@ -308,7 +293,6 @@ public abstract class AbstractCharStream implements CharStream {
         m_nColumnNo += (m_nTabSize - (m_nColumnNo % m_nTabSize));
         break;
     }
-
     internalSetBufLineColumn(m_nLineNo, m_nColumnNo);
   }
 
@@ -316,21 +300,16 @@ public abstract class AbstractCharStream implements CharStream {
     if (inBuf > 0) {
       // Something is left from last backup
       --inBuf;
-
       ++bufpos;
       if (bufpos == bufsize) {
         // Buffer overflow
         bufpos = 0;
       }
-
       return buffer[bufpos];
     }
-
     ++bufpos;
     if (bufpos >= maxNextCharInd) fillBuff();
-
     final char c = buffer[bufpos];
-
     if (m_bTrackLineColumn) internalUpdateLineColumn(c);
     return c;
   }
@@ -366,7 +345,6 @@ public abstract class AbstractCharStream implements CharStream {
               + " chars which is larger than the internal buffer size ("
               + bufsize
               + ")");
-
     inBuf += nAmount;
     bufpos -= nAmount;
     if (bufpos < 0) {
@@ -380,7 +358,6 @@ public abstract class AbstractCharStream implements CharStream {
       // from tokenBegin to bufpos
       return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
     }
-
     // from tokenBegin to bufsize, and from 0 to bufpos
     return new String(buffer, tokenBegin, bufsize - tokenBegin) + new String(buffer, 0, bufpos + 1);
   }
@@ -419,20 +396,17 @@ public abstract class AbstractCharStream implements CharStream {
   public final void adjustBeginLineColumn(final int nNewLine, final int newCol) {
     int start = tokenBegin;
     int newLine = nNewLine;
-
     int len;
     if (bufpos >= tokenBegin) {
       len = bufpos - tokenBegin + inBuf + 1;
     } else {
       len = bufsize - tokenBegin + bufpos + 1 + inBuf;
     }
-
     int i = 0;
     int j = 0;
     int k = 0;
     int nextColDiff = 0;
     int columnDiff = 0;
-
     // TODO disassemble meaning and split up
     while (i < len && m_aBufLine[j = start % bufsize] == m_aBufLine[k = ++start % bufsize]) {
       m_aBufLine[j] = newLine;
@@ -441,11 +415,9 @@ public abstract class AbstractCharStream implements CharStream {
       columnDiff = nextColDiff;
       i++;
     }
-
     if (i < len) {
       m_aBufLine[j] = newLine++;
       m_aBufColumn[j] = newCol + columnDiff;
-
       while (i++ < len) {
         // TODO disassemble meaning and split up
         if (m_aBufLine[j = start % bufsize] != m_aBufLine[++start % bufsize])
@@ -453,7 +425,6 @@ public abstract class AbstractCharStream implements CharStream {
         else m_aBufLine[j] = newLine;
       }
     }
-
     m_nLineNo = m_aBufLine[j];
     m_nColumnNo = m_aBufColumn[j];
   }

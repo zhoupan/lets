@@ -50,12 +50,10 @@ public class InstanceOfExprContext extends AbstractJavaParserContext<InstanceOfE
         return SymbolReference.solved(decl);
       }
     }
-
     Optional<Context> optionalParentContext = getParent();
     if (!optionalParentContext.isPresent()) {
       return SymbolReference.unsolved();
     }
-
     Context parentContext = optionalParentContext.get();
     if (parentContext instanceof BinaryExprContext) {
       Optional<PatternExpr> optionalPatternExpr1 = parentContext.patternExprInScope(name);
@@ -65,8 +63,8 @@ public class InstanceOfExprContext extends AbstractJavaParserContext<InstanceOfE
             JavaParserSymbolDeclaration.patternVar(typePatternExpr, typeSolver);
         return SymbolReference.solved(decl);
       }
-    } // TODO: Also consider unary expr context
-
+    }
+    // TODO: Also consider unary expr context
     // if nothing is found we should ask the parent context
     return solveSymbolInParentContext(name);
   }
@@ -74,10 +72,8 @@ public class InstanceOfExprContext extends AbstractJavaParserContext<InstanceOfE
   @Override
   public List<PatternExpr> patternExprsExposedFromChildren() {
     List<PatternExpr> results = new ArrayList<>();
-
     // If this instanceof expression has a pattern, add it to the list.
     wrappedNode.getPattern().ifPresent(results::add);
-
     return results;
   }
 }

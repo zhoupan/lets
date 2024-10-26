@@ -28,7 +28,9 @@ import com.github.javaparser.symbolsolver.resolution.typeinference.ConstraintFor
  * @author Federico Tomassetti
  */
 public class MethodReferenceThrowsCompatibleWithType extends ConstraintFormula {
+
   private MethodReferenceExpr methodReference;
+
   private ResolvedType T;
 
   @Override
@@ -58,7 +60,6 @@ public class MethodReferenceThrowsCompatibleWithType extends ConstraintFormula {
     // m), if Xi is not a subtype of any proper type in the throws clause, then the constraints
     // include, for all j (1 ≤ j ≤ n), ‹Xi <: Ej›. In addition, for all j (1 ≤ j ≤ n), the
     // constraint reduces to the bound throws Ej.
-
     throw new UnsupportedOperationException();
   }
 
@@ -66,9 +67,7 @@ public class MethodReferenceThrowsCompatibleWithType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     MethodReferenceThrowsCompatibleWithType that = (MethodReferenceThrowsCompatibleWithType) o;
-
     if (!methodReference.equals(that.methodReference)) return false;
     return T.equals(that.T);
   }

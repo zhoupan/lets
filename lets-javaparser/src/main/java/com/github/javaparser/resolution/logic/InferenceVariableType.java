@@ -33,12 +33,14 @@ import java.util.stream.Collectors;
  * @author Federico Tomassetti
  */
 public class InferenceVariableType implements ResolvedType {
+
   @Override
   public String toString() {
     return "InferenceVariableType{" + "id=" + id + '}';
   }
 
   private int id;
+
   private ResolvedTypeParameterDeclaration correspondingTp;
 
   public void setCorrespondingTp(ResolvedTypeParameterDeclaration correspondingTp) {
@@ -46,6 +48,7 @@ public class InferenceVariableType implements ResolvedType {
   }
 
   private Set<ResolvedType> equivalentTypes = new HashSet<>();
+
   private TypeSolver typeSolver;
 
   public void registerEquivalentType(ResolvedType type) {
@@ -56,9 +59,7 @@ public class InferenceVariableType implements ResolvedType {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof InferenceVariableType)) return false;
-
     InferenceVariableType that = (InferenceVariableType) o;
-
     return id == that.id;
   }
 
@@ -136,7 +137,6 @@ public class InferenceVariableType implements ResolvedType {
     if (type instanceof InferenceVariableType) {
       return true;
     }
-
     if (type.isReferenceType()) {
       ResolvedReferenceType refType = type.asReferenceType();
       for (ResolvedType t : refType.typeParametersValues()) {
@@ -146,12 +146,10 @@ public class InferenceVariableType implements ResolvedType {
       }
       return false;
     }
-
     if (type.isWildcard()) {
       ResolvedWildcard wildcardType = type.asWildcard();
       return hasInferenceVariables(wildcardType.getBoundedType());
     }
-
     return false;
   }
 }

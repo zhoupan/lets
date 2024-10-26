@@ -33,6 +33,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates the TokenKind enum from {@link com.github.javaparser.GeneratedJavaParserConstants} */
 public class TokenKindGenerator extends Generator {
+
   private final SourceRoot generatedJavaCcSourceRoot;
 
   public TokenKindGenerator(SourceRoot sourceRoot, SourceRoot generatedJavaCcSourceRoot) {
@@ -43,7 +44,6 @@ public class TokenKindGenerator extends Generator {
   @Override
   public void generate() {
     Log.info("Running %s", () -> getClass().getSimpleName());
-
     final CompilationUnit javaTokenCu = sourceRoot.parse("com.github.javaparser", "JavaToken.java");
     final ClassOrInterfaceDeclaration javaToken =
         javaTokenCu
@@ -53,10 +53,8 @@ public class TokenKindGenerator extends Generator {
         javaToken
             .findFirst(EnumDeclaration.class, e -> "Kind".equals(e.getNameAsString()))
             .orElseThrow(() -> new AssertionError("Can't find class in java file."));
-
     kindEnum.getEntries().clear();
     annotateGenerated(kindEnum);
-
     final SwitchStmt valueOfSwitch =
         kindEnum
             .findFirst(SwitchStmt.class)
@@ -64,7 +62,6 @@ public class TokenKindGenerator extends Generator {
     valueOfSwitch.findAll(SwitchEntry.class).stream()
         .filter(e -> e.getLabels().isNonEmpty())
         .forEach(Node::remove);
-
     final CompilationUnit constantsCu =
         generatedJavaCcSourceRoot.parse(
             "com.github.javaparser", "GeneratedJavaParserConstants.java");

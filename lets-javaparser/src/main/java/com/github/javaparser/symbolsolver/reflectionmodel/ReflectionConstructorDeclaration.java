@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 public class ReflectionConstructorDeclaration implements ResolvedConstructorDeclaration {
 
   private Constructor<?> constructor;
+
   private TypeSolver typeSolver;
 
   public ReflectionConstructorDeclaration(Constructor<?> constructor, TypeSolver typeSolver) {

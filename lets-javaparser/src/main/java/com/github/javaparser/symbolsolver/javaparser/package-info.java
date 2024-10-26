@@ -18,6 +18,5 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  */
-
 /** This package contains utility to use JavaParser. */
 package com.github.javaparser.symbolsolver.javaparser;

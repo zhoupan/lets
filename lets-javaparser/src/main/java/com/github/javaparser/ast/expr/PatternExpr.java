@@ -138,6 +138,7 @@ public abstract class PatternExpr extends Expression
   }
 
   @Override
+  @Generated("com.github.javaparser.generator.core.node.ReplaceMethodGenerator")
   public boolean replace(Node node, Node replacementNode) {
     if (node == null) {
       return false;
@@ -150,6 +151,7 @@ public abstract class PatternExpr extends Expression
   }
 
   /** This constructor is used by the parser and is considered private. */
+  @Generated("com.github.javaparser.generator.core.node.MainConstructorGenerator")
   public PatternExpr(TokenRange tokenRange, ReferenceType type) {
     super(tokenRange);
     setType(type);

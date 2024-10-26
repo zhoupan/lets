@@ -29,7 +29,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
 public class ReflectionPatternDeclaration implements ResolvedPatternDeclaration {
 
   private Class<?> type;
+
   private TypeSolver typeSolver;
+
   private String name;
 
   /**

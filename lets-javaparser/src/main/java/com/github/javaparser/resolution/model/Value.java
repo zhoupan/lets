@@ -25,7 +25,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * @author Federico Tomassetti
  */
 public class Value {
+
   private ResolvedType type;
+
   private String name;
 
   public Value(ResolvedType type, String name) {

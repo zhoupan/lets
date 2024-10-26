@@ -45,7 +45,9 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
     implements MethodUsageResolutionCapability, SymbolResolutionCapability {
 
   private CtClass ctClass;
+
   private TypeSolver typeSolver;
+
   private JavassistTypeDeclarationAdapter javassistTypeDeclarationAdapter;
 
   public JavassistClassDeclaration(CtClass ctClass, TypeSolver typeSolver) {
@@ -98,9 +100,7 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     JavassistClassDeclaration that = (JavassistClassDeclaration) o;
-
     return ctClass.equals(that.ctClass);
   }
 
@@ -147,14 +147,12 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
         return SymbolReference.solved(new JavassistFieldDeclaration(field, typeSolver));
       }
     }
-
     final String superclassFQN = getSuperclassFQN();
     SymbolReference<? extends ResolvedValueDeclaration> ref =
         solveSymbolForFQN(name, superclassFQN);
     if (ref.isSolved()) {
       return ref;
     }
-
     String[] interfaceFQNs = getInterfaceFQNs();
     for (String interfaceFQN : interfaceFQNs) {
       SymbolReference<? extends ResolvedValueDeclaration> interfaceRef =
@@ -163,7 +161,6 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
         return interfaceRef;
       }
     }
-
     return SymbolReference.unsolved();
   }
 
@@ -172,7 +169,6 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
     if (fqn == null) {
       return SymbolReference.unsolved();
     }
-
     ResolvedReferenceTypeDeclaration fqnTypeDeclaration = typeSolver.solveType(fqn);
     return new SymbolSolver(typeSolver).solveSymbolInType(fqnTypeDeclaration, symbolName);
   }
@@ -217,14 +213,12 @@ public class JavassistClassDeclaration extends AbstractClassDeclaration
         return true;
       }
     }
-
     for (ResolvedReferenceType interfaze : javassistTypeDeclarationAdapter.getInterfaces()) {
       if (interfaze.getTypeDeclaration().isPresent()
           && interfaze.getTypeDeclaration().get().canBeAssignedTo(other)) {
         return true;
       }
     }
-
     return false;
   }
 

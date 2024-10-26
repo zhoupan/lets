@@ -28,7 +28,9 @@ import com.github.javaparser.metamodel.BaseNodeMetaModel;
 import com.github.javaparser.utils.SourceRoot;
 
 public class AcceptGenerator extends NodeGenerator {
+
   private final MethodDeclaration genericAccept;
+
   private final MethodDeclaration voidAccept;
 
   public AcceptGenerator(SourceRoot sourceRoot) {

@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 public class ReflectionEnumConstantDeclaration implements ResolvedEnumConstantDeclaration {
 
   private Field enumConstant;
+
   private TypeSolver typeSolver;
 
   public ReflectionEnumConstantDeclaration(Field enumConstant, TypeSolver typeSolver) {

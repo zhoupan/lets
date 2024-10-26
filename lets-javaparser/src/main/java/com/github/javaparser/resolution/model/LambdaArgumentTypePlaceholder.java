@@ -27,6 +27,7 @@ import com.github.javaparser.resolution.types.ResolvedType;
 public class LambdaArgumentTypePlaceholder implements ResolvedType {
 
   private int pos;
+
   private SymbolReference<? extends ResolvedMethodLikeDeclaration> method;
 
   public LambdaArgumentTypePlaceholder(int pos) {

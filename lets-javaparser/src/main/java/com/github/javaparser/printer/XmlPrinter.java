@@ -36,6 +36,7 @@ import javax.xml.stream.XMLStreamWriter;
 public class XmlPrinter {
 
   private final boolean outputNodeType;
+
   private static final Class<?> TYPE_CLASS = Type.class;
 
   public XmlPrinter(boolean outputNodeType) {
@@ -161,11 +162,9 @@ public class XmlPrinter {
    */
   public void outputNode(Node node, String name, XMLStreamWriter xmlWriter)
       throws XMLStreamException {
-
     assertNotNull(node);
     assertNonEmpty(name);
     assertNotNull(xmlWriter);
-
     NodeMetaModel metaModel = node.getMetaModel();
     List<PropertyMetaModel> allPropertyMetaModels = metaModel.getAllPropertyMetaModels();
     Predicate<PropertyMetaModel> nonNullNode =
@@ -174,14 +173,11 @@ public class XmlPrinter {
         propertyMetaModel -> ((NodeList) propertyMetaModel.getValue(node)).isNonEmpty();
     Predicate<PropertyMetaModel> typeList =
         propertyMetaModel -> TYPE_CLASS == propertyMetaModel.getType();
-
     xmlWriter.writeStartElement(name);
-
     // Output node type attribute
     if (outputNodeType) {
       xmlWriter.writeAttribute("type", metaModel.getTypeName());
     }
-
     try {
       // Output attributes
       allPropertyMetaModels.stream()
@@ -197,7 +193,6 @@ public class XmlPrinter {
                   throw new RuntimeXMLStreamException(ex);
                 }
               });
-
       // Output singular subNodes
       allPropertyMetaModels.stream()
           .filter(PropertyMetaModel::isNode)
@@ -213,7 +208,6 @@ public class XmlPrinter {
                   throw new RuntimeXMLStreamException(ex);
                 }
               });
-
       // Output list subNodes
       allPropertyMetaModels.stream()
           .filter(PropertyMetaModel::isNodeList)
@@ -237,7 +231,6 @@ public class XmlPrinter {
     } catch (RuntimeXMLStreamException ex) {
       throw ex.getXMLStreamCause();
     }
-
     xmlWriter.writeEndElement();
   }
 

@@ -71,7 +71,6 @@ public class JavaParserAdapter {
     if (result.isSuccessful()) {
       return result.getResult().orElse(null);
     }
-
     throw new ParseProblemException(result.getProblems());
   }
 

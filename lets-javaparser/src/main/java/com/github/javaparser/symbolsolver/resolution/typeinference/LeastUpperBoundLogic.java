@@ -49,7 +49,6 @@ public class LeastUpperBoundLogic {
     if (types.isEmpty()) {
       throw new IllegalArgumentException();
     }
-
     // The direct supertypes of the null type are all reference types other than the null type
     // itself.
     // One way to handle this case is to remove the type null from the list of types.
@@ -59,12 +58,10 @@ public class LeastUpperBoundLogic {
             .filter(type -> !(type instanceof NullType))
             .map(type -> concreteType(type))
             .collect(Collectors.toSet());
-
     // reduces the set in the presence of enumeration type because members are
     // not equal and they do not have an explicit super type.
     // So we only keep one enumeration for all the members of an enumeration
     filterEnumType(resolvedTypes);
-
     // The least upper bound, or "lub", of a set of reference types is a shared supertype that is
     // more specific
     // than any other shared supertype (that is, no other shared supertype is a subtype of the least
@@ -72,22 +69,17 @@ public class LeastUpperBoundLogic {
     // This type, lub(U1, ..., Uk), is determined as follows.
     //
     // If k = 1, then the lub is the type itself: lub(U) = U.
-
     if (resolvedTypes.size() == 1) {
       return resolvedTypes.stream().findFirst().get();
     }
-
     // can we have primitive types?
-
     //
     // Otherwise:
     //
     // For each Ui (1 ≤ i ≤ k):
     //
     // Let ST(Ui) be the set of supertypes of Ui.
-
     List<Set<ResolvedType>> supertypes = supertypes(resolvedTypes);
-
     //
     // Let EST(Ui), the set of erased supertypes of Ui, be:
     //
@@ -111,15 +103,11 @@ public class LeastUpperBoundLogic {
     // produce
     // List<?>.
     //
-
     List<Set<ResolvedType>> erasedSupertypes = erased(supertypes);
-
     // Let EC, the erased candidate set for U1 ... Uk, be the intersection of all the sets EST(Ui)
     // (1 ≤ i ≤ k).
     //
-
     List<ResolvedType> erasedCandidates = intersection(erasedSupertypes);
-
     // Let MEC, the minimal erased candidate set for U1 ... Uk, be:
     //
     // MEC = { V | V in EC, and for all W ≠ V in EC, it is not the case that W <: V }
@@ -129,12 +117,10 @@ public class LeastUpperBoundLogic {
     // of other candidates.
     // This is what computing MEC accomplishes.
     // In our running example, we had EC = { List, Collection, Object }, so MEC = { List }.
-
     List<ResolvedType> minimalErasedCandidates = minimalCandidates(erasedCandidates);
     if (minimalErasedCandidates.isEmpty()) {
       return null;
     }
-
     // The next step is to recover type arguments for the erased types in MEC.
     //
     // For any element G of MEC that is a generic type:
@@ -146,10 +132,8 @@ public class LeastUpperBoundLogic {
     // In our running example, the only generic element of MEC is List, and Relevant(List) = {
     // List<String>,
     // List<Object> }.
-
     Multimap<ResolvedType, ResolvedType> relevantParameterizations =
         relevantParameterizations(minimalErasedCandidates, supertypes);
-
     // We will now seek to find a type argument for List that contains (§4.5.1) both String and
     // Object.
     //
@@ -216,9 +200,7 @@ public class LeastUpperBoundLogic {
     // However, a compiler for the Java programming language must implement lub() as specified
     // above.
     //
-
     ResolvedType erasedBest = best(minimalErasedCandidates);
-
     // It is possible that the lub() function yields an infinite type.
     // This is permissible, and a compiler for the Java programming language must recognize such
     // situations and
@@ -393,10 +375,8 @@ public class LeastUpperBoundLogic {
     ResolvedType type1 = types.get(0);
     ResolvedType type2 = types.get(1);
     ResolvedType reduction = leastContainingTypeArgument(type1, type2);
-
     List<ResolvedType> reducedList = Lists.newArrayList(reduction);
     reducedList.addAll(types.subList(2, types.size()));
-
     return leastContainingParameterization(reducedList);
   }
 
@@ -405,10 +385,8 @@ public class LeastUpperBoundLogic {
    * lcp(G<X1, ..., Xn>) = G<lcta(X1), ..., lcta(Xn)>
    */
   private ResolvedType leastContainingTypeArgument(ResolvedType type1, ResolvedType type2) {
-
     TypeSubstitution substitution1 = substitution(type1.asReferenceType().getTypeParametersMap());
     TypeSubstitution substitution2 = substitution(type2.asReferenceType().getTypeParametersMap());
-
     TypeSubstitution typeSubstitution = TypeSubstitution.empty();
     for (ResolvedTypeParameterDeclaration typeDecl : substitution1.typeParameterDeclarations()) {
       ResolvedType subs1 = substitution1.substitutedType(typeDecl);
@@ -418,7 +396,6 @@ public class LeastUpperBoundLogic {
       ResolvedType newType = lcta(subs1, subs2);
       typeSubstitution.withPair(typeDecl, newType);
     }
-
     return typeSubstitution.isEmpty()
         ? lcta(type1, type2)
         : substituteType(type1, typeSubstitution);
@@ -452,6 +429,7 @@ public class LeastUpperBoundLogic {
   static class TypeSubstitution {
 
     private List<ResolvedTypeParameterDeclaration> typeParameterDeclarations;
+
     private List<ResolvedType> types;
 
     private static final TypeSubstitution EMPTY = new TypeSubstitution();
@@ -506,7 +484,6 @@ public class LeastUpperBoundLogic {
   private ResolvedType lcta(ResolvedType type1, ResolvedType type2) {
     boolean isWildcard1 = type1.isWildcard();
     boolean isWildcard2 = type2.isWildcard();
-
     ResolvedType result;
     if (type1.equals(type2)) {
       // lcta(U, V) = U if U = V
@@ -561,7 +538,6 @@ public class LeastUpperBoundLogic {
 
   // Replace all type parameters in generic types with their bounds or Object if the type parameters
   // are unbounded.
-
   /*
    * Returns the corresponding wildcard type or Object if we want to build a wildcard type like {@code ? extends
    * Object}

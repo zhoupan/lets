@@ -25,10 +25,15 @@ import java.util.Objects;
  * @author Federico Tomassetti
  */
 public class ReflectionParameterDeclaration implements ResolvedParameterDeclaration {
+
   private Class<?> type;
+
   private java.lang.reflect.Type genericType;
+
   private TypeSolver typeSolver;
+
   private boolean variadic;
+
   private String name;
 
   /**

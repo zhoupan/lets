@@ -29,6 +29,7 @@ import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.resolution.types.ResolvedType;
 
 public class DefaultVisitorAdapter implements GenericVisitor<ResolvedType, Boolean> {
+
   @Override
   public ResolvedType visit(CompilationUnit node, Boolean aBoolean) {
     throw new UnsupportedOperationException(node.getClass().getCanonicalName());

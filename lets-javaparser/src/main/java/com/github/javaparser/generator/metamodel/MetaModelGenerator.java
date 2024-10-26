@@ -45,45 +45,39 @@ import java.util.List;
 public class MetaModelGenerator extends AbstractGenerator {
 
   static final String BASE_NODE_META_MODEL = "BaseNodeMetaModel";
+
   static final String METAMODEL_PACKAGE = "com.github.javaparser.metamodel";
 
   /** Note that order of this list is manually set and maintained. */
   private static final List<Class<? extends Node>> ALL_NODE_CLASSES =
       new ArrayList<Class<? extends Node>>() {
+
         {
           /* Base classes go first, so we don't have to do any sorting to make sure
           generated classes can refer to their base generated classes without
           being afraid those are not initialized yet. */
-
           // Fully qualified names used to make logical groupings (somewhat) more explicit.
-
           //
           add(com.github.javaparser.ast.Node.class);
-
           add(com.github.javaparser.ast.body.BodyDeclaration.class);
           add(com.github.javaparser.ast.body.CallableDeclaration.class);
           add(com.github.javaparser.ast.expr.Expression.class);
           add(com.github.javaparser.ast.stmt.Statement.class);
           add(com.github.javaparser.ast.type.Type.class);
-
           add(com.github.javaparser.ast.expr.AnnotationExpr.class);
           add(com.github.javaparser.ast.type.ReferenceType.class);
           add(com.github.javaparser.ast.body.TypeDeclaration.class);
-
           add(com.github.javaparser.ast.expr.LiteralExpr.class);
           add(com.github.javaparser.ast.expr.LiteralStringValueExpr.class);
           add(com.github.javaparser.ast.expr.StringLiteralExpr.class);
-
           add(com.github.javaparser.ast.modules.ModuleDeclaration.class);
           add(com.github.javaparser.ast.modules.ModuleDirective.class);
-
           //
           add(com.github.javaparser.ast.ArrayCreationLevel.class);
           add(com.github.javaparser.ast.CompilationUnit.class);
           add(com.github.javaparser.ast.ImportDeclaration.class);
           add(com.github.javaparser.ast.Modifier.class);
           add(com.github.javaparser.ast.PackageDeclaration.class);
-
           //
           add(com.github.javaparser.ast.body.AnnotationDeclaration.class);
           add(com.github.javaparser.ast.body.AnnotationMemberDeclaration.class);
@@ -99,14 +93,11 @@ public class MetaModelGenerator extends AbstractGenerator {
           add(com.github.javaparser.ast.body.RecordDeclaration.class);
           add(CompactConstructorDeclaration.class);
           add(com.github.javaparser.ast.body.VariableDeclarator.class);
-
-          add(
-              com.github.javaparser.ast.comments.Comment
-                  .class); // First, as it is the base of other comment types
+          add(com.github.javaparser.ast.comments.Comment.class);
+          // First, as it is the base of other comment types
           add(com.github.javaparser.ast.comments.BlockComment.class);
           add(com.github.javaparser.ast.comments.JavadocComment.class);
           add(com.github.javaparser.ast.comments.LineComment.class);
-
           add(com.github.javaparser.ast.expr.ArrayAccessExpr.class);
           add(com.github.javaparser.ast.expr.ArrayCreationExpr.class);
           add(com.github.javaparser.ast.expr.ArrayInitializerExpr.class);
@@ -144,7 +135,6 @@ public class MetaModelGenerator extends AbstractGenerator {
           add(com.github.javaparser.ast.expr.TypePatternExpr.class);
           add(com.github.javaparser.ast.expr.UnaryExpr.class);
           add(com.github.javaparser.ast.expr.VariableDeclarationExpr.class);
-
           add(com.github.javaparser.ast.stmt.AssertStmt.class);
           add(com.github.javaparser.ast.stmt.BlockStmt.class);
           add(com.github.javaparser.ast.stmt.BreakStmt.class);
@@ -169,7 +159,6 @@ public class MetaModelGenerator extends AbstractGenerator {
           add(com.github.javaparser.ast.stmt.UnparsableStmt.class);
           add(com.github.javaparser.ast.stmt.WhileStmt.class);
           add(com.github.javaparser.ast.stmt.YieldStmt.class);
-
           add(com.github.javaparser.ast.type.ArrayType.class);
           add(com.github.javaparser.ast.type.ClassOrInterfaceType.class);
           add(com.github.javaparser.ast.type.IntersectionType.class);
@@ -180,7 +169,6 @@ public class MetaModelGenerator extends AbstractGenerator {
           add(com.github.javaparser.ast.type.VarType.class);
           add(com.github.javaparser.ast.type.VoidType.class);
           add(com.github.javaparser.ast.type.WildcardType.class);
-
           add(com.github.javaparser.ast.modules.ModuleExportsDirective.class);
           add(com.github.javaparser.ast.modules.ModuleOpensDirective.class);
           add(com.github.javaparser.ast.modules.ModuleProvidesDirective.class);
@@ -210,9 +198,7 @@ public class MetaModelGenerator extends AbstractGenerator {
     Printer printer = new DefaultPrettyPrinter(config);
     sourceRoot.setPrinter(printer::print);
     StaticJavaParser.setConfiguration(parserConfiguration);
-
     new MetaModelGenerator(sourceRoot).generate();
-
     sourceRoot.saveAll();
   }
 
@@ -220,7 +206,6 @@ public class MetaModelGenerator extends AbstractGenerator {
     final CompilationUnit javaParserMetaModelCu =
         sourceRoot.parse(METAMODEL_PACKAGE, "JavaParserMetaModel.java");
     javaParserMetaModelCu.setBlockComment(COPYRIGHT_NOTICE_JP_CORE);
-
     generateNodeMetaModels(javaParserMetaModelCu, sourceRoot);
   }
 
@@ -228,7 +213,6 @@ public class MetaModelGenerator extends AbstractGenerator {
       throws NoSuchMethodException {
     final ClassOrInterfaceDeclaration metaModelCoid =
         javaParserMetaModelCu.getClassByName("JavaParserMetaModel").get();
-
     // Initialiser methods
     final MethodDeclaration initializeNodeMetaModelsMethod =
         metaModelCoid.getMethodsByName("initializeNodeMetaModels").get(0);
@@ -236,12 +220,10 @@ public class MetaModelGenerator extends AbstractGenerator {
         metaModelCoid.getMethodsByName("initializePropertyMetaModels").get(0);
     final MethodDeclaration initializeConstructorParametersVariable =
         metaModelCoid.getMethodsByName("initializeConstructorParameters").get(0);
-
     // Ensure annotation `@Generated` is added to indicate the contents of each are generated.
     annotateGenerated(initializeNodeMetaModelsMethod);
     annotateGenerated(initializePropertyMetaModelsMethod);
     annotateGenerated(initializeConstructorParametersVariable);
-
     // Empty the body of the initialiser methods, to be (re-)generated below.
     final NodeList<Statement> initializeNodeMetaModelsStatements =
         initializeNodeMetaModelsMethod.getBody().get().getStatements();
@@ -252,12 +234,10 @@ public class MetaModelGenerator extends AbstractGenerator {
     initializeNodeMetaModelsStatements.clear();
     initializePropertyMetaModelsStatements.clear();
     initializeConstructorParametersStatements.clear();
-
     // Remove fields, to be (re-)generated  below.
     metaModelCoid.getFields().stream()
         .filter(f -> f.getVariable(0).getNameAsString().endsWith("MetaModel"))
         .forEach(Node::remove);
-
     // Do the generation of each node metamodel class.
     final NodeMetaModelGenerator nodeMetaModelGenerator = new NodeMetaModelGenerator(sourceRoot);
     for (Class<? extends Node> nodeClass : ALL_NODE_CLASSES) {
@@ -269,7 +249,6 @@ public class MetaModelGenerator extends AbstractGenerator {
           initializeConstructorParametersStatements,
           sourceRoot);
     }
-
     // TODO: Document why sorting occurs.
     initializeNodeMetaModelsStatements.sort(Comparator.comparing(Node::toString));
   }

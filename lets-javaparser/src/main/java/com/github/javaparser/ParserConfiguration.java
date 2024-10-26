@@ -137,13 +137,10 @@ public class ParserConfiguration {
     JAVA_17_PREVIEW(new Java17PreviewValidator(), new Java17PostProcessor()),
     /** Java 18 */
     JAVA_18(new Java18Validator(), new Java18PostProcessor()),
-
     /** Java 19 */
     JAVA_19(new Java19Validator(), new Java19PostProcessor()),
-
     /** Java 20 */
     JAVA_20(new Java20Validator(), new Java20PostProcessor()),
-
     /** Java 21 */
     JAVA_21(new Java21Validator(), new Java21PostProcessor());
 

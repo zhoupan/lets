@@ -55,7 +55,6 @@ public class ForStatementContext extends AbstractJavaParserContext<ForStmt> {
         throw new UnsupportedOperationException(expression.getClass().getCanonicalName());
       }
     }
-
     if (demandParentNode(wrappedNode) instanceof NodeWithStatements) {
       return StatementContext.solveInBlock(name, typeSolver, wrappedNode);
     }

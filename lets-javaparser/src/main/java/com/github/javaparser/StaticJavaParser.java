@@ -531,7 +531,6 @@ public final class StaticJavaParser {
   }
 
   // Private methods
-
   private static JavaParser newParser() {
     return new JavaParser(getParserConfiguration());
   }

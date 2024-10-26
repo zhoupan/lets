@@ -91,15 +91,12 @@ public abstract class ResolvedReferenceType
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null) return false;
-
     if (o instanceof LazyType) {
       final LazyType lazyType = (LazyType) o;
       if (!lazyType.isReferenceType()) return false;
       return this.equals(lazyType.asReferenceType());
     }
-
     if (getClass() != o.getClass()) return false;
-
     ResolvedReferenceType that = (ResolvedReferenceType) o;
     if (!typeDeclaration.equals(that.typeDeclaration)) return false;
     if (!typeParametersMap.equals(that.typeParametersMap)) return false;
@@ -561,10 +558,8 @@ public abstract class ResolvedReferenceType
    *     href="https://github.com/javaparser/javaparser/issues/2044">https://github.com/javaparser/javaparser/issues/2044</a>
    */
   public boolean isJavaLangObject() {
-    return this.isReferenceType()
-        && // Consider anonymous classes
-        hasName()
-        && getQualifiedName().equals(JAVA_LANG_OBJECT);
+    return // Consider anonymous classes
+    this.isReferenceType() && hasName() && getQualifiedName().equals(JAVA_LANG_OBJECT);
   }
 
   /**
@@ -572,10 +567,8 @@ public abstract class ResolvedReferenceType
    * @see ResolvedReferenceTypeDeclaration#isJavaLangEnum()
    */
   public boolean isJavaLangEnum() {
-    return this.isReferenceType()
-        && // Consider anonymous classes
-        hasName()
-        && getQualifiedName().equals(JAVA_LANG_ENUM);
+    return // Consider anonymous classes
+    this.isReferenceType() && hasName() && getQualifiedName().equals(JAVA_LANG_ENUM);
   }
 
   // /

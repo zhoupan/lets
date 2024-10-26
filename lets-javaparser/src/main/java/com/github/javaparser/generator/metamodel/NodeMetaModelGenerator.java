@@ -40,6 +40,7 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
   private final InitializePropertyMetaModelsStatementsGenerator
       initializePropertyMetaModelsStatementsGenerator =
           new InitializePropertyMetaModelsStatementsGenerator();
+
   private final InitializeConstructorParametersStatementsGenerator
       initializeConstructorParametersStatementsGenerator =
           new InitializeConstructorParametersStatementsGenerator();
@@ -71,22 +72,17 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
       SourceRoot sourceRoot)
       throws NoSuchMethodException {
     metaModelCoid.setJavadocComment(GENERATED_JAVADOC_COMMENT);
-
     final AstTypeAnalysis typeAnalysis = new AstTypeAnalysis(nodeClass);
-
     final String className = MetaModelGenerator.nodeMetaModelName(nodeClass);
     final String nodeMetaModelFieldName = decapitalize(className);
     metaModelCoid.getFieldByName(nodeMetaModelFieldName).ifPresent(Node::remove);
-
     initializeNodeMetaModelsStatements.add(
         parseStatement(f("nodeMetaModels.add(%s);", nodeMetaModelFieldName)));
     this.initializeConstructorParametersStatementsGenerator.generate(
         nodeClass, initializeConstructorParametersStatements);
-
     final Class<?> superclass = nodeClass.getSuperclass();
     final String superNodeMetaModel = MetaModelGenerator.nodeMetaModelName(superclass);
     final boolean isRootNode = !MetaModelGenerator.isNode(superclass);
-
     final FieldDeclaration nodeField =
         metaModelCoid.addField(className, nodeMetaModelFieldName, PUBLIC, STATIC, FINAL);
     annotateGenerated(nodeField);
@@ -97,26 +93,22 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
                 f(
                     "new %s(%s)",
                     className, optionalOf(decapitalize(superNodeMetaModel), !isRootNode))));
-
     // The node-specific metamodel file
     final CompilationUnit classMetaModelJavaFile =
         new CompilationUnit(MetaModelGenerator.METAMODEL_PACKAGE);
     classMetaModelJavaFile.setBlockComment(COPYRIGHT_NOTICE_JP_CORE);
     classMetaModelJavaFile.addImport(Optional.class);
     classMetaModelJavaFile.addImport(nodeClass);
-
     //
     final ClassOrInterfaceDeclaration nodeMetaModelClass =
         classMetaModelJavaFile.addClass(className, PUBLIC);
     annotateGenerated(nodeMetaModelClass);
     nodeMetaModelClass.setJavadocComment(GENERATED_CLASS_COMMENT);
-
     if (isRootNode) {
       nodeMetaModelClass.addExtendedType(MetaModelGenerator.BASE_NODE_META_MODEL);
     } else {
       nodeMetaModelClass.addExtendedType(superNodeMetaModel);
     }
-
     // Constructors
     final ConstructorDeclaration classMMConstructor =
         nodeMetaModelClass
@@ -137,7 +129,6 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
                     typeAnalysis.isAbstract,
                     typeAnalysis.isSelfType)));
     annotateGenerated(classMMConstructor);
-
     // ?Abstract protected constructor?
     if (typeAnalysis.isAbstract) {
       classMetaModelJavaFile.addImport(Node.class);
@@ -151,7 +142,6 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
       annotateGenerated(bodyDeclaration);
       nodeMetaModelClass.addMember(bodyDeclaration);
     }
-
     // Fields, sorted by name.
     final List<Field> fields = new ArrayList<>(Arrays.asList(nodeClass.getDeclaredFields()));
     fields.sort(Comparator.comparing(Field::getName));
@@ -159,14 +149,12 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
       if (this.fieldShouldBeIgnored(field)) {
         continue;
       }
-
       this.initializePropertyMetaModelsStatementsGenerator.generate(
           field,
           nodeMetaModelClass,
           nodeMetaModelFieldName,
           initializePropertyMetaModelsStatements);
     }
-
     // Methods, sorted by name.
     final List<Method> methods = new ArrayList<>(Arrays.asList(nodeClass.getMethods()));
     methods.sort(Comparator.comparing(Method::getName));
@@ -179,10 +167,8 @@ public class NodeMetaModelGenerator extends AbstractGenerator {
             initializePropertyMetaModelsStatements);
       }
     }
-
     this.moveStaticInitializeToTheEndOfTheClassBecauseWeNeedTheFieldsToInitializeFirst(
         metaModelCoid);
-
     // Add the file to the source root, enabling it to be saved later.
     sourceRoot.add(
         MetaModelGenerator.METAMODEL_PACKAGE, className + ".java", classMetaModelJavaFile);

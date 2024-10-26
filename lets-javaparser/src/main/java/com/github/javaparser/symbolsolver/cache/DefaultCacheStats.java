@@ -50,9 +50,13 @@ import javax.annotation.CheckForNull;
  * </ul>
  */
 public class DefaultCacheStats implements CacheStats {
+
   private final long hitCount;
+
   private final long missCount;
+
   private final long loadSuccessCount;
+
   private final long loadExceptionCount;
 
   private final long totalLoadTime;
@@ -77,7 +81,6 @@ public class DefaultCacheStats implements CacheStats {
       long loadExceptionCount,
       long totalLoadTime,
       long evictionCount) {
-
     this.hitCount = hitCount;
     this.missCount = missCount;
     this.loadSuccessCount = loadSuccessCount;
@@ -207,7 +210,8 @@ public class DefaultCacheStats implements CacheStats {
    * or {@code loadExceptionCount} is incremented.
    */
   @Override
-  @SuppressWarnings("GoodTime") // should return a java.time.Duration
+  // should return a java.time.Duration
+  @SuppressWarnings("GoodTime")
   public long totalLoadTime() {
     return totalLoadTime;
   }

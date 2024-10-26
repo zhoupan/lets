@@ -35,6 +35,7 @@ import java.util.Optional;
 public class MethodDeclarationCommonLogic {
 
   private ResolvedMethodDeclaration methodDeclaration;
+
   private TypeSolver typeSolver;
 
   public MethodDeclarationCommonLogic(
@@ -50,7 +51,6 @@ public class MethodDeclarationCommonLogic {
       ResolvedType replaced = replaceTypeParams(methodDeclaration.getParam(i).getType(), context);
       params.add(replaced);
     }
-
     // We now look at the type parameter for the method which we can derive from the parameter types
     // and then we replace them in the return type
     // Map<TypeParameterDeclaration, Type> determinedTypeParameters = new HashMap<>();
@@ -58,24 +58,18 @@ public class MethodDeclarationCommonLogic {
     for (int i = 0; i < methodDeclaration.getNumberOfParams(); i++) {
       ResolvedParameterDeclaration formalParamDecl = methodDeclaration.getParam(i);
       ResolvedType formalParamType = formalParamDecl.getType();
-
       // Don't continue if a vararg parameter is reached and there are no arguments left
       if (formalParamDecl.isVariadic()
           && parameterTypes.size() < methodDeclaration.getNumberOfParams()) {
         break;
       }
-
       ResolvedType actualParamType = parameterTypes.get(i);
-
       if (formalParamDecl.isVariadic() && !actualParamType.isArray()) {
         formalParamType = formalParamType.asArrayType().getComponentType();
       }
-
       inferenceContext.addPair(formalParamType, actualParamType);
     }
-
     returnType = inferenceContext.resolve(inferenceContext.addSingle(returnType));
-
     return new MethodUsage(methodDeclaration, params, returnType);
   }
 
@@ -89,11 +83,9 @@ public class MethodDeclarationCommonLogic {
         }
       }
     }
-
     if (type.isReferenceType()) {
       type.asReferenceType().transformTypeParameters(tp -> replaceTypeParams(tp, context));
     }
-
     return type;
   }
 

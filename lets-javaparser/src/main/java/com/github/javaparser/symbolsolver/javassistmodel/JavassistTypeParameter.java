@@ -35,7 +35,9 @@ import javassist.bytecode.SignatureAttribute;
 public class JavassistTypeParameter implements ResolvedTypeParameterDeclaration {
 
   private SignatureAttribute.TypeParameter wrapped;
+
   private TypeSolver typeSolver;
+
   private ResolvedTypeParametrizable container;
 
   public JavassistTypeParameter(
@@ -51,9 +53,7 @@ public class JavassistTypeParameter implements ResolvedTypeParameterDeclaration 
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof ResolvedTypeParameterDeclaration)) return false;
-
     ResolvedTypeParameterDeclaration that = (ResolvedTypeParameterDeclaration) o;
-
     if (!getQualifiedName().equals(that.getQualifiedName())) {
       return false;
     }

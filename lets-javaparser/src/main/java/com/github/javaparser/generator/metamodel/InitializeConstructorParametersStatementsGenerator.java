@@ -30,6 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 class InitializeConstructorParametersStatementsGenerator {
+
   void generate(
       Class<? extends Node> nodeClass,
       NodeList<Statement> initializeConstructorParametersStatements) {
@@ -39,14 +40,12 @@ class InitializeConstructorParametersStatementsGenerator {
     Constructor<?> constructor = findAllFieldsConstructor(nodeClass);
     for (java.lang.reflect.Parameter parameter : constructor.getParameters()) {
       Field field = findFieldInClass(nodeClass, parameter.getName());
-
       String addFieldStatement =
           f(
               "%s.getConstructorParameters().add(%s.%s);",
               nodeMetaModelFieldName(nodeClass),
               nodeMetaModelFieldName(field.getDeclaringClass()),
               propertyMetaModelFieldName(field));
-
       initializeConstructorParametersStatements.add(parseStatement(addFieldStatement));
     }
   }

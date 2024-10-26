@@ -32,6 +32,7 @@ import java.util.Optional;
 public class JavaParserEnumConstantDeclaration implements ResolvedEnumConstantDeclaration {
 
   private TypeSolver typeSolver;
+
   private com.github.javaparser.ast.body.EnumConstantDeclaration wrappedNode;
 
   public JavaParserEnumConstantDeclaration(

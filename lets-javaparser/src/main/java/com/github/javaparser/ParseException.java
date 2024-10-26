@@ -24,6 +24,7 @@ package com.github.javaparser;
  * the public fields.
  */
 public class ParseException extends Exception {
+
   private static final String INDENT = "    ";
 
   /**
@@ -100,7 +101,6 @@ public class ParseException extends Exception {
       final String[] tokenImage,
       final String lexicalStateName) {
     StringBuilder expected = new StringBuilder();
-
     int maxSize = 0;
     java.util.TreeSet<String> sortedOptions = new java.util.TreeSet<String>();
     for (int i = 0; i < expectedTokenSequences.length; i++) {
@@ -108,12 +108,9 @@ public class ParseException extends Exception {
       for (int j = 0; j < expectedTokenSequences[i].length; j++)
         sortedOptions.add(tokenImage[expectedTokenSequences[i][j]]);
     }
-
     for (String option : sortedOptions) expected.append(INDENT).append(option).append(EOL);
-
     StringBuilder sb = new StringBuilder();
     sb.append("Encountered unexpected token:");
-
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       String tokenText = tok.image;
@@ -136,7 +133,6 @@ public class ParseException extends Exception {
         .append(", column ")
         .append(currentToken.next.beginColumn);
     sb.append(".").append(EOL);
-
     if (expectedTokenSequences.length == 0) {
       // Nothing to add here
     } else {
@@ -153,7 +149,6 @@ public class ParseException extends Exception {
     //    	sb.append(EOL).append("** Lexical State :
     // ").append(lexicalStateName).append(EOL).append(EOL);
     //    }
-
     return sb.toString();
   }
 

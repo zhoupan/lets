@@ -31,7 +31,6 @@ public class MethodContext extends AbstractMethodLikeDeclarationContext<MethodDe
   ///
   /// Constructors
   ///
-
   public MethodContext(MethodDeclaration wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
   }

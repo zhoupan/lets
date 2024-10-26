@@ -31,7 +31,9 @@ import java.util.Set;
  * @author Federico Tomassetti
  */
 public class CapturesBound extends Bound {
+
   private List<InferenceVariable> inferenceVariables;
+
   private List<ResolvedType> typesOrWildcards;
 
   public CapturesBound(
@@ -62,9 +64,7 @@ public class CapturesBound extends Bound {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     CapturesBound that = (CapturesBound) o;
-
     if (!inferenceVariables.equals(that.inferenceVariables)) return false;
     return typesOrWildcards.equals(that.typesOrWildcards);
   }

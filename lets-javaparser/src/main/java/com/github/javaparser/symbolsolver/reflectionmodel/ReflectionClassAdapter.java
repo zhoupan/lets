@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 class ReflectionClassAdapter {
 
   private Class<?> clazz;
+
   private TypeSolver typeSolver;
+
   private ResolvedReferenceTypeDeclaration typeDeclaration;
 
   public ReflectionClassAdapter(
@@ -135,7 +137,6 @@ class ReflectionClassAdapter {
         return true;
       }
     }
-
     // Then consider fields inherited from ancestors
     for (ResolvedReferenceType ancestor : typeDeclaration.getAllAncestors()) {
       if (ancestor.getTypeDeclaration().isPresent()
@@ -143,18 +144,15 @@ class ReflectionClassAdapter {
         return true;
       }
     }
-
     return false;
   }
 
   public List<ResolvedFieldDeclaration> getAllFields() {
     ArrayList<ResolvedFieldDeclaration> fields = new ArrayList<>();
-
     // First consider fields declared on this class
     for (Field field : clazz.getDeclaredFields()) {
       fields.add(new ReflectionFieldDeclaration(field, typeSolver));
     }
-
     // Then consider fields inherited from ancestors
     for (ResolvedReferenceType ancestor : typeDeclaration.getAllAncestors()) {
       ancestor
@@ -164,7 +162,6 @@ class ReflectionClassAdapter {
                 fields.addAll(ancestorTypeDeclaration.getAllFields());
               });
     }
-
     return fields;
   }
 
@@ -205,7 +202,6 @@ class ReflectionClassAdapter {
         return otherTypeDeclaration.getTypeDeclaration().get().canBeAssignedTo(typeDeclaration);
       }
     }
-
     return false;
   }
 

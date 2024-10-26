@@ -32,6 +32,7 @@ import java.util.Arrays;
  * node type passed to it, ready for modification.
  */
 public abstract class NodeGenerator extends Generator {
+
   protected NodeGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }
@@ -66,7 +67,6 @@ public abstract class NodeGenerator extends Generator {
       BaseNodeMetaModel nodeMetaModel, MethodDeclaration methodDeclaration) {
     Class<? extends Node> type = nodeMetaModel.getType();
     Class<?> superClass = type.getSuperclass();
-
     boolean isOverriding =
         Arrays.stream(superClass.getMethods())
             .filter(m -> m.getName().equals(methodDeclaration.getNameAsString()))

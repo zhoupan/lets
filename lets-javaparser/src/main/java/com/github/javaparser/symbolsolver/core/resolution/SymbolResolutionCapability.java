@@ -24,6 +24,7 @@ import com.github.javaparser.resolution.model.SymbolReference;
  * Allows for an implementing declaration type to support solving for field <i>(symbol)</i> usage.
  */
 public interface SymbolResolutionCapability {
+
   /**
    * @param name Field / symbol name.
    * @param typeSolver Symbol solver to resolve type usage.

@@ -41,6 +41,7 @@ import java.util.*;
 @Generated("JavaCC")
 final class GeneratedJavaParser extends GeneratedJavaParserBase
     implements GeneratedJavaParserConstants {
+
   /* Returns the JavaParser specific token type of the last matched token */
   JavaToken token() {
     return token.javaToken;
@@ -517,7 +518,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   /*
    * Declaration syntax follows.
    */
-
   /**
    * <strong> Note that this grammar is deliberately permissive. As a result, this grammar allows
    * any combinations of class/interface and extends/implements (e.g. an interface implementing an
@@ -3265,7 +3265,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   /*
    * Type, name and expression syntax follows.
    */
-
   /**
    * https://docs.oracle.com/javase/specs/jls/se15/html/jls-4.html#jls-4.1
    * <pre>{@code
@@ -6397,7 +6396,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   /*
    * Statement syntax follows.
    */
-
   /**
    * https://docs.oracle.com/javase/specs/jls/se15/html/jls-14.html#jls-14.5
    *
@@ -8547,7 +8545,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
    */
   public final void RUNSIGNEDSHIFT() throws ParseException {
     if (getToken(1).kind == GT && getToken(1).realKind == RUNSIGNEDSHIFT) {
-
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -8559,7 +8556,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
 
   public final void RSIGNEDSHIFT() throws ParseException {
     if (getToken(1).kind == GT && getToken(1).realKind == RSIGNEDSHIFT) {
-
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -8569,7 +8565,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   }
 
   /*  ANNOTATION SYNTAX - Annotation syntax follows. */
-
   /**
    * https://docs.oracle.com/javase/specs/jls/se15/html/jls-9.html#jls-9.7
    * <pre>{@code
@@ -8959,7 +8954,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   }
 
   /* ANNOTATION TYPES */
-
   /**
    * <blockquote>
    * An annotation type declaration specifies a new annotation type, a special kind of interface type.
@@ -9303,7 +9297,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   }
 
   /* MODULES - Module syntax follows */
-
   /**
    * https://docs.oracle.com/javase/specs/jls/se15/html/jls-7.html#jls-ModuleDirective
    * <pre>{@code
@@ -14954,19 +14947,28 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   public Token jj_nt;
 
   private int jj_ntk;
+
   private Token jj_scanpos, jj_lastpos;
+
   private int jj_la;
 
   /** Whether we are looking ahead. */
   private boolean jj_lookingAhead = false;
 
   private boolean jj_semLA;
+
   private int jj_gen;
+
   private final int[] jj_la1 = new int[186];
+
   private static int[] jj_la1_0;
+
   private static int[] jj_la1_1;
+
   private static int[] jj_la1_2;
+
   private static int[] jj_la1_3;
+
   private static int[] jj_la1_4;
 
   static {
@@ -15165,7 +15167,7 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           0x0,
           0x0,
           0x9504a000,
-          0x4080000,
+          0x4080000
         };
   }
 
@@ -15357,7 +15359,7 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           0x0,
           0x0,
           0x89b45540,
-          0x80,
+          0x80
         };
   }
 
@@ -15549,7 +15551,7 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           0x100,
           0x3620,
           0x6043fff2,
-          0x0,
+          0x0
         };
   }
 
@@ -15741,7 +15743,7 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           0x0,
           0x0,
           0x48025,
-          0x8000,
+          0x8000
         };
   }
 
@@ -15758,12 +15760,14 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x3, 0x0, 0x0, 0x0, 0x0, 0x3, 0x0, 0x0, 0x0, 0x0, 0x0,
           0x0, 0x3, 0xffe00, 0xffe00, 0x0, 0x0, 0x0, 0x0, 0x0, 0x3, 0x0, 0x0, 0x0, 0x0, 0x3, 0x3,
           0x3, 0x3, 0x3, 0x0, 0x0, 0x0, 0x3, 0x0, 0x0, 0x20, 0x0, 0x0, 0x0, 0x0, 0x3, 0x3, 0x0, 0x0,
-          0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+          0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
         };
   }
 
   private final JJCalls[] jj_2_rtns = new JJCalls[73];
+
   private boolean jj_rescan = false;
+
   private int jj_gc = 0;
 
   /**
@@ -15813,7 +15817,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
     if (token_source == null) {
       token_source = new GeneratedJavaParserTokenManager(jj_input_stream);
     }
-
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
@@ -15941,25 +15944,26 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   }
 
   private java.util.List<int[]> jj_expentries = new java.util.ArrayList<>();
+
   private int[] jj_expentry;
+
   private int jj_kind = -1;
+
   private int[] jj_lasttokens = new int[100];
+
   private int jj_endpos;
 
   private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) {
       return;
     }
-
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
     } else if (jj_endpos != 0) {
       jj_expentry = new int[jj_endpos];
-
       for (int i = 0; i < jj_endpos; i++) {
         jj_expentry[i] = jj_lasttokens[i];
       }
-
       for (final int[] oldentry : jj_expentries) {
         if (oldentry.length == jj_expentry.length) {
           boolean isMatched = true;
@@ -15975,7 +15979,6 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
           }
         }
       }
-
       if (pos != 0) {
         jj_endpos = pos;
         jj_lasttokens[jj_endpos - 1] = kind;
@@ -16309,9 +16312,13 @@ final class GeneratedJavaParser extends GeneratedJavaParserBase
   }
 
   static final class JJCalls {
+
     int gen;
+
     Token first;
+
     int arg;
+
     JJCalls next;
   }
 }

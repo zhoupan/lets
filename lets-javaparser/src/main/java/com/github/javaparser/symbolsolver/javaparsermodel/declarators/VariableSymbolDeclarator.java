@@ -48,7 +48,6 @@ public class VariableSymbolDeclarator extends AbstractSymbolDeclarator<VariableD
         wrappedNode.getVariables().stream()
             .map(v -> JavaParserSymbolDeclaration.localVar(v, typeSolver))
             .collect(Collectors.toCollection(ArrayList::new));
-
     //        // FIXME: This returns ALL PatternExpr, regardless of whether it is in scope or not.
     //        List<JavaParserSymbolDeclaration> patterns = wrappedNode.getVariables()
     //                .stream()
@@ -58,10 +57,8 @@ public class VariableSymbolDeclarator extends AbstractSymbolDeclarator<VariableD
     //                .flatMap(Collection::stream)
     //                .map(v -> JavaParserSymbolDeclaration.patternVar(v, typeSolver))
     //                .collect(Collectors.toCollection(ArrayList::new));
-
     List<ResolvedValueDeclaration> all = new ArrayList<>(variables);
     //        all.addAll(patterns);
-
     return all;
   }
 }

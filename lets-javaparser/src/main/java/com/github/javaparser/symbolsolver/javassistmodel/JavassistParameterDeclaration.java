@@ -25,9 +25,13 @@ import javassist.CtClass;
  * @author Federico Tomassetti
  */
 public class JavassistParameterDeclaration implements ResolvedParameterDeclaration {
+
   private ResolvedType type;
+
   private TypeSolver typeSolver;
+
   private boolean variadic;
+
   private String name;
 
   public JavassistParameterDeclaration(

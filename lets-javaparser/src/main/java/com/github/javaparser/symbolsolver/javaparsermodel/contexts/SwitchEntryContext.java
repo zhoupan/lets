@@ -74,13 +74,11 @@ public class SwitchEntryContext extends AbstractJavaParserContext<SwitchEntry> {
         }
       }
     }
-
     // look for declaration in a pattern label for this entry
     for (Expression e : wrappedNode.getLabels()) {
       if (!e.isTypePatternExpr()) {
         continue;
       }
-
       TypePatternExpr typePatternExpr = e.asTypePatternExpr();
       if (typePatternExpr.getNameAsString().equals(name)) {
         JavaParserPatternDeclaration decl =
@@ -88,7 +86,6 @@ public class SwitchEntryContext extends AbstractJavaParserContext<SwitchEntry> {
         return SymbolReference.solved(decl);
       }
     }
-
     // look for declaration in this and previous switch entry statements
     for (SwitchEntry seStmt : switchNode.getEntries()) {
       for (Statement stmt : seStmt.getStatements()) {
@@ -105,7 +102,6 @@ public class SwitchEntryContext extends AbstractJavaParserContext<SwitchEntry> {
         break;
       }
     }
-
     return solveSymbolInParentContext(name);
   }
 

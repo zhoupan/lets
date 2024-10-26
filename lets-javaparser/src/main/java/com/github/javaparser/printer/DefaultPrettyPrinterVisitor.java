@@ -224,9 +224,7 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
     if (n.getPackageDeclaration().isPresent()) {
       n.getPackageDeclaration().get().accept(this, arg);
     }
-
     printImports(n.getImports(), arg);
-
     for (final Iterator<TypeDeclaration<?>> i = n.getTypes().iterator(); i.hasNext(); ) {
       i.next().accept(this, arg);
       printer.println();
@@ -1296,12 +1294,10 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
       if (n.getLabels().isNonEmpty() && n.isDefault()) {
         printer.print(", default");
       }
-
       if (n.getGuard().isPresent()) {
         printer.print(" when ");
         n.getGuard().get().accept(this, arg);
       }
-
       printer.print(separator);
     }
     printer.println();
@@ -1367,14 +1363,14 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
     printer.println(" {");
     printer.indent();
     if (n.getEntries().isNonEmpty()) {
-      final boolean
-          alignVertically = // Either we hit the constant amount limit in the configurations, or...
-          n.getEntries().size()
+      final boolean // Either we hit the constant amount limit in the configurations, or...
+          // any of the constants has a comment.
+          alignVertically =
+              n.getEntries().size()
                       > getOption(ConfigOption.MAX_ENUM_CONSTANTS_TO_ALIGN_HORIZONTALLY)
                           .get()
                           .asInteger()
-                  || // any of the constants has a comment.
-                  n.getEntries().stream().anyMatch(e -> e.getComment().isPresent());
+                  || n.getEntries().stream().anyMatch(e -> e.getComment().isPresent());
       printer.println();
       for (final Iterator<EnumConstantDeclaration> i = n.getEntries().iterator(); i.hasNext(); ) {
         final EnumConstantDeclaration e = i.next();
@@ -1845,9 +1841,7 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
   }
 
   private void printImports(NodeList<ImportDeclaration> imports, Void arg) {
-
     ImportOrderingStrategy strategy = new DefaultImportOrderingStrategy();
-
     // Get Import strategy from configuration
     Optional<ConfigurationOption> optionalStrategy = getOption(ConfigOption.SORT_IMPORTS_STRATEGY);
     if (optionalStrategy.isPresent()) {
@@ -1856,13 +1850,11 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
         strategy = strategyOption.asValue();
       }
     }
-
     // Keep retro-compatibility with option ORDER_IMPORTS.
     Optional<ConfigurationOption> orderImportsOption = getOption(ConfigOption.ORDER_IMPORTS);
     if (orderImportsOption.isPresent()) {
       strategy.setSortImportsAlphabetically(true);
     }
-
     // Sort the imports according to the strategy
     List<NodeList<ImportDeclaration>> groupOrderedImports = strategy.sortImports(imports);
     for (NodeList<ImportDeclaration> importGroup : groupOrderedImports) {

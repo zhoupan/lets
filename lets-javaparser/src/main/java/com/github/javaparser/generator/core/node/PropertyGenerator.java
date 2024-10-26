@@ -42,6 +42,7 @@ import java.util.*;
 public class PropertyGenerator extends NodeGenerator {
 
   private final Map<String, PropertyMetaModel> declaredProperties = new HashMap<>();
+
   private final Map<String, PropertyMetaModel> derivedProperties = new HashMap<>();
 
   public PropertyGenerator(SourceRoot sourceRoot) {
@@ -68,18 +69,15 @@ public class PropertyGenerator extends NodeGenerator {
       PropertyMetaModel property) {
     // Ensure the relevant imports have been added for the methods/annotations used
     nodeCoid.findCompilationUnit().get().addImport(ObservableProperty.class);
-
     final String name = property.getName();
     // Fill body
     final String observableName =
         camelCaseToScreaming(name.startsWith("is") ? name.substring(2) : name);
     declaredProperties.put(observableName, property);
-
     if (property == JavaParserMetaModel.nodeMetaModel.commentPropertyMetaModel) {
       // Node.comment has a very specific setter that we shouldn't overwrite.
       return;
     }
-
     final MethodDeclaration setter =
         new MethodDeclaration(
             createModifierList(PUBLIC),
@@ -92,10 +90,8 @@ public class PropertyGenerator extends NodeGenerator {
     setter
         .addAndGetParameter(property.getTypeNameForSetter(), property.getName())
         .addModifier(FINAL);
-
     final BlockStmt body = setter.getBody().get();
     body.getStatements().clear();
-
     if (property.isRequired()) {
       Class<?> type = property.getType();
       if (property.isNonEmpty() && property.isSingular()) {
@@ -112,11 +108,9 @@ public class PropertyGenerator extends NodeGenerator {
         body.addStatement(f("assertNotNull(%s);", name));
       }
     }
-
     // Check if the new value is the same as the old value
     String returnValue = CodeUtils.castValue("this", setter.getType(), nodeMetaModel.getTypeName());
     body.addStatement(f("if (%s == this.%s) { return %s; }", name, name, returnValue));
-
     body.addStatement(
         f("notifyPropertyChange(ObservableProperty.%s, this.%s, %s);", observableName, name, name));
     if (property.isNode()) {

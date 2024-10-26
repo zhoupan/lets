@@ -27,6 +27,7 @@ package com.github.javaparser;
  * not used by the lexer. Hence their implementation won't affect the generated lexer's operation.
  */
 public interface CharStream {
+
   /**
    * Get the next character from the selected input. The method of selecting the input is the
    * responsibility of the class implementing this interface.
@@ -105,7 +106,6 @@ public interface CharStream {
   void done();
 
   // Getters and setters
-
   /**
    * @return Current tab size.
    */

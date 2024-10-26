@@ -28,7 +28,9 @@ import com.github.javaparser.symbolsolver.resolution.typeinference.ConstraintFor
  * @author Federico Tomassetti
  */
 public class LambdaThrowsCompatibleWithType extends ConstraintFormula {
+
   private LambdaExpr lambdaExpression;
+
   private ResolvedType T;
 
   @Override
@@ -75,9 +77,7 @@ public class LambdaThrowsCompatibleWithType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     LambdaThrowsCompatibleWithType that = (LambdaThrowsCompatibleWithType) o;
-
     if (!lambdaExpression.equals(that.lambdaExpression)) return false;
     return T.equals(that.T);
   }

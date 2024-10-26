@@ -28,6 +28,7 @@ import com.github.javaparser.metamodel.BaseNodeMetaModel;
 import com.github.javaparser.utils.SourceRoot;
 
 public class CloneGenerator extends NodeGenerator {
+
   public CloneGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }

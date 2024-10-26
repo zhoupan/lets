@@ -46,6 +46,7 @@ public class JavaParserTypeAdapter<
     T extends Node & NodeWithSimpleName<T> & NodeWithMembers<T> & NodeWithAnnotations<T>> {
 
   private T wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserTypeAdapter(T wrappedNode, TypeSolver typeSolver) {
@@ -112,7 +113,6 @@ public class JavaParserTypeAdapter<
         }
       }
     }
-
     // Member classes & interfaces
     for (BodyDeclaration<?> member : this.wrappedNode.getMembers()) {
       if (member instanceof com.github.javaparser.ast.body.TypeDeclaration) {

@@ -22,7 +22,9 @@ import com.github.javaparser.resolution.types.ResolvedType;
  * @author Federico Tomassetti
  */
 public class ProperUpperBound {
+
   private InferenceVariable inferenceVariable;
+
   private ResolvedType properType;
 
   public ProperUpperBound(InferenceVariable inferenceVariable, ResolvedType properType) {
@@ -34,9 +36,7 @@ public class ProperUpperBound {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ProperUpperBound that = (ProperUpperBound) o;
-
     if (!inferenceVariable.equals(that.inferenceVariable)) return false;
     return properType.equals(that.properType);
   }

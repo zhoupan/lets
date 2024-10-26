@@ -40,6 +40,7 @@ public class JavaParserTypeParameter extends AbstractTypeDeclaration
     implements ResolvedTypeParameterDeclaration {
 
   private com.github.javaparser.ast.type.TypeParameter wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserTypeParameter(
@@ -62,9 +63,7 @@ public class JavaParserTypeParameter extends AbstractTypeDeclaration
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof JavaParserTypeParameter)) return false;
-
     JavaParserTypeParameter that = (JavaParserTypeParameter) o;
-
     return wrappedNode != null && wrappedNode.equals(that.wrappedNode);
   }
 

@@ -21,6 +21,7 @@ import static com.github.javaparser.utils.Utils.assertNotNull;
 
 import com.github.javaparser.TokenRange;
 import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.observer.ObservableProperty;
 import com.github.javaparser.ast.visitor.CloneVisitor;
@@ -49,8 +50,24 @@ public class ImportDeclaration extends Node implements NodeWithName<ImportDeclar
 
   private boolean isAsterisk;
 
-  private ImportDeclaration() {
-    this(null, new Name(), false, false);
+  private SimpleName asName;
+
+  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
+  public SimpleName getAsName() {
+    return asName;
+  }
+
+  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
+  public ImportDeclaration setAsName(final SimpleName asName) {
+    assertNotNull(asName);
+    if (asName == this.asName) {
+      return this;
+    }
+    notifyPropertyChange(ObservableProperty.NAME, this.asName, asName);
+    if (this.asName != null) this.asName.setParentNode(null);
+    this.asName = asName;
+    setAsParentNodeOf(asName);
+    return this;
   }
 
   public ImportDeclaration(String name, boolean isStatic, boolean isAsterisk) {
@@ -58,47 +75,13 @@ public class ImportDeclaration extends Node implements NodeWithName<ImportDeclar
   }
 
   @AllFieldsConstructor
-  public ImportDeclaration(Name name, boolean isStatic, boolean isAsterisk) {
-    this(null, name, isStatic, isAsterisk);
+  public ImportDeclaration(Name name, boolean isStatic, boolean isAsterisk, SimpleName asName) {
+    this(null, name, isStatic, isAsterisk, null);
   }
 
-  /** This constructor is used by the parser and is considered private. */
-  @Generated("com.github.javaparser.generator.core.node.MainConstructorGenerator")
-  public ImportDeclaration(TokenRange tokenRange, Name name, boolean isStatic, boolean isAsterisk) {
-    super(tokenRange);
-    setName(name);
-    setStatic(isStatic);
-    setAsterisk(isAsterisk);
-    customInitialization();
-  }
-
-  @Override
-  @Generated("com.github.javaparser.generator.core.node.AcceptGenerator")
-  public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
-    return v.visit(this, arg);
-  }
-
-  @Override
-  @Generated("com.github.javaparser.generator.core.node.AcceptGenerator")
-  public <A> void accept(final VoidVisitor<A> v, final A arg) {
-    v.visit(this, arg);
-  }
-
-  /** Retrieves the name of the import (.* is not included.) */
-  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
-  public Name getName() {
-    return name;
-  }
-
-  /** Return if the import ends with "*". */
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public boolean isAsterisk() {
     return isAsterisk;
-  }
-
-  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
-  public boolean isStatic() {
-    return isStatic;
   }
 
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
@@ -109,6 +92,26 @@ public class ImportDeclaration extends Node implements NodeWithName<ImportDeclar
     notifyPropertyChange(ObservableProperty.ASTERISK, this.isAsterisk, isAsterisk);
     this.isAsterisk = isAsterisk;
     return this;
+  }
+
+  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
+  public boolean isStatic() {
+    return isStatic;
+  }
+
+  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
+  public ImportDeclaration setStatic(final boolean isStatic) {
+    if (isStatic == this.isStatic) {
+      return this;
+    }
+    notifyPropertyChange(ObservableProperty.STATIC, this.isStatic, isStatic);
+    this.isStatic = isStatic;
+    return this;
+  }
+
+  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
+  public Name getName() {
+    return name;
   }
 
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
@@ -124,14 +127,17 @@ public class ImportDeclaration extends Node implements NodeWithName<ImportDeclar
     return this;
   }
 
-  @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
-  public ImportDeclaration setStatic(final boolean isStatic) {
-    if (isStatic == this.isStatic) {
-      return this;
+  @Override
+  @Generated("com.github.javaparser.generator.core.node.ReplaceMethodGenerator")
+  public boolean replace(Node node, Node replacementNode) {
+    if (node == null) {
+      return false;
     }
-    notifyPropertyChange(ObservableProperty.STATIC, this.isStatic, isStatic);
-    this.isStatic = isStatic;
-    return this;
+    if (node == name) {
+      setName((Name) replacementNode);
+      return true;
+    }
+    return super.replace(node, replacementNode);
   }
 
   @Override
@@ -146,16 +152,31 @@ public class ImportDeclaration extends Node implements NodeWithName<ImportDeclar
     return JavaParserMetaModel.importDeclarationMetaModel;
   }
 
+  /** This constructor is used by the parser and is considered private. */
+  @Generated("com.github.javaparser.generator.core.node.MainConstructorGenerator")
+  public ImportDeclaration(TokenRange tokenRange, Name name, boolean isStatic, boolean isAsterisk) {
+    super(tokenRange);
+    setName(name);
+    setStatic(isStatic);
+    setAsterisk(isAsterisk);
+    customInitialization();
+  }
+
+  public ImportDeclaration(
+      TokenRange tokenRange, Name name, boolean isStatic, boolean isAsterisk, SimpleName asName) {
+    this(tokenRange, name, isStatic, isAsterisk);
+    setAsName(asName);
+  }
+
   @Override
-  @Generated("com.github.javaparser.generator.core.node.ReplaceMethodGenerator")
-  public boolean replace(Node node, Node replacementNode) {
-    if (node == null) {
-      return false;
-    }
-    if (node == name) {
-      setName((Name) replacementNode);
-      return true;
-    }
-    return super.replace(node, replacementNode);
+  @Generated("com.github.javaparser.generator.core.node.AcceptGenerator")
+  public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
+    return v.visit(this, arg);
+  }
+
+  @Override
+  @Generated("com.github.javaparser.generator.core.node.AcceptGenerator")
+  public <A> void accept(final VoidVisitor<A> v, final A arg) {
+    v.visit(this, arg);
   }
 }

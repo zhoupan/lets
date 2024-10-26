@@ -31,6 +31,7 @@ import java.util.Set;
  * @author Federico Tomassetti
  */
 public class ThrowsBound extends Bound {
+
   private InferenceVariable inferenceVariable;
 
   public ThrowsBound(InferenceVariable inferenceVariable) {
@@ -41,9 +42,7 @@ public class ThrowsBound extends Bound {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ThrowsBound that = (ThrowsBound) o;
-
     return inferenceVariable.equals(that.inferenceVariable);
   }
 

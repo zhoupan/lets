@@ -50,11 +50,9 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
   ///
   /// Static methods
   ///
-
   ///
   /// Constructors
   ///
-
   public CompilationUnitContext(CompilationUnit wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
   }
@@ -62,10 +60,8 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
   ///
   /// Public methods
   ///
-
   @Override
   public SymbolReference<? extends ResolvedValueDeclaration> solveSymbol(String name) {
-
     // solve absolute references
     String itName = name;
     while (itName.contains(".")) {
@@ -78,14 +74,12 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
       }
       itName = typeName;
     }
-
     // Look among statically imported values
     for (ImportDeclaration importDecl : wrappedNode.getImports()) {
       if (importDecl.isStatic()) {
         if (importDecl.isAsterisk()) {
           String qName = importDecl.getNameAsString();
           ResolvedTypeDeclaration importedType = typeSolver.solveType(qName);
-
           // avoid infinite recursion
           if (!isAncestorOf(importedType)) {
             SymbolReference<? extends ResolvedValueDeclaration> ref =
@@ -96,11 +90,9 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
           }
         } else {
           String whole = importDecl.getNameAsString();
-
           // split in field/method name and type name
           String memberName = getMember(whole);
           String typeName = getType(whole);
-
           if (memberName.equals(name)) {
             ResolvedTypeDeclaration importedType = typeSolver.solveType(typeName);
             return new SymbolSolver(typeSolver).solveSymbolInType(importedType, memberName);
@@ -108,14 +100,12 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
         }
       }
     }
-
     return SymbolReference.unsolved();
   }
 
   @Override
   public SymbolReference<ResolvedTypeDeclaration> solveType(
       String name, List<ResolvedType> typeArguments) {
-
     if (wrappedNode.getTypes() != null) {
       // Look for types in this compilation unit. For instance, if the given name is "A", there may
       // be a class or
@@ -130,12 +120,10 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
                 JavaParserFacade.get(typeSolver)
                     .getTypeDeclaration((ClassOrInterfaceDeclaration) type));
           }
-
           if (type instanceof AnnotationDeclaration) {
             return SymbolReference.solved(
                 new JavaParserAnnotationDeclaration((AnnotationDeclaration) type, typeSolver));
           }
-
           if (type instanceof EnumDeclaration) {
             return SymbolReference.solved(
                 new JavaParserEnumDeclaration((EnumDeclaration) type, typeSolver));
@@ -143,7 +131,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
           throw new UnsupportedOperationException(type.getClass().getCanonicalName());
         }
       }
-
       // Look for member classes/interfaces of types in this compilation unit. For instance, if the
       // given name is
       // "A.B", there may be a class or interface in this compilation unit called "A" which has
@@ -176,7 +163,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
         }
       }
     }
-
     // Inspect imports for matches, prior to inspecting other classes within the package (per issue
     // #1526)
     int dotPos = name.indexOf('.');
@@ -204,7 +190,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
         }
       }
     }
-
     // Look in current package
     if (this.wrappedNode.getPackageDeclaration().isPresent()) {
       String qName = this.wrappedNode.getPackageDeclaration().get().getNameAsString() + "." + name;
@@ -220,7 +205,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
         return SymbolReference.adapt(ref, ResolvedTypeDeclaration.class);
       }
     }
-
     // look into asterisk imports on demand
     for (ImportDeclaration importDecl : wrappedNode.getImports()) {
       if (importDecl.isAsterisk()) {
@@ -231,14 +215,12 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
         }
       }
     }
-
     // Look in the java.lang package
     SymbolReference<ResolvedReferenceTypeDeclaration> ref =
         typeSolver.tryToSolveType(DEFAULT_PACKAGE + "." + name);
     if (ref != null && ref.isSolved()) {
       return SymbolReference.adapt(ref, ResolvedTypeDeclaration.class);
     }
-
     if (isQualifiedName(name)) {
       return SymbolReference.adapt(typeSolver.tryToSolveType(name), ResolvedTypeDeclaration.class);
     }
@@ -279,7 +261,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
       if (importDecl.isStatic()) {
         if (importDecl.isAsterisk()) {
           String importString = importDecl.getNameAsString();
-
           if (this.wrappedNode.getPackageDeclaration().isPresent()
               && this.wrappedNode
                   .getPackageDeclaration()
@@ -295,7 +276,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
             // a lower level so this will fail
             return SymbolReference.unsolved();
           }
-
           ResolvedTypeDeclaration ref = typeSolver.solveType(importString);
           // avoid infinite recursion
           if (!isAncestorOf(ref)) {
@@ -307,7 +287,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
           }
         } else {
           String qName = importDecl.getNameAsString();
-
           if (qName.equals(name) || qName.endsWith("." + name)) {
             String typeName = getType(qName);
             ResolvedTypeDeclaration ref = typeSolver.solveType(typeName);
@@ -352,7 +331,6 @@ public class CompilationUnitContext extends AbstractJavaParserContext<Compilatio
   ///
   /// Private methods
   ///
-
   private String getType(String qName) {
     int index = qName.lastIndexOf('.');
     if (index == -1) {

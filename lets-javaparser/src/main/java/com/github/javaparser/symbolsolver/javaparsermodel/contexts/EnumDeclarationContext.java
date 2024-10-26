@@ -45,18 +45,15 @@ public class EnumDeclarationContext extends AbstractJavaParserContext<EnumDeclar
   @Override
   public SymbolReference<? extends ResolvedValueDeclaration> solveSymbol(String name) {
     if (typeSolver == null) throw new IllegalArgumentException();
-
     // among constants
     for (EnumConstantDeclaration constant : wrappedNode.getEntries()) {
       if (constant.getName().getId().equals(name)) {
         return SymbolReference.solved(new JavaParserEnumConstantDeclaration(constant, typeSolver));
       }
     }
-
     if (this.getDeclaration().hasField(name)) {
       return SymbolReference.solved(this.getDeclaration().getField(name));
     }
-
     // then to parent
     return solveSymbolInParentContext(name);
   }
@@ -76,7 +73,6 @@ public class EnumDeclarationContext extends AbstractJavaParserContext<EnumDeclar
   ///
   /// Private methods
   ///
-
   private ResolvedReferenceTypeDeclaration getDeclaration() {
     return new JavaParserEnumDeclaration(this.wrappedNode, typeSolver);
   }

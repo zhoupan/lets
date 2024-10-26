@@ -32,6 +32,7 @@ import com.github.javaparser.utils.SeparatedItemStringBuilder;
 import com.github.javaparser.utils.SourceRoot;
 
 public class MainConstructorGenerator extends NodeGenerator {
+
   public MainConstructorGenerator(SourceRoot sourceRoot) {
     super(sourceRoot);
   }
@@ -51,9 +52,7 @@ public class MainConstructorGenerator extends NodeGenerator {
             .addParameter(TokenRange.class, "tokenRange")
             .setJavadocComment(
                 "\n     * This constructor is used by the parser and is considered private.\n     ");
-
     BlockStmt body = constructor.getBody();
-
     SeparatedItemStringBuilder superCall = new SeparatedItemStringBuilder("super(", ", ", ");");
     superCall.append("tokenRange");
     for (PropertyMetaModel parameter : nodeMetaModel.getConstructorParameters()) {
@@ -64,11 +63,8 @@ public class MainConstructorGenerator extends NodeGenerator {
         superCall.append(parameter.getName());
       }
     }
-
     body.getStatements().addFirst(parseExplicitConstructorInvocationStmt(superCall.toString()));
-
     body.addStatement("customInitialization();");
-
     addOrReplaceWhenSameSignature(nodeCoid, constructor);
     nodeCu.addImport(TokenRange.class);
   }

@@ -46,21 +46,22 @@ public class JavaParserAnonymousClassDeclaration extends AbstractClassDeclaratio
     implements MethodUsageResolutionCapability {
 
   private final TypeSolver typeSolver;
+
   private final ObjectCreationExpr wrappedNode;
+
   private final ResolvedTypeDeclaration superTypeDeclaration;
+
   private final String name = "Anonymous-" + UUID.randomUUID();
 
   public JavaParserAnonymousClassDeclaration(
       ObjectCreationExpr wrappedNode, TypeSolver typeSolver) {
     this.typeSolver = typeSolver;
     this.wrappedNode = wrappedNode;
-
     ClassOrInterfaceType superType = wrappedNode.getType();
     String superTypeName = superType.getName().getId();
     if (superType.getScope().isPresent()) {
       superTypeName = superType.getScope().get().asString() + "." + superTypeName;
     }
-
     Context context = new ObjectCreationContext(wrappedNode, typeSolver);
     superTypeDeclaration = context.solveType(superTypeName).getCorrespondingDeclaration();
   }
@@ -136,19 +137,15 @@ public class JavaParserAnonymousClassDeclaration extends AbstractClassDeclaratio
   @Override
   public List<ResolvedReferenceType> getAncestors(boolean acceptIncompleteList) {
     ImmutableList.Builder<ResolvedReferenceType> builder = ImmutableList.builder();
-
     // Only add the super type if it is present (e.g. java.lang.Object has no super class)
     getSuperClass().ifPresent(builder::add);
-
     // All all ancestors of the super type..?
     builder.addAll(superTypeDeclaration.asReferenceType().getAncestors(acceptIncompleteList));
-
     return builder.build();
   }
 
   @Override
   public List<ResolvedFieldDeclaration> getAllFields() {
-
     List<JavaParserFieldDeclaration> myFields =
         findMembersOfKind(FieldDeclaration.class).stream()
             .flatMap(
@@ -156,7 +153,6 @@ public class JavaParserAnonymousClassDeclaration extends AbstractClassDeclaratio
                     field.getVariables().stream()
                         .map(variable -> new JavaParserFieldDeclaration(variable, typeSolver)))
             .collect(Collectors.toList());
-
     // TODO: Figure out if it is appropriate to remove the orElseThrow() -- if so, how...
     List<ResolvedFieldDeclaration> superClassFields =
         getSuperClass()
@@ -164,7 +160,6 @@ public class JavaParserAnonymousClassDeclaration extends AbstractClassDeclaratio
             .getTypeDeclaration()
             .orElseThrow(() -> new RuntimeException("TypeDeclaration unexpectedly empty."))
             .getAllFields();
-
     // TODO: Figure out if it is appropriate to remove the orElseThrow() -- if so, how...
     List<ResolvedFieldDeclaration> interfaceFields =
         getInterfaces().stream()
@@ -177,7 +172,6 @@ public class JavaParserAnonymousClassDeclaration extends AbstractClassDeclaratio
                         .getAllFields()
                         .stream())
             .collect(Collectors.toList());
-
     return ImmutableList.<ResolvedFieldDeclaration>builder()
         .addAll(myFields)
         .addAll(superClassFields)

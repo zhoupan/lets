@@ -31,6 +31,7 @@ import java.util.List;
 
 /** Generates JavaParser's GenericListVisitorAdapter. */
 public class GenericListVisitorAdapterGenerator extends VisitorGenerator {
+
   public GenericListVisitorAdapterGenerator(SourceRoot sourceRoot) {
     super(
         sourceRoot,
@@ -45,14 +46,11 @@ public class GenericListVisitorAdapterGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
     body.addStatement("List<R> result = new ArrayList<>();");
     body.addStatement("List<R> tmp;");
-
     final String resultCheck = "if (tmp != null) result.addAll(tmp);";
-
     for (PropertyMetaModel field : node.getAllPropertyMetaModels()) {
       final String getter = field.getGetterMethodName() + "()";
       if (field.getNodeReference().isPresent()) {

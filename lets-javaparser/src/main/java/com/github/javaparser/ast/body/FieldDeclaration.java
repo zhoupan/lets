@@ -130,19 +130,16 @@ public class FieldDeclaration extends BodyDeclaration<FieldDeclaration>
    * @return modifiers
    * @see Modifier
    */
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public NodeList<Modifier> getModifiers() {
     return modifiers;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public NodeList<VariableDeclarator> getVariables() {
     return variables;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public FieldDeclaration setModifiers(final NodeList<Modifier> modifiers) {
     assertNotNull(modifiers);
@@ -156,7 +153,6 @@ public class FieldDeclaration extends BodyDeclaration<FieldDeclaration>
     return this;
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public FieldDeclaration setVariables(final NodeList<VariableDeclarator> variables) {
     assertNotNull(variables);

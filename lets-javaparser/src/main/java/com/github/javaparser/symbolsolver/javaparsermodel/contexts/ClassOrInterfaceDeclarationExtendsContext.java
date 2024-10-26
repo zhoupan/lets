@@ -31,6 +31,7 @@ import java.util.List;
  */
 public class ClassOrInterfaceDeclarationExtendsContext
     extends AbstractJavaParserContext<ClassOrInterfaceDeclaration> {
+
   public ClassOrInterfaceDeclarationExtendsContext(
       ClassOrInterfaceDeclaration wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
@@ -44,7 +45,6 @@ public class ClassOrInterfaceDeclarationExtendsContext
         return SymbolReference.solved(new JavaParserTypeParameter(typeParameter, typeSolver));
       }
     }
-
     return super.solveType(name, typeArguments);
   }
 }

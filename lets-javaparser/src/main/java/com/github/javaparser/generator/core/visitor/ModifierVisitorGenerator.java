@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModifierVisitorGenerator extends VisitorGenerator {
+
   public ModifierVisitorGenerator(SourceRoot sourceRoot) {
     super(
         sourceRoot, "com.github.javaparser.ast.visitor", "ModifierVisitor", "Visitable", "A", true);
@@ -42,28 +43,22 @@ public class ModifierVisitorGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
-
     // FIXME: Bit of a hacky way to get this fixed order, and then have everything else (note this
     // list is reversed)
-    List<String> order =
-        Arrays.asList(
-            //                "comment", "name", "members", "parameters", "name",
-            "modifiers", "annotations");
+    //                "comment", "name", "members", "parameters", "name",
+    List<String> //                "comment", "name", "members", "parameters", "name",
+        //                "comment", "name", "members", "parameters", "name",
+        order = Arrays.asList("modifiers", "annotations");
     List<PropertyMetaModel> sortedPropertyMetaModels =
         node.getAllPropertyMetaModels().stream()
             .sorted(
                 Comparator.comparingInt((PropertyMetaModel o) -> order.indexOf(o.getName()))
-                    .reversed()
-                //                        .thenComparing(PropertyMetaModel::getName)
-                )
+                    .reversed())
             .collect(Collectors.toList());
-
     //
     sortedPropertyMetaModels.forEach(property -> extracted(body, property));
-
     //
     if (node.is(BinaryExpr.class)) {
       body.addStatement("if (left == null) return right;");
@@ -87,7 +82,6 @@ public class ModifierVisitorGenerator extends VisitorGenerator {
         body.addStatement(collapseCheck.toString());
       }
     }
-
     //
     sortedPropertyMetaModels.forEach(
         property -> {
@@ -95,7 +89,6 @@ public class ModifierVisitorGenerator extends VisitorGenerator {
             body.addStatement(f("n.%s(%s);", property.getSetterMethodName(), property.getName()));
           }
         });
-
     //
     body.addStatement("return n;");
   }

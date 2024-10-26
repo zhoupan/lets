@@ -23,7 +23,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class ReferenceConditionalExprHandler implements ConditionalExprHandler {
+
   ResolvedType thenExpr;
+
   ResolvedType elseExpr;
 
   public ReferenceConditionalExprHandler(ResolvedType thenExpr, ResolvedType elseExpr) {

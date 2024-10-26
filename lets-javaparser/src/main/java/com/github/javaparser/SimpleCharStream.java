@@ -21,6 +21,7 @@ package com.github.javaparser;
  * characters (without unicode processing).
  */
 public class SimpleCharStream extends AbstractCharStream {
+
   private Provider inputStream;
 
   @Override

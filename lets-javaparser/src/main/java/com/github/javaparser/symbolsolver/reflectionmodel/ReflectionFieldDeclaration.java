@@ -30,7 +30,9 @@ import java.lang.reflect.Modifier;
 public class ReflectionFieldDeclaration implements ResolvedFieldDeclaration {
 
   private Field field;
+
   private TypeSolver typeSolver;
+
   private ResolvedType type;
 
   public ReflectionFieldDeclaration(Field field, TypeSolver typeSolver) {

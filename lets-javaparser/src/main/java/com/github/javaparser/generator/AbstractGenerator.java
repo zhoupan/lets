@@ -113,37 +113,28 @@ public abstract class AbstractGenerator {
                 "Wanted to regenerate a method with signature %s in %s, but found more than one, and unable to disambiguate.",
                 callable.getSignature(), containingClassOrInterface.getNameAsString()));
       }
-
       final CallableDeclaration<?> existingCallable = existingMatchingCallables.get(0);
-
       // Attempt to retain any existing javadoc.
-
       // TODO: Confirm what is done with normal comments...
       Optional<JavadocComment> callableJavadocComment = callable.getJavadocComment();
       Optional<JavadocComment> existingCallableJavadocComment =
           existingCallable.getJavadocComment();
-
       Optional<Comment> callableComment = callable.getComment();
       Optional<Comment> existingCallableComment = existingCallable.getComment();
-
       callable.setComment(
           callableComment.orElseGet(() -> existingCallable.getComment().orElse(null)));
       //
       // callable.setJavadocComment(callableJavadocComment.orElse(existingCallableJavadocComment.orElse(null)));
-
       // Mark the method as having been fully/partially generated.
       annotateGenerated(callable);
-
       if (callable.isMethodDeclaration()) {
         // We want the methods that we generate/insert to be pretty printed.
         MethodDeclaration prettyMethodDeclaration =
             prettyPrint(callable.asMethodDeclaration(), "    ");
-
         // Do the replacement.
         containingClassOrInterface.getMembers().replace(existingCallable, prettyMethodDeclaration);
       } else {
         // TODO: Unable to parse a constructor directly...?
-
         // Do the replacement.
         containingClassOrInterface.getMembers().replace(existingCallable, callable);
       }
@@ -180,15 +171,12 @@ public abstract class AbstractGenerator {
         node.getAnnotations().stream()
             .filter(a -> !a.getNameAsString().equals(annotation.getSimpleName()))
             .collect(toNodeList());
-
     node.setAnnotations(annotations);
-
     if (content != null) {
       node.addSingleMemberAnnotation(annotation.getSimpleName(), content);
     } else {
       node.addMarkerAnnotation(annotation.getSimpleName());
     }
-
     // The annotation class will normally need to be imported.
     node.tryAddImportToParentCompilationUnit(annotation);
   }
@@ -207,7 +195,6 @@ public abstract class AbstractGenerator {
         .removeIf(
             annotationExpr ->
                 annotationExpr.getName().asString().equals(annotation.getSimpleName()));
-
     node.findAncestor(CompilationUnit.class)
         .ifPresent(
             compilationUnit -> {
@@ -221,14 +208,12 @@ public abstract class AbstractGenerator {
 
   protected void removeAnnotationImportIfUnused(
       CompilationUnit compilationUnit, Class<?> annotation) {
-
     List<AnnotationExpr> staleAnnotations =
         compilationUnit.findAll(AnnotationExpr.class).stream()
             .filter(
                 annotationExpr ->
                     annotationExpr.getName().asString().equals(annotation.getSimpleName()))
             .collect(Collectors.toList());
-
     if (staleAnnotations.isEmpty()) {
       // If there are no usages of this annotation, remove the import.
       boolean isRemoved =
@@ -294,7 +279,6 @@ public abstract class AbstractGenerator {
       throws IOException {
     List<CompilationUnit> cus = sourceRoot.getCompilationUnits();
     List<ParseResult<CompilationUnit>> parseResults = sourceRoot.tryToParse();
-
     boolean allParsed = parseResults.stream().allMatch(ParseResult::isSuccessful);
     if (!allParsed) {
       List<ParseResult<CompilationUnit>> problemResults =
@@ -308,12 +292,9 @@ public abstract class AbstractGenerator {
         Log.info("Problems (" + (i + 1) + " of " + problemResults.size() + "): ");
         Log.info(problems.toString());
       }
-
       throw new IllegalStateException("Expected all files to parse.");
     }
-
     Log.info("parseResults.size() = " + parseResults.size());
-
     return parseResults.stream()
         .map(ParseResult::getResult)
         .map(Optional::get)
@@ -329,7 +310,6 @@ public abstract class AbstractGenerator {
         indent + methodDeclaration.toString().replaceAll("(\\R)", "$1" + indent);
     MethodDeclaration prettyMethodDeclaration =
         StaticJavaParser.parseMethodDeclaration(methodDeclarationString);
-
     return prettyMethodDeclaration;
   }
 
@@ -342,9 +322,7 @@ public abstract class AbstractGenerator {
         indent + enumDeclaration.toString().replaceAll("(\\R)", "$1" + indent);
     TypeDeclaration<?> prettyEnumDeclaration =
         StaticJavaParser.parseTypeDeclaration(enumDeclarationString);
-
     LexicalPreservingPrinter.setup(prettyEnumDeclaration);
-
     // We know that it is an enum declaration.
     return prettyEnumDeclaration.asEnumDeclaration();
   }
@@ -356,9 +334,7 @@ public abstract class AbstractGenerator {
   protected SwitchStmt prettyPrint(SwitchStmt switchStmt, String indent) {
     String switchStmtString = indent + switchStmt.toString().replaceAll("(\\R)", "$1" + indent);
     Statement prettySwitchStmt = StaticJavaParser.parseStatement(switchStmtString);
-
     LexicalPreservingPrinter.setup(prettySwitchStmt);
-
     // We know that it is an switch statement.
     return prettySwitchStmt.asSwitchStmt();
   }

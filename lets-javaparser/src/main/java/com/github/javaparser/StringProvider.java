@@ -19,8 +19,11 @@ package com.github.javaparser;
 import java.io.IOException;
 
 public class StringProvider implements Provider {
+
   private String m_sStr;
+
   private int m_nPos = 0;
+
   private final int m_nLen;
 
   public StringProvider(final String sStr) {
@@ -31,14 +34,11 @@ public class StringProvider implements Provider {
   public int read(final char[] aDest, final int nOfs, final int nLen) throws IOException {
     final int nLeft = m_nLen - m_nPos;
     if (nLeft <= 0) return -1;
-
     int nCharsRead = aDest.length - nOfs;
     if (nLen < nCharsRead) nCharsRead = nLen;
     if (nLeft < nCharsRead) nCharsRead = nLeft;
-
     m_sStr.getChars(m_nPos, m_nPos + nCharsRead, aDest, nOfs);
     m_nPos += nCharsRead;
-
     return nCharsRead;
   }
 

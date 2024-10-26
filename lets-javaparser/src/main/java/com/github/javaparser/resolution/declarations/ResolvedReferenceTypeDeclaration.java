@@ -33,8 +33,11 @@ public interface ResolvedReferenceTypeDeclaration
     extends ResolvedTypeDeclaration, ResolvedTypeParametrizable {
 
   String JAVA_LANG_ENUM = java.lang.Enum.class.getCanonicalName();
+
   String JAVA_LANG_COMPARABLE = java.lang.Comparable.class.getCanonicalName();
+
   String JAVA_IO_SERIALIZABLE = Serializable.class.getCanonicalName();
+
   String JAVA_LANG_OBJECT = java.lang.Object.class.getCanonicalName();
 
   @Override
@@ -356,10 +359,10 @@ public interface ResolvedReferenceTypeDeclaration
    *     href="https://github.com/javaparser/javaparser/issues/2044">https://github.com/javaparser/javaparser/issues/2044</a>
    */
   default boolean isJavaLangObject() {
-    return this.isClass()
+    return // Consider anonymous classes
+    this.isClass()
         && !isAnonymousClass()
-        && // Consider anonymous classes
-        hasName()
+        && hasName()
         && JAVA_LANG_OBJECT.equals(getQualifiedName());
   }
 

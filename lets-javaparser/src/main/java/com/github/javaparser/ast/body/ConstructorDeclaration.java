@@ -178,7 +178,6 @@ public class ConstructorDeclaration extends CallableDeclaration<ConstructorDecla
     v.visit(this, arg);
   }
 
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public BlockStmt getBody() {
     return body;
@@ -190,7 +189,6 @@ public class ConstructorDeclaration extends CallableDeclaration<ConstructorDecla
    * @param body the body, can not be null
    * @return this, the ConstructorDeclaration
    */
-  @Override
   @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
   public ConstructorDeclaration setBody(final BlockStmt body) {
     assertNotNull(body);

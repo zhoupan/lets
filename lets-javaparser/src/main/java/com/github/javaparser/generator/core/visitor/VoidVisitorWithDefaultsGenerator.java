@@ -25,6 +25,7 @@ import com.github.javaparser.utils.SourceRoot;
 
 /** Generates JavaParser's VoidVisitorWithDefaults. */
 public class VoidVisitorWithDefaultsGenerator extends VisitorGenerator {
+
   public VoidVisitorWithDefaultsGenerator(SourceRoot sourceRoot) {
     super(
         sourceRoot,
@@ -39,10 +40,8 @@ public class VoidVisitorWithDefaultsGenerator extends VisitorGenerator {
   protected void generateVisitMethodBody(
       BaseNodeMetaModel node, MethodDeclaration visitMethod, CompilationUnit compilationUnit) {
     visitMethod.getParameters().forEach(p -> p.setFinal(true));
-
     BlockStmt body = visitMethod.getBody().get();
     body.getStatements().clear();
-
     body.addStatement("defaultAction(n, arg);");
   }
 }

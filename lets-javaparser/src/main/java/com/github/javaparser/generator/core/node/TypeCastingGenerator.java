@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class TypeCastingGenerator extends NodeGenerator {
+
   private final Set<BaseNodeMetaModel> baseNodes =
       set(
           JavaParserMetaModel.statementMetaModel,
@@ -61,17 +62,14 @@ public class TypeCastingGenerator extends NodeGenerator {
         baseCode = parseNode(baseNode);
       }
     }
-
     if (baseCode == null) {
       // Node is not a child of one of the base nodes, so we don't want to generate this method for
       // it.
       return;
     }
-
     final String typeName = nodeMetaModel.getTypeName();
     final ClassOrInterfaceDeclaration baseCoid = baseCode.b;
     final CompilationUnit baseCu = baseCode.a;
-
     generateIsType(nodeMetaModel, baseCu, nodeCoid, baseCoid, typeName);
     generateAsType(nodeMetaModel, baseCu, nodeCoid, baseCoid, typeName);
     generateToType(nodeMetaModel, nodeCu, baseCu, nodeCoid, baseCoid, typeName);
@@ -85,7 +83,6 @@ public class TypeCastingGenerator extends NodeGenerator {
       ClassOrInterfaceDeclaration baseCoid,
       String typeName) {
     baseCu.addImport("com.github.javaparser.utils.CodeGenerationUtils.f", true, false);
-
     final MethodDeclaration asTypeBaseMethod =
         (MethodDeclaration)
             parseBodyDeclaration(
@@ -96,9 +93,7 @@ public class TypeCastingGenerator extends NodeGenerator {
         (MethodDeclaration)
             parseBodyDeclaration(
                 f("@Override public %s as%s() { return this; }", typeName, typeName));
-
     annotateWhenOverridden(nodeMetaModel, asTypeNodeMethod);
-
     addOrReplaceWhenSameSignature(baseCoid, asTypeBaseMethod);
     addOrReplaceWhenSameSignature(nodeCoid, asTypeNodeMethod);
   }
@@ -112,7 +107,6 @@ public class TypeCastingGenerator extends NodeGenerator {
       String typeName) {
     baseCu.addImport(Optional.class);
     nodeCu.addImport(Optional.class);
-
     final MethodDeclaration toTypeBaseMethod =
         (MethodDeclaration)
             parseBodyDeclaration(
@@ -125,9 +119,7 @@ public class TypeCastingGenerator extends NodeGenerator {
                 f(
                     "@Override public Optional<%s> to%s() { return Optional.of(this); }",
                     typeName, typeName));
-
     annotateWhenOverridden(nodeMetaModel, toTypeNodeMethod);
-
     addOrReplaceWhenSameSignature(baseCoid, toTypeBaseMethod);
     addOrReplaceWhenSameSignature(nodeCoid, toTypeNodeMethod);
   }
@@ -141,7 +133,6 @@ public class TypeCastingGenerator extends NodeGenerator {
       String typeName) {
     baseCu.addImport(Consumer.class);
     nodeCu.addImport(Consumer.class);
-
     final MethodDeclaration ifTypeBaseMethod =
         (MethodDeclaration)
             parseBodyDeclaration(
@@ -152,9 +143,7 @@ public class TypeCastingGenerator extends NodeGenerator {
                 f(
                     "public void if%s(Consumer<%s> action) { action.accept(this); }",
                     typeName, typeName));
-
     annotateWhenOverridden(nodeMetaModel, ifTypeNodeMethod);
-
     addOrReplaceWhenSameSignature(baseCoid, ifTypeBaseMethod);
     addOrReplaceWhenSameSignature(nodeCoid, ifTypeNodeMethod);
   }
@@ -171,9 +160,7 @@ public class TypeCastingGenerator extends NodeGenerator {
     final MethodDeclaration overriddenIsTypeMethod =
         (MethodDeclaration)
             parseBodyDeclaration(f("@Override public boolean is%s() { return true; }", typeName));
-
     annotateWhenOverridden(nodeMetaModel, overriddenIsTypeMethod);
-
     addOrReplaceWhenSameSignature(nodeCoid, overriddenIsTypeMethod);
     addOrReplaceWhenSameSignature(baseCoid, baseIsTypeMethod);
   }

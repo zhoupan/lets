@@ -22,7 +22,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class LazyType implements ResolvedType {
+
   private ResolvedType concrete;
+
   private Function<Void, ResolvedType> provider;
 
   public LazyType(Function<Void, ResolvedType> provider) {

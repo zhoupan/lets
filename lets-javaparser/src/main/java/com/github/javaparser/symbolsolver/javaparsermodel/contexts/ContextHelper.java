@@ -39,7 +39,6 @@ public class ContextHelper {
       List<ResolvedType> argumentsTypes,
       Context invokationContext,
       List<ResolvedType> typeParameters) {
-
     if (typeDeclaration instanceof MethodUsageResolutionCapability) {
       return ((MethodUsageResolutionCapability) typeDeclaration)
           .solveMethodAsUsage(name, argumentsTypes, invokationContext, typeParameters);

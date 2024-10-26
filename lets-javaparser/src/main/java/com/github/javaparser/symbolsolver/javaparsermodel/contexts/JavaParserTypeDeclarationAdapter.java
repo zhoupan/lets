@@ -48,8 +48,11 @@ import java.util.stream.Collectors;
 public class JavaParserTypeDeclarationAdapter {
 
   private com.github.javaparser.ast.body.TypeDeclaration<?> wrappedNode;
+
   private TypeSolver typeSolver;
+
   private Context context;
+
   private ResolvedReferenceTypeDeclaration typeDeclaration;
 
   public JavaParserTypeDeclarationAdapter(
@@ -77,7 +80,6 @@ public class JavaParserTypeDeclarationAdapter {
       return SymbolReference.solved(
           JavaParserFacade.get(typeSolver).getTypeDeclaration(wrappedNode));
     }
-
     // Internal classes
     for (BodyDeclaration<?> member : this.wrappedNode.getMembers()) {
       if (member.isTypeDeclaration()) {
@@ -98,7 +100,6 @@ public class JavaParserTypeDeclarationAdapter {
         }
       }
     }
-
     // Before checking the ancestors of the node,
     // it is necessary to check that the name to be resolved is not declared in the compilation
     // unit.
@@ -109,7 +110,6 @@ public class JavaParserTypeDeclarationAdapter {
             .orElseThrow(() -> new RuntimeException("Parent context unexpectedly empty."))
             .solveType(name, typeArguments);
     if (symbolRef.isSolved()) return symbolRef;
-
     // Check if is a type parameter
     if (wrappedNode instanceof NodeWithTypeParameters) {
       NodeWithTypeParameters<?> nodeWithTypeParameters = (NodeWithTypeParameters<?>) wrappedNode;
@@ -119,7 +119,6 @@ public class JavaParserTypeDeclarationAdapter {
         }
       }
     }
-
     // Check if the node implements other types
     if (wrappedNode instanceof NodeWithImplements) {
       NodeWithImplements<?> nodeWithImplements = (NodeWithImplements<?>) wrappedNode;
@@ -132,7 +131,6 @@ public class JavaParserTypeDeclarationAdapter {
         }
       }
     }
-
     // Check if the node extends other types
     if (wrappedNode instanceof NodeWithExtends) {
       NodeWithExtends<?> nodeWithExtends = (NodeWithExtends<?>) wrappedNode;
@@ -146,14 +144,12 @@ public class JavaParserTypeDeclarationAdapter {
         }
       }
     }
-
     // Looking at extended classes and implemented interfaces
     String typeName = isCompositeName(name) ? innerMostPartOfName(name) : name;
     ResolvedTypeDeclaration type = checkAncestorsForType(typeName, this.typeDeclaration);
     if (type != null) {
       return SymbolReference.solved(type);
     }
-
     return SymbolReference.unsolved();
   }
 
@@ -175,7 +171,6 @@ public class JavaParserTypeDeclarationAdapter {
     if (resolvedTypeArguments == null) {
       return true;
     }
-
     return types.size() == resolvedTypeArguments.size();
   }
 
@@ -214,7 +209,6 @@ public class JavaParserTypeDeclarationAdapter {
             ancestor
                 .getTypeDeclaration()
                 .orElseThrow(() -> new RuntimeException("TypeDeclaration unexpectedly empty."));
-
         for (ResolvedTypeDeclaration internalTypeDeclaration :
             ancestorReferenceTypeDeclaration.internalTypes()) {
           boolean visible = true;
@@ -234,7 +228,6 @@ public class JavaParserTypeDeclarationAdapter {
             return null;
           }
         }
-
         // check recursively the ancestors of this ancestor
         ResolvedTypeDeclaration ancestorTypeDeclaration =
             checkAncestorsForType(name, ancestorReferenceTypeDeclaration);
@@ -245,19 +238,18 @@ public class JavaParserTypeDeclarationAdapter {
         // just continue using the next ancestor
       }
     }
-    return null; // FIXME -- Avoid returning null.
+    // FIXME -- Avoid returning null.
+    return null;
   }
 
   public SymbolReference<ResolvedMethodDeclaration> solveMethod(
       String name, List<ResolvedType> argumentsTypes, boolean staticOnly) {
-
     // Begin by locating methods declared "here"
     List<ResolvedMethodDeclaration> candidateMethods =
         typeDeclaration.getDeclaredMethods().stream()
             .filter(m -> m.getName().equals(name))
             .filter(m -> !staticOnly || m.isStatic())
             .collect(Collectors.toList());
-
     // Next, consider methods declared within ancestors.
     // Note that we only consider ancestors when we are not currently at java.lang.Object (avoiding
     // infinite recursion).
@@ -265,7 +257,6 @@ public class JavaParserTypeDeclarationAdapter {
       for (ResolvedReferenceType ancestor : typeDeclaration.getAncestors(true)) {
         Optional<ResolvedReferenceTypeDeclaration> ancestorTypeDeclaration =
             ancestor.getTypeDeclaration();
-
         // Avoid recursion on self
         if (ancestor.getTypeDeclaration().isPresent()
             && typeDeclaration != ancestorTypeDeclaration.get()) {
@@ -274,7 +265,6 @@ public class JavaParserTypeDeclarationAdapter {
               ancestor.getAllMethodsVisibleToInheritors().stream()
                   .filter(m -> m.getName().equals(name))
                   .collect(Collectors.toList()));
-
           // consider methods from superclasses and only default methods from interfaces :
           // not true, we should keep abstract as a valid candidate
           // abstract are removed in MethodResolutionLogic.isApplicable is necessary
@@ -287,7 +277,6 @@ public class JavaParserTypeDeclarationAdapter {
         }
       }
     }
-
     // If we haven't located any candidates that are declared on this type or its ancestors,
     // consider the parent context.
     // This is relevant e.g. with nested classes.
@@ -304,7 +293,6 @@ public class JavaParserTypeDeclarationAdapter {
         candidateMethods.add(parentSolution.getCorrespondingDeclaration());
       }
     }
-
     // if is interface and candidate method list is empty, we should check the Object Methods
     if (candidateMethods.isEmpty() && typeDeclaration.isInterface()) {
       SymbolReference<ResolvedMethodDeclaration> res =
@@ -314,7 +302,6 @@ public class JavaParserTypeDeclarationAdapter {
         candidateMethods.add(res.getCorrespondingDeclaration());
       }
     }
-
     return MethodResolutionLogic.findMostApplicable(
         candidateMethods, name, argumentsTypes, typeSolver);
   }

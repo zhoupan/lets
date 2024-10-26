@@ -61,6 +61,7 @@ public class ReflectionAnnotationMemberDeclaration implements ResolvedAnnotation
   }
 
   private Method annotationMember;
+
   private TypeSolver typeSolver;
 
   public ReflectionAnnotationMemberDeclaration(Method annotationMember, TypeSolver typeSolver) {
@@ -72,14 +73,12 @@ public class ReflectionAnnotationMemberDeclaration implements ResolvedAnnotation
   public Expression getDefaultValue() {
     Object value = annotationMember.getDefaultValue();
     if (value == null) return null;
-
     if (value.getClass().isArray()) {
       Object[] values = (Object[]) value;
       final NodeList<Expression> expressions =
           Arrays.stream(values).map(this::transformDefaultValue).collect(NodeList.toNodeList());
       return new ArrayInitializerExpr(expressions);
     }
-
     return transformDefaultValue(value);
   }
 
@@ -101,10 +100,8 @@ public class ReflectionAnnotationMemberDeclaration implements ResolvedAnnotation
                         m.getName(), nestedMemberDeclaration.getDefaultValue());
                   })
               .collect(NodeList.toNodeList());
-
       return new NormalAnnotationExpr(new Name(annotationType.getSimpleName()), pairs);
     }
-
     Function<Object, ? extends Expression> fn = valueAsExpressionConverters.get(value.getClass());
     if (fn == null)
       throw new UnsupportedOperationException(

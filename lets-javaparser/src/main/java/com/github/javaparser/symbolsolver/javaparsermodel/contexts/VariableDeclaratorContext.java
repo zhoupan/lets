@@ -37,7 +37,6 @@ public class VariableDeclaratorContext extends AbstractJavaParserContext<Variabl
     if (wrappedNode.getInitializer().isPresent() && wrappedNode.getInitializer().get() == child) {
       return Collections.singletonList(wrappedNode);
     }
-
     return Collections.emptyList();
   }
 

@@ -643,6 +643,6 @@ public interface GeneratedJavaParserConstants {
     "\">>>\"",
     "\">>\"",
     "\">\"",
-    "\"\\u001a\"",
+    "\"\\u001a\""
   };
 }

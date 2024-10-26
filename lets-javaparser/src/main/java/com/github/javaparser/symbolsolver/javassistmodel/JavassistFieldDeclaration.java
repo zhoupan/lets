@@ -31,7 +31,9 @@ import javassist.bytecode.SignatureAttribute;
  * @author Federico Tomassetti
  */
 public class JavassistFieldDeclaration implements ResolvedFieldDeclaration {
+
   private CtField ctField;
+
   private TypeSolver typeSolver;
 
   public JavassistFieldDeclaration(CtField ctField, TypeSolver typeSolver) {

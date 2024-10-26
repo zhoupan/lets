@@ -222,7 +222,6 @@ public final class Navigator {
     if (node instanceof SwitchStmt) {
       return Optional.of((SwitchStmt) node);
     }
-
     return node.findFirst(SwitchStmt.class);
   }
 
@@ -236,11 +235,9 @@ public final class Navigator {
     if (cu.getTypes().isEmpty()) {
       return Optional.empty();
     }
-
     final String typeName = getOuterTypeName(qualifiedName);
     Optional<TypeDeclaration<?>> type =
         cu.getTypes().stream().filter((t) -> t.getName().getId().equals(typeName)).findFirst();
-
     final String innerTypeName = getInnerTypeName(qualifiedName);
     if (type.isPresent() && !innerTypeName.isEmpty()) {
       return findType(type.get(), innerTypeName);
@@ -256,7 +253,6 @@ public final class Navigator {
    */
   public static Optional<TypeDeclaration<?>> findType(TypeDeclaration<?> td, String qualifiedName) {
     final String typeName = getOuterTypeName(qualifiedName);
-
     Optional<TypeDeclaration<?>> type = Optional.empty();
     for (Node n : td.getMembers()) {
       if (n instanceof TypeDeclaration

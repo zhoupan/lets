@@ -69,14 +69,12 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                 JavaParserFacade.get(typeSolver).solveMethodAsUsage(methodCallExpr);
             int i = methodCallExpr.getArgumentPosition(wrappedNode, EXCLUDE_ENCLOSED_EXPR);
             ResolvedType lambdaType = methodUsage.getParamTypes().get(i);
-
             // Get the functional method in order for us to resolve it's type arguments properly
             Optional<MethodUsage> functionalMethodOpt =
                 FunctionalInterfaceLogic.getFunctionalMethod(lambdaType);
             if (functionalMethodOpt.isPresent()) {
               MethodUsage functionalMethod = functionalMethodOpt.get();
               InferenceContext inferenceContext = new InferenceContext(typeSolver);
-
               // Resolve each type variable of the lambda, and use this later to infer the type of
               // each
               // implicit parameter
@@ -88,7 +86,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                         inferenceContext.addPair(
                             lambdaType, new ReferenceTypeImpl(typeDeclaration));
                       });
-
               // Find the position of this lambda argument
               boolean found = false;
               int lambdaParamIndex;
@@ -107,12 +104,10 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
               if (!found) {
                 return Optional.empty();
               }
-
               // Now resolve the argument type using the inference context
               ResolvedType argType =
                   inferenceContext.resolve(
                       inferenceContext.addSingle(functionalMethod.getParamType(lambdaParamIndex)));
-
               ResolvedLambdaConstraintType conType;
               if (argType.isWildcard()) {
                 conType = ResolvedLambdaConstraintType.bound(argType.asWildcard().getBoundedType());
@@ -132,7 +127,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                 FunctionalInterfaceLogic.getFunctionalMethod(t);
             if (functionalMethod.isPresent()) {
               ResolvedType lambdaType = functionalMethod.get().getParamType(index);
-
               // Replace parameter from declarator
               Map<ResolvedTypeParameterDeclaration, ResolvedType> inferredTypes = new HashMap<>();
               if (lambdaType.isReferenceType()) {
@@ -149,7 +143,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                 lambdaType =
                     t.asReferenceType().typeParametersMap().getValue(lambdaType.asTypeParameter());
               }
-
               Value value = new Value(lambdaType, name);
               return Optional.of(value);
             }
@@ -166,10 +159,8 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                       .convertToUsage(optDeclaration.get().asMethodDeclaration().getType());
               Optional<MethodUsage> functionalMethod =
                   FunctionalInterfaceLogic.getFunctionalMethod(t);
-
               if (functionalMethod.isPresent()) {
                 ResolvedType lambdaType = functionalMethod.get().getParamType(index);
-
                 // Replace parameter from declarator
                 Map<ResolvedTypeParameterDeclaration, ResolvedType> inferredTypes = new HashMap<>();
                 if (lambdaType.isReferenceType()) {
@@ -188,7 +179,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                           .typeParametersMap()
                           .getValue(lambdaType.asTypeParameter());
                 }
-
                 Value value = new Value(lambdaType, name);
                 return Optional.of(value);
               }
@@ -201,10 +191,8 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
             ResolvedType t = JavaParserFacade.get(typeSolver).convertToUsage(castExpr.getType());
             Optional<MethodUsage> functionalMethod =
                 FunctionalInterfaceLogic.getFunctionalMethod(t);
-
             if (functionalMethod.isPresent()) {
               ResolvedType lambdaType = functionalMethod.get().getParamType(index);
-
               // Replace parameter from declarator
               Map<ResolvedTypeParameterDeclaration, ResolvedType> inferredTypes = new HashMap<>();
               if (lambdaType.isReferenceType()) {
@@ -221,7 +209,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
                 lambdaType =
                     t.asReferenceType().typeParametersMap().getValue(lambdaType.asTypeParameter());
               }
-
               Value value = new Value(lambdaType, name);
               return Optional.of(value);
             }
@@ -233,7 +220,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
         }
       }
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolAsValueInParentContext(name);
   }
@@ -247,7 +233,6 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
         return symbolReference;
       }
     }
-
     // if nothing is found we should ask the parent context
     return solveSymbolInParentContext(name);
   }
@@ -272,11 +257,9 @@ public class LambdaExprContext extends AbstractJavaParserContext<LambdaExpr> {
   ///
   /// Protected methods
   ///
-
   protected final Optional<Value> solveWithAsValue(SymbolDeclarator symbolDeclarator, String name) {
     for (ResolvedValueDeclaration decl : symbolDeclarator.getSymbolDeclarations()) {
       if (decl.getName().equals(name)) {
-
         throw new UnsupportedOperationException(
             "Symbol with name " + name + " already exists in symbol declarator");
       }

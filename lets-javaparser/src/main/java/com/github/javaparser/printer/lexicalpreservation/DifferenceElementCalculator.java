@@ -186,8 +186,10 @@ class DifferenceElementCalculator {
     int originalIndex = 0;
     int afterIndex = 0;
     int commonChildrenIndex = 0;
-    int posOfNextChildInOriginal = -1; // undefined
-    int posOfNextChildInAfter = -1; // undefined
+    // undefined
+    int posOfNextChildInOriginal = -1;
+    // undefined
+    int posOfNextChildInAfter = -1;
     // The algorithm is based on common child elements.
     // It first analyzes the elements preceding this child.
     // Then it keeps the common element and continues the analysis between the element

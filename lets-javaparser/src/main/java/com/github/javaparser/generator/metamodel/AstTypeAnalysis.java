@@ -27,10 +27,15 @@ import java.util.Optional;
 
 /** A hacky thing that collects flags we need from AST types to generate the metamodel. */
 class AstTypeAnalysis {
+
   final boolean isAbstract;
+
   boolean isOptional = false;
+
   boolean isNodeList = false;
+
   boolean isSelfType = false;
+
   Class<?> innerType;
 
   AstTypeAnalysis(Type type) {
@@ -49,7 +54,6 @@ class AstTypeAnalysis {
         if (currentOuterType == Optional.class) {
           isOptional = true;
         }
-
         if (t.getActualTypeArguments()[0] instanceof WildcardType) {
           type = t.getRawType();
           isSelfType = true;

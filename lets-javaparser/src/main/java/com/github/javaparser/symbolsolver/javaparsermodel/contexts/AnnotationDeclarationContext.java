@@ -43,11 +43,9 @@ public class AnnotationDeclarationContext extends AbstractJavaParserContext<Anno
   @Override
   public SymbolReference<? extends ResolvedValueDeclaration> solveSymbol(String name) {
     if (typeSolver == null) throw new IllegalArgumentException();
-
     if (this.getDeclaration().hasField(name)) {
       return SymbolReference.solved(this.getDeclaration().getField(name));
     }
-
     // then to parent
     return solveSymbolInParentContext(name);
   }
@@ -67,7 +65,6 @@ public class AnnotationDeclarationContext extends AbstractJavaParserContext<Anno
   ///
   /// Private methods
   ///
-
   private ResolvedReferenceTypeDeclaration getDeclaration() {
     return new JavaParserAnnotationDeclaration(this.wrappedNode, typeSolver);
   }

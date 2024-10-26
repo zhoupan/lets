@@ -264,7 +264,9 @@ public class Difference {
    * and the number of consecutive whitespace (or tab) characters
    */
   private class EnforcingIndentationContext {
+
     int start;
+
     int extraCharacters;
 
     public EnforcingIndentationContext(int start) {
@@ -335,7 +337,6 @@ public class Difference {
         ctx.extraCharacters++;
       }
     }
-
     return ctx;
   }
 
@@ -603,11 +604,11 @@ public class Difference {
       }
     } else if (removed.isToken()
         && originalElementIsToken
-        && (removed.getTokenType() == ((TokenTextElement) originalElement).getTokenKind()
-            || // handle EOLs separately as their token kind might not be equal. This is because the
-            // 'removed'
-            // element always has the current operating system's EOL as type
-            (((TokenTextElement) originalElement).getToken().getCategory().isEndOfLine()
+        && ( // handle EOLs separately as their token kind might not be equal. This is because the
+        // 'removed'
+        // element always has the current operating system's EOL as type
+        removed.getTokenType() == ((TokenTextElement) originalElement).getTokenKind()
+            || (((TokenTextElement) originalElement).getToken().getCategory().isEndOfLine()
                 && removed.isNewLine()))) {
       nodeText.removeElement(originalIndex);
       diffIndex++;
@@ -1096,6 +1097,7 @@ public class Difference {
    * A list iterator which provides a method to know the current positioning
    */
   public static class ArrayIterator<T> implements ListIterator<T> {
+
     ListIterator<T> iterator;
 
     public ArrayIterator(List<T> elements) {

@@ -40,6 +40,7 @@ import java.util.Optional;
 public class TypeInference {
 
   private final ResolvedType object;
+
   private TypeSolver typeSolver;
 
   public TypeInference(TypeSolver typeSolver) {
@@ -53,7 +54,6 @@ public class TypeInference {
   ///
   /// Public static methods
   ///
-
   public static MethodUsage toMethodUsage(
       MethodCallExpr call, ResolvedMethodDeclaration methodDeclaration, TypeSolver typeSolver) {
     TypeInference typeInference = new TypeInference(typeSolver);
@@ -68,7 +68,6 @@ public class TypeInference {
   ///
   /// Public instance methods
   ///
-
   public Optional<InstantiationSet> instantiationInference(
       MethodCallExpr methodCallExpr, ResolvedMethodDeclaration methodDeclaration) {
     return instantiationInference(methodCallExpr.getArguments(), methodDeclaration);
@@ -80,31 +79,24 @@ public class TypeInference {
     //            throw new IllegalArgumentException("Type inference unnecessary as type arguments
     // have been specified");
     //        }
-
     // Given a method invocation that provides no explicit type arguments, the process to determine
     // whether a
     // potentially applicable generic method m is applicable is as follows:
-
     // - Where P1, ..., Pp (p ≥ 1) are the type parameters of m, let α1, ..., αp be inference
     // variables, and
     //   let θ be the substitution [P1:=α1, ..., Pp:=αp].
-
     List<ResolvedTypeParameterDeclaration> Ps = methodDeclaration.getTypeParameters();
     List<InferenceVariable> alphas = InferenceVariable.instantiate(Ps);
     Substitution theta = Substitution.empty();
     for (int i = 0; i < Ps.size(); i++) {
       theta = theta.withPair(Ps.get(0), alphas.get(0));
     }
-
     // - An initial bound set, B0, is constructed from the declared bounds of P1, ..., Pp, as
     // described in §18.1.3.
-
     BoundSet B0 = boundSetup(Ps, alphas);
-
     // - For all i (1 ≤ i ≤ p), if Pi appears in the throws clause of m, then the bound throws αi is
     // implied.
     //   These bounds, if any, are incorporated with B0 to produce a new bound set, B1.
-
     BoundSet B1 = B0;
     for (int i = 0; i < Ps.size(); i++) {
       ResolvedTypeParameterDeclaration Pi = Ps.get(i);
@@ -112,54 +104,39 @@ public class TypeInference {
         B1 = B1.withBound(new ThrowsBound(alphas.get(i)));
       }
     }
-
     // - A set of constraint formulas, C, is constructed as follows.
     //
     //   Let F1, ..., Fn be the formal parameter types of m, and let e1, ..., ek be the actual
     // argument expressions
     //   of the invocation. Then:
-
     List<ResolvedType> Fs = formalParameterTypes(methodDeclaration);
     List<Expression> es = argumentExpressions;
-
     Optional<ConstraintFormulaSet> C = Optional.empty();
-
     //   - To test for applicability by strict invocation:
-
     if (!C.isPresent()) {
       C = testForApplicabilityByStrictInvocation(Fs, es, theta);
     }
-
     //   - To test for applicability by loose invocation:
-
     if (!C.isPresent()) {
       C = testForApplicabilityByLooseInvocation(Fs, es, theta);
     }
-
     //   - To test for applicability by variable arity invocation:
-
     if (!C.isPresent()) {
       C = testForApplicabilityByVariableArityInvocation(Fs, es, theta);
     }
-
     if (!C.isPresent()) {
       return Optional.empty();
     }
-
     // - C is reduced (§18.2) and the resulting bounds are incorporated with B1 to produce a new
     // bound set, B2.
-
     BoundSet resultingBounds = C.get().reduce(typeSolver);
     BoundSet B2 = B1.incorporate(resultingBounds, typeSolver);
-
     // - Finally, the method m is applicable if B2 does not contain the bound false and resolution
     // of all the
     //   inference variables in B2 succeeds (§18.4).
-
     if (B2.containsFalse()) {
       return Optional.empty();
     }
-
     Optional<InstantiationSet> instantiation = B2.performResolution(alphas, typeSolver);
     return instantiation;
   }
@@ -414,7 +391,6 @@ public class TypeInference {
     //
     // The output variables of these constraints are all inference variables mentioned by the type
     // on the right-hand side of the constraint, T, that are not input variables.
-
     throw new UnsupportedOperationException();
   }
 
@@ -425,32 +401,23 @@ public class TypeInference {
     // type F<A1, ..., Am> with at least one wildcard type argument, then a parameterization of F
     // may be derived
     // as the ground target type of the lambda expression as follows.
-
     int n = lambdaExpr.getParameters().size();
-
     if (interfaceDeclaration.getTypeParameters().isEmpty()) {
       throw new IllegalArgumentException("Functional Interface without type arguments");
     }
-
     // Let Q1, ..., Qk be the parameter types of the function type of the type F<α1, ..., αm>,
     // where α1, ..., αm are fresh inference variables.
-
     int k = interfaceDeclaration.getTypeParameters().size();
     List<InferenceVariable> alphas =
         InferenceVariable.instantiate(interfaceDeclaration.getTypeParameters());
-
     TypeInferenceCache.recordInferenceVariables(typeSolver, lambdaExpr, alphas);
-
     // If n ≠ k, no valid parameterization exists.
-
     if (n != k) {
       throw new IllegalArgumentException(
           "No valida parameterization can exist has n=" + " and k=" + k);
     }
-
     // Otherwise, a set of constraint formulas is formed with, for
     // all i (1 ≤ i ≤ n), ‹Pi = Qi›. This constraint formula set is reduced to form the bound set B.
-
     ConstraintFormulaSet constraintFormulaSet = ConstraintFormulaSet.empty();
     for (int i = 0; i < n; i++) {
       throw new UnsupportedOperationException();
@@ -462,7 +429,6 @@ public class TypeInference {
       // constraintFormulaSet = constraintFormulaSet.withConstraint(new TypeSameAsType(pi, qi));
     }
     BoundSet B = constraintFormulaSet.reduce(typeSolver);
-
     // If B contains the bound false, no valid parameterization exists. Otherwise, a new
     // parameterization of the
     // functional interface type, F<A'1, ..., A'm>, is constructed as follows, for 1 ≤ i ≤ m:
@@ -476,7 +442,6 @@ public class TypeInference {
     // parameterization exists. Otherwise, the inferred parameterization is either F<A'1, ..., A'm>,
     // if all the type arguments are types, or the non-wildcard parameterization (§9.9) of F<A'1,
     // ..., A'm>, if one or more type arguments are still wildcards.
-
     throw new UnsupportedOperationException();
   }
 
@@ -494,11 +459,9 @@ public class TypeInference {
     // is generic, it is necessary to test whether some instantiation of the second method's type
     // parameters can be
     // inferred to make the first method more specific than the second.
-
     if (!m2.isGeneric()) {
       throw new IllegalArgumentException("M2 is not generic (m2: " + m2 + ")");
     }
-
     // Let m1 be the first method and m2 be the second method. Where m2 has type parameters P1, ...,
     // Pp,
     // let α1, ..., αp be inference variables, and let θ be the substitution [P1:=α1, ..., Pp:=αp].
@@ -605,14 +568,12 @@ public class TypeInference {
     // succeeds, then m1 is more specific than m2.
     //
     //   Otherwise, m1 is not more specific than m2.
-
     throw new UnsupportedOperationException();
   }
 
   ///
   /// Private static methods
   ///
-
   private static MethodUsage instantiationSetToMethodUsage(
       ResolvedMethodDeclaration methodDeclaration, InstantiationSet instantiationSet) {
     if (instantiationSet.isEmpty()) {
@@ -629,7 +590,6 @@ public class TypeInference {
   ///
   /// Private instance methods
   ///
-
   /**
    * When inference begins, a bound set is typically generated from a list of type parameter
    * declarations P1, ..., Pp and associated inference variables α1, ..., αp
@@ -644,29 +604,22 @@ public class TypeInference {
     if (typeParameterDeclarations.size() != inferenceVariables.size()) {
       throw new IllegalArgumentException();
     }
-
     // When inference begins, a bound set is typically generated from a list of
     // type parameter declarations P1, ..., Pp and associated inference variables α1, ..., αp.
     // Such a bound set is constructed as follows. For each l (1 ≤ l ≤ p):
-
     BoundSet boundSet = BoundSet.empty();
-
     for (int l = 0; l < typeParameterDeclarations.size(); l++) {
       ResolvedTypeParameterDeclaration Pl = typeParameterDeclarations.get(l);
       InferenceVariable alphaL = inferenceVariables.get(l);
-
       // - If Pl has no TypeBound, the bound αl <: Object appears in the set.
-
       if (Pl.getBounds().isEmpty()) {
         boundSet = boundSet.withBound(new SubtypeOfBound(alphaL, object));
       } else {
-
         // - Otherwise, for each type T delimited by & in the TypeBound, the bound αl <: T[P1:=α1,
         // ..., Pp:=αp] appears
         // in the set; if this results in no proper upper bounds for αl (only dependencies), then
         // the
         // bound αl <: Object also appears in the set.
-
         for (ResolvedTypeParameterDeclaration.Bound bound : Pl.getBounds()) {
           ResolvedType T = bound.getType();
           Substitution substitution = Substitution.empty();
@@ -675,16 +628,13 @@ public class TypeInference {
                 substitution.withPair(typeParameterDeclarations.get(j), inferenceVariables.get(j));
           }
           ResolvedType TWithSubstitutions = substitution.apply(T);
-
           boundSet = boundSet.withBound(new SubtypeOfBound(alphaL, TWithSubstitutions));
-
           if (boundSet.getProperUpperBoundsFor(alphaL).isEmpty()) {
             boundSet = boundSet.withBound(new SubtypeOfBound(alphaL, object));
           }
         }
       }
     }
-
     return boundSet;
   }
 
@@ -720,68 +670,53 @@ public class TypeInference {
     // unless it has one of the following forms:
     //
     // - An implicitly typed lambda expression (§15.27.1).
-
     if (argument.isLambdaExpr()) {
       LambdaExpr lambdaExpr = (LambdaExpr) argument;
       if (isImplicitlyTyped(lambdaExpr)) {
         return false;
       }
     }
-
     // - An inexact method reference expression (§15.13.1).
-
     if (argument.isMethodReferenceExpr()) {
       MethodReferenceExpr methodReferenceExpr = (MethodReferenceExpr) argument;
       if (isInexact(methodReferenceExpr)) {
         return false;
       }
     }
-
     // - If m is a generic method and the method invocation does not provide explicit type
     // arguments, an
     //   explicitly typed lambda expression or an exact method reference expression for which the
     //   corresponding target type (as derived from the signature of m) is a type parameter of m.
-
     if (argument.isLambdaExpr()) {
       throw new UnsupportedOperationException();
     }
-
     if (argument.isMethodReferenceExpr()) {
       throw new UnsupportedOperationException();
     }
-
     // - An explicitly typed lambda expression whose body is an expression that is not pertinent to
     // applicability.
-
     if (argument.isLambdaExpr()) {
       throw new UnsupportedOperationException();
     }
-
     // - An explicitly typed lambda expression whose body is a block, where at least one result
     // expression is not
     //   pertinent to applicability.
-
     if (argument.isLambdaExpr()) {
       throw new UnsupportedOperationException();
     }
-
     // - A parenthesized expression (§15.8.5) whose contained expression is not pertinent to
     // applicability.
-
     if (argument.isEnclosedExpr()) {
       EnclosedExpr enclosedExpr = (EnclosedExpr) argument;
       return isPertinentToApplicability(enclosedExpr.getInner());
     }
-
     // - A conditional expression (§15.25) whose second or third operand is not pertinent to
     // applicability.
-
     if (argument.isConditionalExpr()) {
       ConditionalExpr conditionalExpr = (ConditionalExpr) argument;
       return isPertinentToApplicability(conditionalExpr.getThenExpr())
           && isPertinentToApplicability(conditionalExpr.getElseExpr());
     }
-
     return true;
   }
 
@@ -789,7 +724,6 @@ public class TypeInference {
       List<ResolvedType> Fs, List<Expression> es, Substitution theta) {
     int n = Fs.size();
     int k = es.size();
-
     // If k ≠ n, or if there exists an i (1 ≤ i ≤ n) such that ei is pertinent to applicability
     // (§15.12.2.2)
     // and either:
@@ -818,7 +752,6 @@ public class TypeInference {
     //
     // Otherwise, C includes, for all i (1 ≤ i ≤ k) where ei is pertinent to applicability, ‹ei → Fi
     // θ›.
-
     return Optional.of(constraintSetFromArgumentsSubstitution(Fs, es, theta, k));
   }
 
@@ -830,13 +763,10 @@ public class TypeInference {
       List<ResolvedType> Fs, List<Expression> es, Substitution theta) {
     int n = Fs.size();
     int k = es.size();
-
     // If k ≠ n, the method is not applicable and there is no need to proceed with inference.
-
     if (k != n) {
       return Optional.empty();
     }
-
     // Otherwise, C includes, for all i (1 ≤ i ≤ k) where ei is pertinent to applicability, ‹ei → Fi
     // θ›.
     return Optional.of(constraintSetFromArgumentsSubstitution(Fs, es, theta, k));
@@ -859,17 +789,14 @@ public class TypeInference {
   private Optional<ConstraintFormulaSet> testForApplicabilityByVariableArityInvocation(
       List<ResolvedType> Fs, List<Expression> es, Substitution theta) {
     int k = es.size();
-
     // Let F'1, ..., F'k be the first k variable arity parameter types of m (§15.12.2.4). C
     // includes,
     // for all i (1 ≤ i ≤ k) where ei is pertinent to applicability, ‹ei → F'i θ›.
-
     List<ResolvedType> FsFirst = new LinkedList<>();
     for (int i = 0; i < k; i++) {
       ResolvedType FFirstI = i < Fs.size() ? Fs.get(i) : Fs.get(Fs.size() - 1);
       FsFirst.add(FFirstI);
     }
-
     return Optional.of(constraintSetFromArgumentsSubstitution(FsFirst, es, theta, k));
   }
 }

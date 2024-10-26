@@ -62,13 +62,11 @@ public class TypeSolverBuilder {
    */
   public TypeSolverBuilder with(@NonNull TypeSolver typeSolver) {
     checkNotNull(typeSolver, "The typeSolver can't be null!");
-
     typeSolvers.add(typeSolver);
     return this;
   }
 
   // Builders for Reflection
-
   /**
    * Allow the type solver to resolve types that are defined in the current Java Runtime Environment
    * (JRE).
@@ -113,7 +111,6 @@ public class TypeSolverBuilder {
   }
 
   // Builders for JARS
-
   /**
    * Allow the type solver to resolve types that are defined in a JAR file.
    *
@@ -154,7 +151,6 @@ public class TypeSolverBuilder {
   }
 
   // Builders for AarTypeSolver
-
   /**
    * Allow the type solver to resolve types that are defined in a AAR file.
    *
@@ -195,7 +191,6 @@ public class TypeSolverBuilder {
   }
 
   // Builders for JavaParserTypeSolver
-
   /**
    * Allow the type solver to resolve types using external source code.
    *
@@ -233,7 +228,6 @@ public class TypeSolverBuilder {
   }
 
   // Builders for ClassLoaderTypeSolver
-
   /**
    * Allow the type solver to resolve types using the provided {@link ClassLoader}.
    *
@@ -247,7 +241,6 @@ public class TypeSolverBuilder {
   }
 
   // build
-
   /**
    * Convert the current build into a valid {@link TypeSolver}.
    *
@@ -256,17 +249,14 @@ public class TypeSolverBuilder {
    */
   public TypeSolver build() {
     int typeSolversCount = typeSolvers.size();
-
     // Check if at least one solver is present
     if (typeSolversCount == 0) {
       throw new IllegalStateException("At least a type solver is expected.");
     }
-
     // Check if only one exists
     if (typeSolversCount == 1) {
       return typeSolvers.get(0);
     }
-
     // Combine all type solver
     return new CombinedTypeSolver(typeSolvers);
   }

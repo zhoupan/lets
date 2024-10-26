@@ -42,7 +42,6 @@ public class ClassOrInterfaceDeclarationContext
   ///
   /// Constructors
   ///
-
   public ClassOrInterfaceDeclarationContext(
       ClassOrInterfaceDeclaration wrappedNode, TypeSolver typeSolver) {
     super(wrappedNode, typeSolver);
@@ -53,15 +52,12 @@ public class ClassOrInterfaceDeclarationContext
   ///
   /// Public methods
   ///
-
   @Override
   public SymbolReference<? extends ResolvedValueDeclaration> solveSymbol(String name) {
     if (typeSolver == null) throw new IllegalArgumentException();
-
     if (this.getDeclaration().hasVisibleField(name)) {
       return SymbolReference.solved(this.getDeclaration().getVisibleField(name));
     }
-
     // then to parent
     return solveSymbolInParentContext(name);
   }
@@ -69,11 +65,9 @@ public class ClassOrInterfaceDeclarationContext
   @Override
   public Optional<Value> solveSymbolAsValue(String name) {
     if (typeSolver == null) throw new IllegalArgumentException();
-
     if (this.getDeclaration().hasField(name)) {
       return Optional.of(Value.from(this.getDeclaration().getField(name)));
     }
-
     // then to parent
     return solveSymbolAsValueInParentContext(name);
   }
@@ -87,7 +81,6 @@ public class ClassOrInterfaceDeclarationContext
         return Optional.of(new ResolvedTypeVariable(new JavaParserTypeParameter(tp, typeSolver)));
       }
     }
-
     // If no generic types on the method declaration, continue to solve as usual.
     return solveGenericTypeInParentContext(name);
   }
@@ -127,7 +120,6 @@ public class ClassOrInterfaceDeclarationContext
   ///
   /// Private methods
   ///
-
   private ResolvedReferenceTypeDeclaration getDeclaration() {
     return JavaParserFacade.get(typeSolver).getTypeDeclaration(this.wrappedNode);
   }

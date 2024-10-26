@@ -22,6 +22,7 @@ import com.github.javaparser.resolution.types.ResolvedType;
 import java.util.List;
 
 public interface MethodResolutionCapability {
+
   SymbolReference<ResolvedMethodDeclaration> solveMethod(
       String name, List<ResolvedType> argumentsTypes, boolean staticOnly);
 }

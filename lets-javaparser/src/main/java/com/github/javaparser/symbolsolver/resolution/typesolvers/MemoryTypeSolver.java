@@ -31,6 +31,7 @@ import java.util.Objects;
 public class MemoryTypeSolver implements TypeSolver {
 
   private TypeSolver parent;
+
   private Map<String, ResolvedReferenceTypeDeclaration> declarationMap = new HashMap<>();
 
   @Override
@@ -42,9 +43,7 @@ public class MemoryTypeSolver implements TypeSolver {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof MemoryTypeSolver)) return false;
-
     MemoryTypeSolver that = (MemoryTypeSolver) o;
-
     if (parent != null ? !parent.equals(that.parent) : that.parent != null) return false;
     return !(declarationMap != null
         ? !declarationMap.equals(that.declarationMap)

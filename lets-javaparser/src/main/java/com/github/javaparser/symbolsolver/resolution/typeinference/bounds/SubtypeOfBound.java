@@ -30,7 +30,9 @@ import java.util.Set;
  * @author Federico Tomassetti
  */
 public class SubtypeOfBound extends Bound {
+
   private ResolvedType s;
+
   private ResolvedType t;
 
   public SubtypeOfBound(ResolvedType s, ResolvedType t) {
@@ -45,9 +47,7 @@ public class SubtypeOfBound extends Bound {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     SubtypeOfBound that = (SubtypeOfBound) o;
-
     if (!s.equals(that.s)) return false;
     return t.equals(that.t);
   }

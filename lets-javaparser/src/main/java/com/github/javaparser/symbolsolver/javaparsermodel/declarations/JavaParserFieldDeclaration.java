@@ -36,7 +36,9 @@ import java.util.Optional;
 public class JavaParserFieldDeclaration implements ResolvedFieldDeclaration {
 
   private VariableDeclarator variableDeclarator;
+
   private com.github.javaparser.ast.body.FieldDeclaration wrappedNode;
+
   private TypeSolver typeSolver;
 
   public JavaParserFieldDeclaration(VariableDeclarator variableDeclarator, TypeSolver typeSolver) {

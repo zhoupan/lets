@@ -92,10 +92,8 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
       if (this.isJavaLangObject()) {
         return true;
       }
-
       // Check if 'other' can be boxed to match this type
       if (isCorrespondingBoxingType(other.describe())) return true;
-
       // All numeric types extend Number
       return other.isNumericType()
           && this.isReferenceType()
@@ -159,7 +157,6 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
   public Set<MethodUsage> getDeclaredMethods() {
     // TODO replace variables
     Set<MethodUsage> methods = new HashSet<>();
-
     getTypeDeclaration()
         .ifPresent(
             referenceTypeDeclaration -> {
@@ -169,7 +166,6 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
                 methods.add(methodUsage);
               }
             });
-
     return methods;
   }
 
@@ -217,28 +213,22 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
   public List<ResolvedReferenceType> getAllAncestors(
       Function<ResolvedReferenceTypeDeclaration, List<ResolvedReferenceType>> traverser) {
     // We need to go through the inheritance line and propagate the type parameters
-
     List<ResolvedReferenceType> ancestors = typeDeclaration.getAllAncestors(traverser);
-
     ancestors =
         ancestors.stream()
             .map(a -> typeParametersMap().replaceAll(a).asReferenceType())
             .collect(Collectors.toList());
-
     return ancestors;
   }
 
   @Override
   public List<ResolvedReferenceType> getDirectAncestors() {
     // We need to go through the inheritance line and propagate the type parameters
-
     List<ResolvedReferenceType> ancestors = typeDeclaration.getAncestors();
-
     ancestors =
         ancestors.stream()
             .map(a -> typeParametersMap().replaceAll(a).asReferenceType())
             .collect(Collectors.toList());
-
     // Conditionally re-insert java.lang.Object as an ancestor.
     if (this.getTypeDeclaration().isPresent()) {
       ResolvedReferenceTypeDeclaration thisTypeDeclaration = this.getTypeDeclaration().get();
@@ -254,7 +244,6 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
         }
       }
     }
-
     return ancestors;
   }
 
@@ -266,11 +255,9 @@ public class ReferenceTypeImpl extends ResolvedReferenceType {
   @Override
   public Set<ResolvedFieldDeclaration> getDeclaredFields() {
     Set<ResolvedFieldDeclaration> allFields = new LinkedHashSet<>();
-
     if (getTypeDeclaration().isPresent()) {
       allFields.addAll(getTypeDeclaration().get().getDeclaredFields());
     }
-
     return allFields;
   }
 }

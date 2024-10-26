@@ -33,7 +33,6 @@ public class EnclosedExprContext extends AbstractJavaParserContext<EnclosedExpr>
   @Override
   public List<PatternExpr> patternExprsExposedFromChildren() {
     List<PatternExpr> results = new ArrayList<>();
-
     /*
      * Test for an assignment expression
      * Example:
@@ -54,7 +53,6 @@ public class EnclosedExprContext extends AbstractJavaParserContext<EnclosedExpr>
   @Override
   public List<PatternExpr> negatedPatternExprsExposedFromChildren() {
     List<PatternExpr> results = new ArrayList<>();
-
     /*
      * Test for an assignment expression
      * Example:

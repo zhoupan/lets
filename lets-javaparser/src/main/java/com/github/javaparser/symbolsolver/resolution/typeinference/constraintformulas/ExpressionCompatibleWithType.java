@@ -45,8 +45,11 @@ import java.util.Map;
  * @author Federico Tomassetti
  */
 public class ExpressionCompatibleWithType extends ConstraintFormula {
+
   private TypeSolver typeSolver;
+
   private Expression expression;
+
   private ResolvedType T;
 
   public ExpressionCompatibleWithType(
@@ -61,38 +64,30 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
     // If T is a proper type, the constraint reduces to true if the expression is compatible in a
     // loose
     // invocation context with T (§5.3), and false otherwise.
-
     if (isProperType(T)) {
       if (isCompatibleInALooseInvocationContext(typeSolver, expression, T)) {
         return ReductionResult.trueResult();
       }
       return ReductionResult.falseResult();
     }
-
     // Otherwise, if the expression is a standalone expression (§15.2) of type S, the constraint
     // reduces
     // to ‹S → T›.
-
     if (expression.isStandaloneExpression()) {
       ResolvedType s = JavaParserFacade.get(typeSolver).getType(expression, false);
       return ReductionResult.empty().withConstraint(new TypeCompatibleWithType(typeSolver, s, T));
     }
-
     // Otherwise, the expression is a poly expression (§15.2). The result depends on the form of the
     // expression:
-
     if (expression.isPolyExpression()) {
-
       // - If the expression is a parenthesized expression of the form ( Expression' ), the
       // constraint reduces
       //   to ‹Expression' → T›.
-
       if (expression.isEnclosedExpr()) {
         EnclosedExpr enclosedExpr = expression.asEnclosedExpr();
         return ReductionResult.oneConstraint(
             new ExpressionCompatibleWithType(typeSolver, enclosedExpr.getInner(), T));
       }
-
       // - If the expression is a class instance creation expression or a method invocation
       // expression, the
       //   constraint reduces to the bound set B3 which would be used to determine the expression's
@@ -104,43 +99,33 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
       //   This bound set may contain new inference variables, as well as dependencies between these
       // new
       //   variables and the inference variables in T.
-
       if (expression.isObjectCreationExpr()) {
         BoundSet B3 = new TypeInference(typeSolver).invocationTypeInferenceBoundsSetB3();
         return ReductionResult.bounds(B3);
       }
-
       if (expression.isMethodCallExpr()) {
         throw new UnsupportedOperationException();
       }
-
       // - If the expression is a conditional expression of the form e1 ? e2 : e3, the constraint
       // reduces to two
       //   constraint formulas, ‹e2 → T› and ‹e3 → T›.
-
       if (expression.isConditionalExpr()) {
         ConditionalExpr conditionalExpr = expression.asConditionalExpr();
         return ReductionResult.withConstraints(
             new ExpressionCompatibleWithType(typeSolver, conditionalExpr.getThenExpr(), T),
             new ExpressionCompatibleWithType(typeSolver, conditionalExpr.getElseExpr(), T));
       }
-
       // - If the expression is a lambda expression or a method reference expression, the result is
       // specified
       //   below.
-
       // A constraint formula of the form ‹LambdaExpression → T›, where T mentions at least one
       // inference variable, is reduced as follows:
-
       if (expression.isLambdaExpr()) {
         LambdaExpr lambdaExpr = expression.asLambdaExpr();
-
         // - If T is not a functional interface type (§9.8), the constraint reduces to false.
-
         if (!FunctionalInterfaceLogic.isFunctionalInterfaceType(T)) {
           return ReductionResult.falseResult();
         }
-
         // - Otherwise, let T' be the ground target type derived from T, as specified in §15.27.3.
         // If §18.5.3
         //   is used to derive a functional interface type which is parameterized, then the test
@@ -150,7 +135,6 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
         //   constraint formula below). Let the target function type for the lambda expression be
         // the
         //   function type of T'. Then:
-
         Pair<ResolvedType, Boolean> result =
             TypeHelper.groundTargetTypeOfLambda(lambdaExpr, T, typeSolver);
         ResolvedType TFirst = result.a;
@@ -159,7 +143,6 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
         if (result.b) {
           throw new UnsupportedOperationException();
         }
-
         //   - If no valid function type can be found, the constraint reduces to false.
         //
         //     Federico: THIS SHOULD NOT HAPPEN, IN CASE WE WILL THROW AN EXCEPTION
@@ -171,12 +154,10 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
         //     - If the number of lambda parameters differs from the number of parameter types of
         // the function
         //       type, the constraint reduces to false.
-
         if (targetFunctionType.getFormalArgumentTypes().size()
             != lambdaExpr.getParameters().size()) {
           return ReductionResult.falseResult();
         }
-
         //     - If the lambda expression is implicitly typed and one or more of the function type's
         // parameter
         //       types is not a proper type, the constraint reduces to false.
@@ -184,53 +165,40 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
         //       This condition never arises in practice, due to the handling of implicitly typed
         // lambda
         //       expressions in §18.5.1 and the substitution applied to the target type in §18.5.2.
-
         //     - If the function type's result is void and the lambda body is neither a statement
         // expression
         //       nor a void-compatible block, the constraint reduces to false.
-
         if (targetFunctionType.getReturnType().isVoid()) {
           throw new UnsupportedOperationException();
         }
-
         //     - If the function type's result is not void and the lambda body is a block that is
         // not
         //       value-compatible, the constraint reduces to false.
-
         if (!targetFunctionType.getReturnType().isVoid()
             && lambdaExpr.getBody().isBlockStmt()
             && !isValueCompatibleBlock(lambdaExpr.getBody())) {
           return ReductionResult.falseResult();
         }
-
         //     - Otherwise, the constraint reduces to all of the following constraint formulas:
         List<ConstraintFormula> constraints = new LinkedList<>();
-
         //       - If the lambda parameters have explicitly declared types F1, ..., Fn and the
         // function type
         //         has parameter types G1, ..., Gn, then i) for all i (1 ≤ i ≤ n), ‹Fi = Gi›, and
         // ii) ‹T' <: T›.
-
         boolean hasExplicitlyDeclaredTypes =
             lambdaExpr.getParameters().stream().anyMatch(p -> !(p.getType().isUnknownType()));
         if (hasExplicitlyDeclaredTypes) {
           throw new UnsupportedOperationException();
         }
-
         //       - If the function type's return type is a (non-void) type R, assume the lambda's
         // parameter
         //         types are the same as the function type's parameter types. Then:
-
         if (!targetFunctionType.getReturnType().isVoid()) {
-
           ResolvedType R = targetFunctionType.getReturnType();
-
           if (TypeHelper.isProperType(R)) {
-
             //         - If R is a proper type, and if the lambda body or some result expression in
             // the lambda body
             //           is not compatible in an assignment context with R, then false.
-
             if (lambdaExpr.getBody().isBlockStmt()) {
               List<Expression> resultExpressions =
                   getResultExpressions(lambdaExpr.getBody().asBlockStmt());
@@ -251,7 +219,6 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
             //           the constraint ‹Expression → R›; or where the lambda body is a block with
             // result
             //           expressions e1, ..., em, for all i (1 ≤ i ≤ m), ‹ei → R›.
-
             if (lambdaExpr.getBody().isBlockStmt()) {
               getAllReturnExpressions(lambdaExpr.getBody().asBlockStmt())
                   .forEach(
@@ -272,15 +239,11 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
             }
           }
         }
-
         return ReductionResult.withConstraints(constraints);
       }
-
       // A constraint formula of the form ‹MethodReference → T›, where T mentions at least one
       // inference variable, is reduced as follows:
-
       if (expression.isMethodReferenceExpr()) {
-
         // - If T is not a functional interface type, or if T is a functional interface type that
         // does not have a function type (§9.9), the constraint reduces to false.
         //
@@ -332,13 +295,10 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
         // of applying capture conversion (§5.1.10) to the return type of the invocation type
         // (§15.12.2.6) of the compile-time declaration. If R' is void, the constraint reduces to
         // false; otherwise, the constraint reduces to ‹R' → R›.
-
         throw new UnsupportedOperationException();
       }
-
       throw new RuntimeException("This should not happen");
     }
-
     throw new RuntimeException("This should not happen");
   }
 
@@ -362,7 +322,6 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
     // A block lambda body is value-compatible if it cannot complete normally (§14.21) and every
     // return statement
     // in the block has the form return Expression;.
-
     if (statement.isBlockStmt()) {
       if (!ControlFlowLogic.getInstance().canCompleteNormally(statement)) {
         return true;
@@ -377,9 +336,7 @@ public class ExpressionCompatibleWithType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ExpressionCompatibleWithType that = (ExpressionCompatibleWithType) o;
-
     if (!typeSolver.equals(that.typeSolver)) return false;
     if (!expression.equals(that.expression)) return false;
     return T.equals(that.T);

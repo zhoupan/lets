@@ -44,9 +44,7 @@ public abstract class AbstractTypeDeclaration implements ResolvedReferenceTypeDe
   @Override
   public final Set<MethodUsage> getAllMethods() {
     Set<MethodUsage> methods = new HashSet<>();
-
     Set<String> methodsSignatures = new HashSet<>();
-
     for (ResolvedMethodDeclaration methodDeclaration : getDeclaredMethods()) {
       MethodUsage methodUsage = new MethodUsage(methodDeclaration);
       methods.add(methodUsage);
@@ -55,7 +53,6 @@ public abstract class AbstractTypeDeclaration implements ResolvedReferenceTypeDe
       String enhancedSignature = String.format("%s %s", returnType, signature);
       methodsSignatures.add(enhancedSignature);
     }
-
     for (ResolvedReferenceType ancestor : getAllAncestors()) {
       List<Pair<ResolvedTypeParameterDeclaration, ResolvedType>> typeParametersMap =
           ancestor.getTypeParametersMap();
@@ -74,7 +71,6 @@ public abstract class AbstractTypeDeclaration implements ResolvedReferenceTypeDe
         }
       }
     }
-
     return methods;
   }
 

@@ -89,7 +89,8 @@ public class ConstructorResolutionLogic {
                       argumentsTypes, pos, constructor.getLastParam().getType());
             }
           }
-        } // else it is already assignable, nothing to do
+        }
+        // else it is already assignable, nothing to do
       } else {
         if (pos > argumentsTypes.size()) {
           return false;
@@ -98,7 +99,6 @@ public class ConstructorResolutionLogic {
             groupVariadicParamValues(argumentsTypes, pos, constructor.getLastParam().getType());
       }
     }
-
     if (constructor.getNumberOfParams() != argumentsTypes.size()) {
       return false;
     }
@@ -131,7 +131,6 @@ public class ConstructorResolutionLogic {
             constructor.declaringType().getTypeParameters()) {
           expectedType = MethodResolutionLogic.replaceTypeParam(expectedType, tp, typeSolver);
         }
-
         if (!expectedType.isAssignableBy(actualType)) {
           if (actualType.isWildcard() && withWildcardTolerance && !expectedType.isPrimitive()) {
             needForWildCardTolerance = true;

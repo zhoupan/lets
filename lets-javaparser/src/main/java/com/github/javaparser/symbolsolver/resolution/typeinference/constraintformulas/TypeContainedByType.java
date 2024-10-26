@@ -28,7 +28,9 @@ import com.github.javaparser.symbolsolver.resolution.typeinference.ConstraintFor
  * @author Federico Tomassetti
  */
 public class TypeContainedByType extends ConstraintFormula {
+
   private ResolvedType S;
+
   private ResolvedType T;
 
   @Override
@@ -37,26 +39,18 @@ public class TypeContainedByType extends ConstraintFormula {
     // reduced as follows:
     //
     // - If T is a type:
-
     if (isProperType(T) && !T.isWildcard()) {
-
       //   - If S is a type, the constraint reduces to ‹S = T›.
       //
       //   - If S is a wildcard, the constraint reduces to false.
-
       throw new UnsupportedOperationException();
     }
-
     // - If T is a wildcard of the form ?, the constraint reduces to true.
-
     if (T.isWildcard() && !T.asWildcard().isBounded()) {
       return ReductionResult.trueResult();
     }
-
     // - If T is a wildcard of the form ? extends T':
-
     if (T.isWildcard() && T.asWildcard().isExtends()) {
-
       //   - If S is a type, the constraint reduces to ‹S <: T'›.
       //
       //   - If S is a wildcard of the form ?, the constraint reduces to ‹Object <: T'›.
@@ -64,23 +58,17 @@ public class TypeContainedByType extends ConstraintFormula {
       //   - If S is a wildcard of the form ? extends S', the constraint reduces to ‹S' <: T'›.
       //
       //   - If S is a wildcard of the form ? super S', the constraint reduces to ‹Object = T'›.
-
       throw new UnsupportedOperationException();
     }
-
     // - If T is a wildcard of the form ? super T':
-
     if (T.isWildcard() && T.asWildcard().isSuper()) {
-
       //   - If S is a type, the constraint reduces to ‹T' <: S›.
       //
       //   - If S is a wildcard of the form ? super S', the constraint reduces to ‹T' <: S'›.
       //
       //   - Otherwise, the constraint reduces to false.
-
       throw new UnsupportedOperationException();
     }
-
     throw new UnsupportedOperationException();
   }
 
@@ -88,9 +76,7 @@ public class TypeContainedByType extends ConstraintFormula {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     TypeContainedByType that = (TypeContainedByType) o;
-
     if (!S.equals(that.S)) return false;
     return T.equals(that.T);
   }

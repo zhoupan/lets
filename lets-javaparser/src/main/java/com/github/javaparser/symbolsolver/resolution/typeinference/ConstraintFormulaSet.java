@@ -24,6 +24,7 @@ import java.util.List;
  * @author Federico Tomassetti
  */
 public class ConstraintFormulaSet {
+
   private List<ConstraintFormula> constraintFormulas;
 
   public ConstraintFormulaSet withConstraint(ConstraintFormula constraintFormula) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013 zhoupan (https://github.com/zhoupan).
+ * Copyright (c) 2007-2010 zhoupan (https://github.com/zhoupan).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,4 @@ public class TypePatternExprMetaModel extends PatternExprMetaModel {
   public PropertyMetaModel modifiersPropertyMetaModel;
 
   public PropertyMetaModel namePropertyMetaModel;
-
-  public PropertyMetaModel typePropertyMetaModel;
 }

@@ -180,7 +180,6 @@ public enum LineSeparator {
   //        }
   //        return Optional.empty();
   //    }
-
   @Override
   public String toString() {
     return asRawString();

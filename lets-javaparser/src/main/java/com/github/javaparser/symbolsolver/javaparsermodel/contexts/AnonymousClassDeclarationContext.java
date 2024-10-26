@@ -60,7 +60,6 @@ public class AnonymousClassDeclarationContext
         myDeclaration.getDeclaredMethods().stream()
             .filter(m -> m.getName().equals(name) && (!staticOnly || m.isStatic()))
             .collect(Collectors.toList());
-
     if (!myDeclaration.isJavaLangObject()) {
       for (ResolvedReferenceType ancestor : myDeclaration.getAncestors()) {
         ancestor
@@ -70,7 +69,6 @@ public class AnonymousClassDeclarationContext
                   SymbolReference<ResolvedMethodDeclaration> res =
                       MethodResolutionLogic.solveMethodInType(
                           ancestorTypeDeclaration, name, argumentsTypes, staticOnly);
-
                   // consider methods from superclasses and only default methods from interfaces :
                   // not true, we should keep abstract as a valid candidate
                   // abstract are removed in MethodResolutionLogic.isApplicable is necessary
@@ -80,7 +78,6 @@ public class AnonymousClassDeclarationContext
                 });
       }
     }
-
     // We want to avoid infinite recursion when a class is using its own method
     // see issue #75
     if (candidateMethods.isEmpty()) {
@@ -92,7 +89,6 @@ public class AnonymousClassDeclarationContext
         candidateMethods.add(parentSolution.getCorrespondingDeclaration());
       }
     }
-
     // if is interface and candidate method list is empty, we should check the Object Methods
     if (candidateMethods.isEmpty() && myDeclaration.getSuperTypeDeclaration().isInterface()) {
       SymbolReference<ResolvedMethodDeclaration> res =
@@ -105,7 +101,6 @@ public class AnonymousClassDeclarationContext
         candidateMethods.add(res.getCorrespondingDeclaration());
       }
     }
-
     return MethodResolutionLogic.findMostApplicable(
         candidateMethods, name, argumentsTypes, typeSolver);
   }
@@ -114,7 +109,6 @@ public class AnonymousClassDeclarationContext
   public SymbolReference<ResolvedTypeDeclaration> solveType(
       String name, List<ResolvedType> typeArguments) {
     List<TypeDeclaration> typeDeclarations = myDeclaration.findMembersOfKind(TypeDeclaration.class);
-
     Optional<SymbolReference<ResolvedTypeDeclaration>> exactMatch =
         typeDeclarations.stream()
             .filter(internalType -> internalType.getName().getId().equals(name))
@@ -123,11 +117,9 @@ public class AnonymousClassDeclarationContext
                 internalType ->
                     SymbolReference.solved(
                         JavaParserFacade.get(typeSolver).getTypeDeclaration(internalType)));
-
     if (exactMatch.isPresent()) {
       return exactMatch.get();
     }
-
     Optional<SymbolReference<ResolvedTypeDeclaration>> recursiveMatch =
         typeDeclarations.stream()
             .filter(internalType -> name.startsWith(String.format("%s.", internalType.getName())))
@@ -136,11 +128,9 @@ public class AnonymousClassDeclarationContext
                 internalType ->
                     JavaParserFactory.getContext(internalType, typeSolver)
                         .solveType(name.substring(internalType.getName().getId().length() + 1)));
-
     if (recursiveMatch.isPresent()) {
       return recursiveMatch.get();
     }
-
     Optional<SymbolReference<ResolvedTypeDeclaration>> typeArgumentsMatch =
         wrappedNode
             .getTypeArguments()
@@ -156,11 +146,9 @@ public class AnonymousClassDeclarationContext
                     SymbolReference.solved(
                         new JavaParserTypeParameter(
                             new TypeParameter(matchingType.toString()), typeSolver)));
-
     if (typeArgumentsMatch.isPresent()) {
       return typeArgumentsMatch.get();
     }
-
     // Look into extended classes and implemented interfaces
     for (ResolvedReferenceType ancestor : myDeclaration.getAncestors()) {
       // look at names of extended classes and implemented interfaces (this may not be important
@@ -184,18 +172,15 @@ public class AnonymousClassDeclarationContext
         }
       }
     }
-
     return solveTypeInParentContext(name, typeArguments);
   }
 
   @Override
   public SymbolReference<? extends ResolvedValueDeclaration> solveSymbol(String name) {
     Preconditions.checkArgument(typeSolver != null);
-
     if (myDeclaration.hasField(name)) {
       return SymbolReference.solved(myDeclaration.getField(name));
     }
-
     return solveSymbolInParentContext(name);
   }
 }
