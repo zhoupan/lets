@@ -16,13 +16,12 @@
  */
 package lets.core;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /** RegExUtilsTest. */
 public class RegExUtilsTest {
@@ -34,11 +33,12 @@ public class RegExUtilsTest {
     assertFalse(RegExUtils.isIpv4Address("192.168.1.a"));
     assertFalse(RegExUtils.isIpv4Address("19216811"));
   }
+
   @Test
-  public void testSearch(){
+  public void testSearch() {
     Matcher m = Pattern.compile(RegExUtils.REGEX_IPV4_ADDRESS).matcher("192.168.1.1 192.168.1.2");
-    while(m.find()){
-      String ip= m.group();
+    while (m.find()) {
+      String ip = m.group();
       System.out.println(ip);
     }
   }
