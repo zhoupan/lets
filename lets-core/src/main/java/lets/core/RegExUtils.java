@@ -34,10 +34,13 @@ public class RegExUtils {
 
   /** The Constant REGEX_IPV4_ADDRESS. */
   public static final String REGEX_IPV4_ADDRESS = "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$";
-  public static final String REGEX_IPV4_ADDRESS_MULTIPLE= "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}";
 
-  public static final String REGEX_DOMAIN= "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$";
-  public static final String REGEX_DOMAIN_MULTIPLE= "((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}";
+  public static final String REGEX_IPV4_ADDRESS_MULTIPLE = "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}";
+
+  public static final String REGEX_DOMAIN = "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$";
+  public static final String REGEX_DOMAIN_MULTIPLE =
+      "((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}";
+
   /**
    * Removes each substring of the text String that matches the given regular expression pattern.
    * This method is a {@code null} safe equivalent to:
