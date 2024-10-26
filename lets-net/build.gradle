@@ -13,7 +13,8 @@ dependencies {
   // api: This dependency is exported to consumers, that is to say found on their compile classpath.
   // api libs.commons.math3
   api project(":lets-core")
-  api libs.slf4j.api  
+  api libs.slf4j.api
+  api libs.gson
   // https://mvnrepository.com/artifact/dnsjava/dnsjava
-  implementation 'dnsjava:dnsjava:3.6.2'
+  api 'dnsjava:dnsjava:3.6.2'
 }
