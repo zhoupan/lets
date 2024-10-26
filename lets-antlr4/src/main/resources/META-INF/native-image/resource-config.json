@@ -1,0 +1,10 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": "\\Qorg/antlr/v4/tool/templates/messages/formats/antlr.stg\\E"
+      }
+    ]
+  },
+  "bundles": []
+}
