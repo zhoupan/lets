@@ -15,9 +15,16 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
+  // aliyun
   maven { url 'https://maven.aliyun.com/repository/public/' }
   // Use Maven Central for resolving dependencies.
   mavenCentral()
+  // Use jitpack
+  maven { url 'https://jitpack.io' }
+  // https://storage.googleapis.com/equo-chromium-swt-ce/oss/mvn/index.html
+  // maven { url 'https://dl.equo.dev/chromium-swt-ce/oss/mvn' }
+  // Use casterlabs-maven
+	maven { url 'https://repo.casterlabs.co/maven' }
 }
 
 dependencies {
@@ -42,7 +49,7 @@ dependencies {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(11)
+    languageVersion = JavaLanguageVersion.of(8)
   }
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
@@ -54,7 +61,7 @@ spotless {
     removeUnusedImports()
     googleJavaFormat()
     formatAnnotations()
-    licenseHeaderFile( new File(project.rootDir,'license.header.txt'))
+    licenseHeaderFile(new File(project.rootDir, 'license.header.txt'))
   }
 }
 tasks.named('test') {
