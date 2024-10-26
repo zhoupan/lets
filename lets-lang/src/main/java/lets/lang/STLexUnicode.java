@@ -1,0 +1,266 @@
+/*
+ * Copyright (c) 2024 zhoupan (https://github.com/zhoupan).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+package lets.lang;
+
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
+
+@SuppressWarnings({
+  "all",
+  "warnings",
+  "unchecked",
+  "unused",
+  "cast",
+  "CheckReturnValue",
+  "this-escape"
+})
+public class STLexUnicode extends Lexer {
+  static {
+    RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION);
+  }
+
+  protected static final DFA[] _decisionToDFA;
+  protected static final PredictionContextCache _sharedContextCache = new PredictionContextCache();
+  public static String[] channelNames = {"DEFAULT_TOKEN_CHANNEL", "HIDDEN"};
+
+  public static String[] modeNames = {"DEFAULT_MODE"};
+
+  private static String[] makeRuleNames() {
+    return new String[] {
+      "UnicodeLetter",
+      "UnicodeClass_LU",
+      "UnicodeClass_LL",
+      "UnicodeClass_LT",
+      "UnicodeClass_LM",
+      "UnicodeClass_LO",
+      "UnicodeDigit"
+    };
+  }
+
+  public static final String[] ruleNames = makeRuleNames();
+
+  private static String[] makeLiteralNames() {
+    return new String[] {};
+  }
+
+  private static final String[] _LITERAL_NAMES = makeLiteralNames();
+
+  private static String[] makeSymbolicNames() {
+    return new String[] {};
+  }
+
+  private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+  public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+  /**
+   * @deprecated Use {@link #VOCABULARY} instead.
+   */
+  @Deprecated public static final String[] tokenNames;
+
+  static {
+    tokenNames = new String[_SYMBOLIC_NAMES.length];
+    for (int i = 0; i < tokenNames.length; i++) {
+      tokenNames[i] = VOCABULARY.getLiteralName(i);
+      if (tokenNames[i] == null) {
+        tokenNames[i] = VOCABULARY.getSymbolicName(i);
+      }
+
+      if (tokenNames[i] == null) {
+        tokenNames[i] = "<INVALID>";
+      }
+    }
+  }
+
+  @Override
+  @Deprecated
+  public String[] getTokenNames() {
+    return tokenNames;
+  }
+
+  @Override
+  public Vocabulary getVocabulary() {
+    return VOCABULARY;
+  }
+
+  public STLexUnicode(CharStream input) {
+    super(input);
+    _interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
+  }
+
+  @Override
+  public String getGrammarFileName() {
+    return "STLexUnicode.g4";
+  }
+
+  @Override
+  public String[] getRuleNames() {
+    return ruleNames;
+  }
+
+  @Override
+  public String getSerializedATN() {
+    return _serializedATN;
+  }
+
+  @Override
+  public String[] getChannelNames() {
+    return channelNames;
+  }
+
+  @Override
+  public String[] getModeNames() {
+    return modeNames;
+  }
+
+  @Override
+  public ATN getATN() {
+    return _ATN;
+  }
+
+  public static final String _serializedATN =
+      "\u0004\u0000\u0000\"\u0006\uffff\uffff\u0002\u0000\u0007\u0000\u0002\u0001"
+          + "\u0007\u0001\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004"
+          + "\u0007\u0004\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0001\u0000"
+          + "\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0003\u0000\u0015\b\u0000"
+          + "\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003"
+          + "\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006"
+          + "\u0000\u0000\u0007\u0001\u0000\u0003\u0000\u0005\u0000\u0007\u0000\t\u0000"
+          + "\u000b\u0000\r\u0000\u0001\u0000\u0006R\u0000AZ\u00c0\u00d6\u00d8\u00de"
+          + "\u0100\u0136\u0139\u0147\u014a\u017d\u0181\u0182\u0184\u018b\u018e\u0191"
+          + "\u0193\u0194\u0196\u0198\u019c\u019d\u019f\u01a0\u01a2\u01a9\u01ac\u01b3"
+          + "\u01b5\u01bc\u01c4\u01cd\u01cf\u01db\u01de\u01ee\u01f1\u01f4\u01f6\u01f8"
+          + "\u01fa\u0232\u023a\u023b\u023d\u023e\u0241\u0246\u0248\u024e\u0370\u0372"
+          + "\u0376\u037f\u0386\u038a\u038c\u03a1\u03a3\u03ab\u03cf\u03d4\u03d8\u03ee"
+          + "\u03f4\u03f7\u03f9\u03fa\u03fd\u042f\u0460\u0480\u048a\u04cd\u04d0\u052e"
+          + "\u0531\u0556\u10a0\u10c5\u10c7\u10cd\u1e00\u1e94\u1e9e\u1efe\u1f08\u1f0f"
+          + "\u1f18\u1f1d\u1f28\u1f2f\u1f38\u1f3f\u1f48\u1f4d\u1f59\u1f5f\u1f68\u1f6f"
+          + "\u1fb8\u1fbb\u1fc8\u1fcb\u1fd8\u1fdb\u1fe8\u1fec\u1ff8\u1ffb\u2102\u2107"
+          + "\u210b\u210d\u2110\u2112\u2115\u211d\u2124\u212d\u2130\u2133\u213e\u213f"
+          + "\u2145\u2183\u2c00\u2c2e\u2c60\u2c64\u2c67\u2c70\u2c72\u2c75\u2c7e\u2c80"
+          + "\u2c82\u2ce2\u2ceb\u2ced\u2cf2\u8000\ua640\u8000\ua642\u8000\ua66c\u8000"
+          + "\ua680\u8000\ua69a\u8000\ua722\u8000\ua72e\u8000\ua732\u8000\ua76e\u8000"
+          + "\ua779\u8000\ua786\u8000\ua78b\u8000\ua78d\u8000\ua790\u8000\ua792\u8000"
+          + "\ua796\u8000\ua7ad\u8000\ua7b0\u8000\ua7b1\u8000\uff21\u8000\uff3aQ\u0000"
+          + "az\u00b5\u00f6\u00f8\u00ff\u0101\u0177\u017a\u0180\u0183\u0185\u0188\u0192"
+          + "\u0195\u019b\u019e\u01a1\u01a3\u01a5\u01a8\u01ad\u01b0\u01b4\u01b6\u01bf"
+          + "\u01c6\u01cc\u01ce\u01f3\u01f5\u01f9\u01fb\u0239\u023c\u0242\u0247\u0293"
+          + "\u0295\u02af\u0371\u0373\u0377\u037d\u0390\u03ce\u03d0\u03d1\u03d5\u03d7"
+          + "\u03d9\u03f3\u03f5\u045f\u0461\u0481\u048b\u04bf\u04c2\u052f\u0561\u0587"
+          + "\u1d00\u1d2b\u1d6b\u1d77\u1d79\u1d9a\u1e01\u1e9d\u1e9f\u1f07\u1f10\u1f15"
+          + "\u1f20\u1f27\u1f30\u1f37\u1f40\u1f45\u1f50\u1f57\u1f60\u1f67\u1f70\u1f7d"
+          + "\u1f80\u1f87\u1f90\u1f97\u1fa0\u1fa7\u1fb0\u1fb4\u1fb6\u1fb7\u1fbe\u1fc4"
+          + "\u1fc6\u1fc7\u1fd0\u1fd3\u1fd6\u1fd7\u1fe0\u1fe7\u1ff2\u1ff4\u1ff6\u1ff7"
+          + "\u210a\u2113\u212f\u2139\u213c\u213d\u2146\u2149\u214e\u2184\u2c30\u2c5e"
+          + "\u2c61\u2c6c\u2c71\u2c7b\u2c81\u2cec\u2cee\u2cf3\u2d00\u2d25\u2d27\u2d2d"
+          + "\u8000\ua641\u8000\ua66d\u8000\ua681\u8000\ua69b\u8000\ua723\u8000\ua731"
+          + "\u8000\ua733\u8000\ua778\u8000\ua77a\u8000\ua77c\u8000\ua77f\u8000\ua787"
+          + "\u8000\ua78c\u8000\ua78e\u8000\ua791\u8000\ua795\u8000\ua797\u8000\ua7a9"
+          + "\u8000\ua7fa\u8000\uab5a\u8000\uab64\u8000\uab65\u8000\ufb00\u8000\ufb06"
+          + "\u8000\ufb13\u8000\ufb17\u8000\uff41\u8000\uff5a\u0006\u0000\u01c5\u01cb"
+          + "\u01f2\u1f8f\u1f98\u1f9f\u1fa8\u1faf\u1fbc\u1fcc\u1ffc\u1ffc!\u0000\u02b0"
+          + "\u02c1\u02c6\u02d1\u02e0\u02e4\u02ec\u02ee\u0374\u037a\u0559\u0640\u06e5"
+          + "\u06e6\u07f4\u07f5\u07fa\u081a\u0824\u0828\u0971\u0e46\u0ec6\u10fc\u17d7"
+          + "\u1843\u1aa7\u1c7d\u1d2c\u1d6a\u1d78\u1dbf\u2071\u207f\u2090\u209c\u2c7c"
+          + "\u2c7d\u2d6f\u2e2f\u3005\u3035\u303b\u30fe\u8000\ua015\u8000\ua4fd\u8000"
+          + "\ua60c\u8000\ua67f\u8000\ua69c\u8000\ua69d\u8000\ua717\u8000\ua71f\u8000"
+          + "\ua770\u8000\ua788\u8000\ua7f8\u8000\ua7f9\u8000\ua9cf\u8000\ua9e6\u8000"
+          + "\uaa70\u8000\uaadd\u8000\uaaf3\u8000\uaaf4\u8000\uab5c\u8000\uab5f\u8000"
+          + "\uff70\u8000\uff9f\u00ea\u0000\u00aa\u00ba\u01bb\u01c3\u0294\u05ea\u05f0"
+          + "\u05f2\u0620\u063f\u0641\u064a\u066e\u066f\u0671\u06d3\u06d5\u06fc\u06ff"
+          + "\u0710\u0712\u072f\u074d\u07a5\u07b1\u07ea\u0800\u0815\u0840\u0858\u08a0"
+          + "\u08b2\u0904\u0939\u093d\u0950\u0958\u0961\u0972\u0980\u0985\u098c\u098f"
+          + "\u0990\u0993\u09a8\u09aa\u09b0\u09b2\u09b9\u09bd\u09ce\u09dc\u09dd\u09df"
+          + "\u09e1\u09f0\u09f1\u0a05\u0a0a\u0a0f\u0a10\u0a13\u0a28\u0a2a\u0a30\u0a32"
+          + "\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59\u0a5c\u0a5e\u0a74\u0a85\u0a8d\u0a8f"
+          + "\u0a91\u0a93\u0aa8\u0aaa\u0ab0\u0ab2\u0ab3\u0ab5\u0ab9\u0abd\u0ad0\u0ae0"
+          + "\u0ae1\u0b05\u0b0c\u0b0f\u0b10\u0b13\u0b28\u0b2a\u0b30\u0b32\u0b33\u0b35"
+          + "\u0b39\u0b3d\u0b61\u0b71\u0b83\u0b85\u0b8a\u0b8e\u0b90\u0b92\u0b95\u0b99"
+          + "\u0b9a\u0b9c\u0baa\u0bae\u0bb9\u0bd0\u0c0c\u0c0e\u0c10\u0c12\u0c28\u0c2a"
+          + "\u0c39\u0c3d\u0c8c\u0c8e\u0c90\u0c92\u0ca8\u0caa\u0cb3\u0cb5\u0cb9\u0cbd"
+          + "\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05\u0d0c\u0d0e\u0d10\u0d12\u0d3a\u0d3d"
+          + "\u0d4e\u0d60\u0d61\u0d7a\u0d7f\u0d85\u0d96\u0d9a\u0db1\u0db3\u0dbb\u0dbd"
+          + "\u0dc6\u0e01\u0e30\u0e32\u0e33\u0e40\u0e45\u0e81\u0e82\u0e84\u0e8a\u0e8d"
+          + "\u0e97\u0e99\u0e9f\u0ea1\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead\u0eb0\u0eb2"
+          + "\u0eb3\u0ebd\u0ec4\u0edc\u0edf\u0f00\u0f47\u0f49\u0f6c\u0f88\u0f8c\u1000"
+          + "\u102a\u103f\u1055\u105a\u105d\u1061\u1070\u1075\u1081\u108e\u10fa\u10fd"
+          + "\u1248\u124a\u124d\u1250\u1256\u1258\u125d\u1260\u1288\u128a\u128d\u1290"
+          + "\u12b0\u12b2\u12b5\u12b8\u12be\u12c0\u12c5\u12c8\u12d6\u12d8\u1310\u1312"
+          + "\u1315\u1318\u135a\u1380\u138f\u13a0\u13f4\u1401\u166c\u166f\u167f\u1681"
+          + "\u169a\u16a0\u16ea\u16f1\u16f8\u1700\u170c\u170e\u1711\u1720\u1731\u1740"
+          + "\u1751\u1760\u176c\u176e\u1770\u1780\u17b3\u17dc\u1842\u1844\u1877\u1880"
+          + "\u18a8\u18aa\u18f5\u1900\u191e\u1950\u196d\u1970\u1974\u1980\u19ab\u19c1"
+          + "\u19c7\u1a00\u1a16\u1a20\u1a54\u1b05\u1b33\u1b45\u1b4b\u1b83\u1ba0\u1bae"
+          + "\u1baf\u1bba\u1be5\u1c00\u1c23\u1c4d\u1c4f\u1c5a\u1c77\u1ce9\u1cec\u1cee"
+          + "\u1cf1\u1cf5\u1cf6\u2135\u2138\u2d30\u2d67\u2d80\u2d96\u2da0\u2da6\u2da8"
+          + "\u2dae\u2db0\u2db6\u2db8\u2dbe\u2dc0\u2dc6\u2dc8\u2dce\u2dd0\u2dd6\u2dd8"
+          + "\u2dde\u3006\u303c\u3041\u3096\u309f\u30fa\u30ff\u312d\u3131\u318e\u31a0"
+          + "\u31ba\u31f0\u31ff\u3400\u4db5\u4e00\u8000\u9fcc\u8000\ua000\u8000\ua014"
+          + "\u8000\ua016\u8000\ua48c\u8000\ua4d0\u8000\ua4f7\u8000\ua500\u8000\ua60b"
+          + "\u8000\ua610\u8000\ua61f\u8000\ua62a\u8000\ua62b\u8000\ua66e\u8000\ua6e5"
+          + "\u8000\ua7f7\u8000\ua801\u8000\ua803\u8000\ua805\u8000\ua807\u8000\ua80a"
+          + "\u8000\ua80c\u8000\ua822\u8000\ua840\u8000\ua873\u8000\ua882\u8000\ua8b3"
+          + "\u8000\ua8f2\u8000\ua8f7\u8000\ua8fb\u8000\ua925\u8000\ua930\u8000\ua946"
+          + "\u8000\ua960\u8000\ua97c\u8000\ua984\u8000\ua9b2\u8000\ua9e0\u8000\ua9e4"
+          + "\u8000\ua9e7\u8000\ua9ef\u8000\ua9fa\u8000\ua9fe\u8000\uaa00\u8000\uaa28"
+          + "\u8000\uaa40\u8000\uaa42\u8000\uaa44\u8000\uaa4b\u8000\uaa60\u8000\uaa6f"
+          + "\u8000\uaa71\u8000\uaa76\u8000\uaa7a\u8000\uaaaf\u8000\uaab1\u8000\uaabd"
+          + "\u8000\uaac0\u8000\uaac2\u8000\uaadb\u8000\uaadc\u8000\uaae0\u8000\uaaea"
+          + "\u8000\uaaf2\u8000\uab06\u8000\uab09\u8000\uab0e\u8000\uab11\u8000\uab16"
+          + "\u8000\uab20\u8000\uab26\u8000\uab28\u8000\uab2e\u8000\uabc0\u8000\uabe2"
+          + "\u8000\uac00\u8000\ud7a3\u8000\ud7b0\u8000\ud7c6\u8000\ud7cb\u8000\ud7fb"
+          + "\u8000\uf900\u8000\ufa6d\u8000\ufa70\u8000\ufad9\u8000\ufb1d\u8000\ufb28"
+          + "\u8000\ufb2a\u8000\ufb36\u8000\ufb38\u8000\ufb3c\u8000\ufb3e\u8000\ufbb1"
+          + "\u8000\ufbd3\u8000\ufd3d\u8000\ufd50\u8000\ufd8f\u8000\ufd92\u8000\ufdc7"
+          + "\u8000\ufdf0\u8000\ufdfb\u8000\ufe70\u8000\ufe74\u8000\ufe76\u8000\ufefc"
+          + "\u8000\uff66\u8000\uff6f\u8000\uff71\u8000\uff9d\u8000\uffa0\u8000\uffbe"
+          + "\u8000\uffc2\u8000\uffc7\u8000\uffca\u8000\uffcf\u8000\uffd2\u8000\uffd7"
+          + "\u8000\uffda\u8000\uffdc%\u000009\u0660\u0669\u06f0\u06f9\u07c0\u07c9"
+          + "\u0966\u096f\u09e6\u09ef\u0a66\u0a6f\u0ae6\u0aef\u0b66\u0b6f\u0be6\u0bef"
+          + "\u0c66\u0c6f\u0ce6\u0cef\u0d66\u0d6f\u0de6\u0def\u0e50\u0e59\u0ed0\u0ed9"
+          + "\u0f20\u0f29\u1040\u1049\u1090\u1099\u17e0\u17e9\u1810\u1819\u1946\u194f"
+          + "\u19d0\u19d9\u1a80\u1a89\u1a90\u1a99\u1b50\u1b59\u1bb0\u1bb9\u1c40\u1c49"
+          + "\u1c50\u1c59\u8000\ua620\u8000\ua629\u8000\ua8d0\u8000\ua8d9\u8000\ua900"
+          + "\u8000\ua909\u8000\ua9d0\u8000\ua9d9\u8000\ua9f0\u8000\ua9f9\u8000\uaa50"
+          + "\u8000\uaa59\u8000\uabf0\u8000\uabf9\u8000\uff10\u8000\uff19\u001e\u0001"
+          + "\u0014\u0001\u0000\u0000\u0000\u0003\u0016\u0001\u0000\u0000\u0000\u0005"
+          + "\u0018\u0001\u0000\u0000\u0000\u0007\u001a\u0001\u0000\u0000\u0000\t\u001c"
+          + "\u0001\u0000\u0000\u0000\u000b\u001e\u0001\u0000\u0000\u0000\r \u0001"
+          + "\u0000\u0000\u0000\u000f\u0015\u0003\u0003\u0001\u0000\u0010\u0015\u0003"
+          + "\u0005\u0002\u0000\u0011\u0015\u0003\u0007\u0003\u0000\u0012\u0015\u0003"
+          + "\t\u0004\u0000\u0013\u0015\u0003\u000b\u0005\u0000\u0014\u000f\u0001\u0000"
+          + "\u0000\u0000\u0014\u0010\u0001\u0000\u0000\u0000\u0014\u0011\u0001\u0000"
+          + "\u0000\u0000\u0014\u0012\u0001\u0000\u0000\u0000\u0014\u0013\u0001\u0000"
+          + "\u0000\u0000\u0015\u0002\u0001\u0000\u0000\u0000\u0016\u0017\u0007\u0000"
+          + "\u0000\u0000\u0017\u0004\u0001\u0000\u0000\u0000\u0018\u0019\u0007\u0001"
+          + "\u0000\u0000\u0019\u0006\u0001\u0000\u0000\u0000\u001a\u001b\u0007\u0002"
+          + "\u0000\u0000\u001b\b\u0001\u0000\u0000\u0000\u001c\u001d\u0007\u0003\u0000"
+          + "\u0000\u001d\n\u0001\u0000\u0000\u0000\u001e\u001f\u0007\u0004\u0000\u0000"
+          + "\u001f\f\u0001\u0000\u0000\u0000 !\u0007\u0005\u0000\u0000!\u000e\u0001"
+          + "\u0000\u0000\u0000\u0002\u0000\u0014\u0000";
+  public static final ATN _ATN = new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+
+  static {
+    _decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+    for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+      _decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+    }
+  }
+}
