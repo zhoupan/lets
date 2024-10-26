@@ -29,6 +29,8 @@ lombok = "1.18.32"
 jetbrains-annotations = "24.1.0"
 # https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform
 jna = "5.14.0"
+# https://mvnrepository.com/artifact/com.google.code.gson/gson
+gson = "2.8.9"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -54,6 +56,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 jna-platform = { module = "net.java.dev.jna:jna-platform", version.ref = "jna" }
+gson = { module = "com.google.code.gson:gson" , version.ref = "gson"}
 
 [plugins]
 #jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.22" }
