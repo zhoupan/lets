@@ -21,3 +21,6 @@ include('lets-webview')
 include('lets-swt')
 include('lets-ai')
 include('lets-net')
+include('lets-jna')
+include('lets-jni')
+
