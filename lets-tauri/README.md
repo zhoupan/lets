@@ -33,4 +33,11 @@ pnpm tauri android build
 ```
 pnpm update @tauri-apps/cli@latest
 pnpm tauri migrate
+pnpm update @tauri-apps/api@latest
+pnpm update @tauri-apps/plugin-app@latest
+pnpm update @tauri-apps/plugin-os@latest
+pnpm update @tauri-apps/plugin-shell@latest
+pnpm update @tauri-apps/plugin-window@latest
+pnpm update tauri-controls@latest
+cargo update
 ```
