@@ -99,20 +99,20 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(@types/react-dom@18.2.7)(@types/react@18.2.18)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@tauri-apps/api':
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: 2.0.3
+        version: 2.0.3
       '@tauri-apps/plugin-app':
-        specifier: 2.0.0-alpha.0
-        version: 2.0.0-alpha.0
+        specifier: 2.0.0-alpha.1
+        version: 2.0.0-alpha.1
       '@tauri-apps/plugin-os':
-        specifier: 2.0.0-alpha.0
-        version: 2.0.0-alpha.0
+        specifier: 2.0.0-alpha.1
+        version: 2.0.0-alpha.1
       '@tauri-apps/plugin-shell':
-        specifier: 2.0.0-alpha.0
-        version: 2.0.0-alpha.0
+        specifier: 2.0.0-alpha.1
+        version: 2.0.0-alpha.1
       '@tauri-apps/plugin-window':
-        specifier: 2.0.0-alpha.0
-        version: 2.0.0-alpha.0
+        specifier: 2.0.0-alpha.1
+        version: 2.0.0-alpha.1
       '@vitejs/plugin-react-swc':
         specifier: ^3.3.2
         version: 3.3.2(@swc/helpers@0.5.1)(vite@4.4.8(@types/node@20.17.2))
@@ -150,8 +150,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(tailwindcss@3.3.3)
       tauri-controls:
-        specifier: ^0.1.0
-        version: 0.1.0(@tauri-apps/plugin-os@2.0.0-alpha.0)(@tauri-apps/plugin-window@2.0.0-alpha.0)(clsx@2.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(tailwind-merge@1.14.0)
+        specifier: ^0.4.0
+        version: 0.4.0(clsx@2.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(tailwind-merge@1.14.0)
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -1411,13 +1411,12 @@ packages:
   '@swc/helpers@0.5.1':
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
 
-  '@tauri-apps/api@2.0.0-alpha.4':
-    resolution: {integrity: sha512-gWe5fFHbwFM+dmdDPtlDvVDVtoMneGRM+S8mECevWhKpXYxId0yxznE56YGAvPSJXC3vgsXw16mOmkTnEVKnaw==}
+  '@tauri-apps/api@2.0.0-alpha.6':
+    resolution: {integrity: sha512-ZMOc3eu9amwvkC6M69h3hWt4/EsFaAXmtkiw4xd2LN59/lTb4ZQiVfq2QKlRcu1rj3n/Tcr7U30ZopvHwXBGIg==}
     engines: {node: '>= 14.6.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
 
-  '@tauri-apps/api@2.0.0-alpha.5':
-    resolution: {integrity: sha512-OqysC4c819itGxic50RoDMrmd+ofX+MMNkXKeRS0BV2rkKqrnuV17o3TrQXFI1xs/kXRmmPC+3Y42P9Y5uNvRg==}
-    engines: {node: '>= 14.6.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
+  '@tauri-apps/api@2.0.3':
+    resolution: {integrity: sha512-840qk6n8rbXBXMA5/aAgTYsg5JAubKO0nXw5wf7IzGnUuYKGbB4oFBIZtXOIWy+E0kNTDI3qhq5iqsoMJfwp8g==}
 
   '@tauri-apps/cli-darwin-arm64@2.0.4':
     resolution: {integrity: sha512-siH7rOHobb16rPbc11k64p1mxIpiRCkWmzs2qmL5IX21Gx9K5onI3Tk67Oqpf2uNupbYzItrOttaDT4NHFC7tw==}
@@ -1488,17 +1487,17 @@ packages:
     engines: {node: '>= 10'}
     hasBin: true
 
-  '@tauri-apps/plugin-app@2.0.0-alpha.0':
-    resolution: {integrity: sha512-xU9oXcM6deKqsgRqo14GaQWZGmL3a33FTLISnophp8YWJp/Ve1RL5BZoCF6g1IX2zNnDyAirU0hx1Yy5c/37wg==}
+  '@tauri-apps/plugin-app@2.0.0-alpha.1':
+    resolution: {integrity: sha512-DKlbG4ymoa8xDKdK36adPlZYeY8wcDQfi/XJG4qxhK6YC4GLrM1sG5eQgjVKheDI6wDQC5CiUjhnvddXVFUPTg==}
 
-  '@tauri-apps/plugin-os@2.0.0-alpha.0':
-    resolution: {integrity: sha512-vHZW/W/5bAvr1UnaXhRg29yDQUkBuCGlxtVDKUEUTvKEdbMrKLlFuzr8RxcczLI9CTDqQ/EP7xzn7XYYQWR82Q==}
+  '@tauri-apps/plugin-os@2.0.0-alpha.1':
+    resolution: {integrity: sha512-LjaRnctencHSOhOoNGesMvk7Z1u9vT/9UH0NLZlgzyLvoN4wrDUMvyP6bi+IGfowNTda2qMeCIV7xWxf4DuGvg==}
 
-  '@tauri-apps/plugin-shell@2.0.0-alpha.0':
-    resolution: {integrity: sha512-Tyl6lsM/S+v5n/cJpIErCGq5CJwGV1xVLB+xyG364wA/y1MpYTVrk5acCSB5sF+OSOtR84ZeazkL4tjCM6EIUA==}
+  '@tauri-apps/plugin-shell@2.0.0-alpha.1':
+    resolution: {integrity: sha512-vH4ODw/7pmMHackh1F+/uGmBXNGArVJ8FRO0xyL0xjPsMxbba4o90FJ7eiITENznBZRKn3JFaTedh8KhAZqU/g==}
 
-  '@tauri-apps/plugin-window@2.0.0-alpha.0':
-    resolution: {integrity: sha512-ZXFXOu9m8QiDB8d8LFFgwcfxIAbr0bhzj06YvmZDB3isuVtlFP9EyU4D+zmumWEWvNN2XP7xgpn68ivOVhmNNQ==}
+  '@tauri-apps/plugin-window@2.0.0-alpha.1':
+    resolution: {integrity: sha512-dFOAgal/3Txz3SQ+LNQq0AK1EPC+acdaFlwPVB/6KXUZYmaFleIlzgxDVoJCQ+/xOhxvYrdQaFLefh0I/Kldbg==}
 
   '@tootallnate/once@2.0.0':
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -1670,8 +1669,8 @@ packages:
   caniuse-lite@1.0.30001674:
     resolution: {integrity: sha512-jOsKlZVRnzfhLojb+Ykb+gyUSp9Xb57So+fAiFlLzzTKpqg8xxSav0e40c8/4F/v9N8QSvrRRaLeVzQbLqomYw==}
 
-  caniuse-lite@1.0.30001675:
-    resolution: {integrity: sha512-/wV1bQwPrkLiQMjaJF5yUMVM/VdRPOCU8QZ+PmG6uW6DvYSrNY1bpwHI/3mOcUosLaJCzYDi5o91IQB51ft6cg==}
+  caniuse-lite@1.0.30001677:
+    resolution: {integrity: sha512-fmfjsOlJUpMWu+mAAtZZZHz7UEwsUxIIvu1TJfO1HqFQvB/B+ii0xr9B5HpbZY/mC4XZ8SvjHJqtAY6pDPQEog==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2850,11 +2849,9 @@ packages:
     resolution: {integrity: sha512-/zKt9UyngnxIT/EAGYuxaMYgOIJiP81ab9ZfkILq4oNLPFX50qyYmu7jRj9qeXoxmJHjGlbH0+cm2uy1WCs10A==}
     engines: {node: '>=10'}
 
-  tauri-controls@0.1.0:
-    resolution: {integrity: sha512-FGdBG7zqqDIRH8QFSyJ2b+koo7dEHchYeY3jQCiJ2VSRAJeiQkpVqCaWLS2AIRisGjEioLeFAZmnRDi6D550TA==}
+  tauri-controls@0.4.0:
+    resolution: {integrity: sha512-M+by1V9wO6GPHL7/MXb2weAaUc0T6JzDhcuTvQF92x3kGsmfkj37F/HXHeslgQwLVLOaIBxwzTFmwsVWVH8o0g==}
     peerDependencies:
-      '@tauri-apps/plugin-os': 2.0.0-alpha.0
-      '@tauri-apps/plugin-window': 2.0.0-alpha.0
       clsx: ^2.0.0
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -2885,8 +2882,8 @@ packages:
   tslib@2.5.2:
     resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==}
 
-  tslib@2.8.0:
-    resolution: {integrity: sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==}
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   tuf-js@1.1.6:
     resolution: {integrity: sha512-CXwFVIsXGbVY4vFiWF7TJKWmlKJAT8TWkH4RmiohJRcDJInix++F0dznDmoVbtJNzZ8yLprKUG4YrDIhv3nBMg==}
@@ -4312,11 +4309,11 @@ snapshots:
 
   '@swc/helpers@0.5.1':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
-  '@tauri-apps/api@2.0.0-alpha.4': {}
+  '@tauri-apps/api@2.0.0-alpha.6': {}
 
-  '@tauri-apps/api@2.0.0-alpha.5': {}
+  '@tauri-apps/api@2.0.3': {}
 
   '@tauri-apps/cli-darwin-arm64@2.0.4':
     optional: true
@@ -4361,21 +4358,21 @@ snapshots:
       '@tauri-apps/cli-win32-ia32-msvc': 2.0.4
       '@tauri-apps/cli-win32-x64-msvc': 2.0.4
 
-  '@tauri-apps/plugin-app@2.0.0-alpha.0':
+  '@tauri-apps/plugin-app@2.0.0-alpha.1':
     dependencies:
-      '@tauri-apps/api': 2.0.0-alpha.4
+      '@tauri-apps/api': 2.0.0-alpha.6
 
-  '@tauri-apps/plugin-os@2.0.0-alpha.0':
+  '@tauri-apps/plugin-os@2.0.0-alpha.1':
     dependencies:
-      '@tauri-apps/api': 2.0.0-alpha.4
+      '@tauri-apps/api': 2.0.0-alpha.6
 
-  '@tauri-apps/plugin-shell@2.0.0-alpha.0':
+  '@tauri-apps/plugin-shell@2.0.0-alpha.1':
     dependencies:
-      '@tauri-apps/api': 2.0.0-alpha.4
+      '@tauri-apps/api': 2.0.0-alpha.6
 
-  '@tauri-apps/plugin-window@2.0.0-alpha.0':
+  '@tauri-apps/plugin-window@2.0.0-alpha.1':
     dependencies:
-      '@tauri-apps/api': 2.0.0-alpha.4
+      '@tauri-apps/api': 2.0.0-alpha.6
 
   '@tootallnate/once@2.0.0': {}
 
@@ -4576,7 +4573,7 @@ snapshots:
 
   caniuse-lite@1.0.30001674: {}
 
-  caniuse-lite@1.0.30001675: {}
+  caniuse-lite@1.0.30001677: {}
 
   chalk@2.4.2:
     dependencies:
@@ -5164,7 +5161,7 @@ snapshots:
       '@next/env': 13.4.3
       '@swc/helpers': 0.5.1
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001675
+      caniuse-lite: 1.0.30001677
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -5746,11 +5743,8 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  tauri-controls@0.1.0(@tauri-apps/plugin-os@2.0.0-alpha.0)(@tauri-apps/plugin-window@2.0.0-alpha.0)(clsx@2.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(tailwind-merge@1.14.0):
+  tauri-controls@0.4.0(clsx@2.0.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(tailwind-merge@1.14.0):
     dependencies:
-      '@tauri-apps/api': 2.0.0-alpha.5
-      '@tauri-apps/plugin-os': 2.0.0-alpha.0
-      '@tauri-apps/plugin-window': 2.0.0-alpha.0
       clsx: 2.0.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -5789,7 +5783,7 @@ snapshots:
 
   tslib@2.5.2: {}
 
-  tslib@2.8.0: {}
+  tslib@2.8.1: {}
 
   tuf-js@1.1.6:
     dependencies:
