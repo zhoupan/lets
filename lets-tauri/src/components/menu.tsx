@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react"
 import logo from "@/assets/logo.png"
+// see: https://v2.tauri.app/develop/calling-rust/
+import { invoke } from "@tauri-apps/api/core"
 import { Globe, Mic, Sailboat } from "lucide-react"
 import { WindowTitlebar } from "tauri-controls"
-// see: https://v2.tauri.app/develop/calling-rust/
-import { invoke } from '@tauri-apps/api/core';
 
 import {
   Menubar,
@@ -30,17 +30,15 @@ import { Dialog, DialogTrigger } from "./ui/dialog"
 
 export function Menu() {
   const closeWindow = useCallback(async () => {
-    invoke('exit');
+    invoke("exit")
   }, [])
 
   const minimizeWindow = useCallback(async () => {
-    invoke('minimize');
-
+    invoke("minimize")
   }, [])
 
   const maximizeWindow = useCallback(async () => {
-    invoke('maximize');
-
+    invoke("maximize")
   }, [])
 
   return (
@@ -78,12 +76,8 @@ export function Menu() {
               <MenubarItem onClick={closeWindow}>
                 Quit Music <MenubarShortcut>⌘Q</MenubarShortcut>
               </MenubarItem>
-              <MenubarItem onClick={minimizeWindow}>
-                Minimize
-              </MenubarItem>
-              <MenubarItem onClick={maximizeWindow}>
-                Maximize
-              </MenubarItem>
+              <MenubarItem onClick={minimizeWindow}>Minimize</MenubarItem>
+              <MenubarItem onClick={maximizeWindow}>Maximize</MenubarItem>
             </MenubarContent>
             <AboutDialog />
           </Dialog>
