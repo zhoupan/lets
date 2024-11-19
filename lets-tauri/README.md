@@ -14,22 +14,26 @@ pnpm tauri android init
 ```
 
 ### For Desktop development, run:
+
 ```
 pnpm tauri dev
 ```
 
 ### For Android development, run:
+
 ```
 pnpm tauri android dev --force-ip-prompt
 ```
 
 ### For Build, run:
+
 ```
 pnpm tauri build
 pnpm tauri android build
 ```
 
 ### Upgrade from Tauri 2.0 Beta
+
 ```
 pnpm update @tauri-apps/cli@latest
 pnpm tauri migrate
