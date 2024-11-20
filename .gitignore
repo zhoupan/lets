@@ -77,3 +77,6 @@ buildDir
 
 # nodejs
 node_modules
+
+# sqlite
+*.sqlite
