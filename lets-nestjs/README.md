@@ -45,6 +45,8 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## Open your browser and navigate to (http://localhost:3000/)
+
 ## Run tests
 
 ```bash
